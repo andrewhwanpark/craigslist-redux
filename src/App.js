@@ -8,11 +8,11 @@ import MainContent from "./components/MainContent"
 
 function App() {
   return (
-    <>
+    <React.Fragment>
       <Navbars />
       <MainContent />
       <Footers />
-    </>
+    </React.Fragment>
     
   );
 }

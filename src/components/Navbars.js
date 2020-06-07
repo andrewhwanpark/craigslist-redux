@@ -14,7 +14,7 @@ function Navbars() {
   return (
     <header>
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="#home">Craigslist Redux</Navbar.Brand>
+        <Navbar.Brand href="#home">craigslist redux</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
