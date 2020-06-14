@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import { ListingContext } from "../Context";
 import { Container, Row, Col, ListGroup } from "react-bootstrap";
-import Listing from "./Listing"
+import Listing from "./Listing";
 
 function MainContent() {
-  const [listings, setListings] = useContext(ListingContext);
+  const { contextListings } = useContext(ListingContext);
+  const [listings, setListings] = contextListings;
 
   return (
     <main>
@@ -19,8 +20,14 @@ function MainContent() {
           </Col>
           <Col lg={10}>
             <Row>
-              {listings.map(listing => (
-                <Listing title={listing.title} price={listing.price} date={listing.date} image={listing.image} desc={listing.desc}/>
+              {listings.map((listing) => (
+                <Listing
+                  title={listing.title}
+                  price={listing.price}
+                  date={listing.date}
+                  image={listing.image}
+                  id={listing.id}
+                />
               ))}
             </Row>
           </Col>
