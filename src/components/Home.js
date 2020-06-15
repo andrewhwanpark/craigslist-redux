@@ -3,7 +3,7 @@ import { ListingContext } from "../Context";
 import { Container, Row, Col, ListGroup } from "react-bootstrap";
 import Listing from "./Listing";
 
-function MainContent() {
+function Home() {
   const { contextListings } = useContext(ListingContext);
   const [listings, setListings] = contextListings;
 
@@ -37,4 +37,4 @@ function MainContent() {
   );
 }
 
-export default MainContent;
+export default Home;

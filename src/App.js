@@ -4,7 +4,7 @@ import { Switch, Route } from "react-router-dom";
 
 import Navbars from "./components/Navbars";
 import Footers from "./components/Footers";
-import MainContent from "./components/MainContent";
+import Home from "./components/Home";
 import Default from "./components/Default";
 import About from "./components/About";
 import Sell from "./components/Sell";
@@ -15,10 +15,10 @@ function App() {
     <React.Fragment>
       <Navbars />
       <Switch>
-        <Route exact path="/" component={MainContent} />
+        <Route exact path="/" component={Home} />
         <Route path="/about" component={About} />
         <Route path="/sell" component={Sell} />
-        <Route path="/detail" component={ListingDetail} />
+        <Route path="/detail/:title" component={ListingDetail} />
         <Route component={Default} />
       </Switch>
       <Footers />

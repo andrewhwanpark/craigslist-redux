@@ -16,7 +16,7 @@ function Listing({ title, price, date, image, id }) {
       <Card>
         <Card.Img variant="top" src={src} />
         <Card.Body>
-          <Link to="/detail" onClick={() => handleDetail(id)}>
+          <Link to={"/detail/" + encodeURI(title)} onClick={() => handleDetail(id)}>
             <Card.Title>
               {title} <Badge variant="secondary">${price}</Badge>
             </Card.Title>
