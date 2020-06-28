@@ -9,6 +9,7 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
+import UserLocation from "./UserLocation";
 
 function Navbars() {
   return (
@@ -24,6 +25,7 @@ function Navbars() {
           <Nav.Link as={Link} to="/sell">
             Sell
           </Nav.Link>
+          <UserLocation />
         </Nav>
         <Form inline>
           <FormControl type="text" placeholder="Search" className="mr-sm-2" />

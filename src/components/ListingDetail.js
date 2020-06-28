@@ -28,8 +28,8 @@ function ListingDetail() {
         <Col lg={5}>
           <h3>{detail.title}</h3>
           <p>{"$" + detail.price}</p>
-          <Button variant="outline-dark" size="md" block>
-            Email
+          <Button variant="dark" size="md" block>
+            Offer
           </Button>
           <Button variant="outline-dark" size="md" block>
             Message

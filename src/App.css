@@ -11,3 +11,10 @@ main > .container {
   height: 15vw;
   object-fit: cover;
 }
+
+/* CSS for location filter in navbar */
+.location-filter {
+  padding-right: .5rem;
+  padding-left: .5rem;
+  padding-top: .5rem;
+}
