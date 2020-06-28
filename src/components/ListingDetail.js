@@ -26,11 +26,16 @@ function ListingDetail() {
           <ListingImageCarousel imgs={detail.image} />
         </Col>
         <Col lg={5}>
-          <h3>
-            {detail.title}
-            <Badge variant="secondary">${detail.price}</Badge>
-          </h3>
-          <Button className="my-4" variant="outline-primary">Reply</Button> <p>{detail.desc}</p>
+          <h3>{detail.title}</h3>
+          <p>{"$" + detail.price}</p>
+          <Button variant="outline-dark" size="md" block>
+            Email
+          </Button>
+          <Button variant="outline-dark" size="md" block>
+            Message
+          </Button>
+          <p className="font-weight-bold my-4">Description</p>
+          <p>{detail.desc}</p>
         </Col>
       </Row>
     </Container>
