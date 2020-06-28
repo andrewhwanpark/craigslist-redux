@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 import { ListingContext } from "../Context";
 import placeholder from "../placeholder.png";
 
-function Listing({ title, price, date, image, id }) {
+function Listing({ title, price, date, thumbnail, id }) {
   const { contextHandleDetail } = useContext(ListingContext);
   const handleDetail = contextHandleDetail;
   // If no image src, then replace with placeholder
   let src;
-  image === "null" ? (src = placeholder) : (src = image);
+  thumbnail === "null" ? (src = placeholder) : (src = thumbnail);
 
   return (
     <Col lg={3} md={6} xs={6} className="my-4">

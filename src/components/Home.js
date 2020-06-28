@@ -25,8 +25,9 @@ function Home() {
                   title={listing.title}
                   price={listing.price}
                   date={listing.date}
-                  image={listing.image}
+                  thumbnail={listing.thumbnail}
                   id={listing.id}
+                  key={listing.id}
                 />
               ))}
             </Row>
