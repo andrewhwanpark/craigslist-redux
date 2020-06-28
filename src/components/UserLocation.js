@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Dropdown, FormControl } from "react-bootstrap";
+import { cities } from "../cities";
 
 // The forwardRef is important!!
 // Dropdown needs access to the DOM node in order to position the Menu
@@ -56,12 +57,9 @@ function UserLocation() {
       </Dropdown.Toggle>
 
       <Dropdown.Menu as={CustomMenu}>
-        <Dropdown.Item eventKey="1">Red</Dropdown.Item>
-        <Dropdown.Item eventKey="2">Blue</Dropdown.Item>
-        <Dropdown.Item eventKey="3" active>
-          Orange
-        </Dropdown.Item>
-        <Dropdown.Item eventKey="1">Red-Orange</Dropdown.Item>
+        {cities.map((city) => (
+          <Dropdown.Item>{city}</Dropdown.Item>
+        ))}
       </Dropdown.Menu>
     </Dropdown>
   );
