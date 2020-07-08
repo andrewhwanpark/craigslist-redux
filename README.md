@@ -1,0 +1,3 @@
+## Craigslist Redux
+
+Idea to recreate Craigslist using React, Express, Firebase, and probably a few more tools...
