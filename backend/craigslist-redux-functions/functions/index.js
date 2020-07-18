@@ -5,7 +5,7 @@ const app = require("express")();
 const FBAuth = require("./util/fbAuth");
 
 const { getAllListings, postOneListing } = require("./handlers/listings");
-const { signup, login } = require("./handlers/users");
+const { signup, login, uploadImage } = require("./handlers/users");
 
 // Listing routes
 app.get("/listings", getAllListings);
@@ -14,5 +14,6 @@ app.post("/listing", FBAuth, postOneListing);
 // Users routes
 app.post("/signup", signup);
 app.post("/login", login);
+app.post("/user/image", FBAuth, uploadImage)
 
 exports.api = functions.https.onRequest(app);
