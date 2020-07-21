@@ -23,7 +23,7 @@ router.route("/add").post((req, res) => {
     image,
     desc,
   });
-
+  
   newListing
     .save()
     .then(() => res.json("Listing added!"))
