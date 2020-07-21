@@ -1,4 +1,6 @@
 const router = require("express").Router();
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 let User = require("../models/user.model");
 
 router.route("/").get((req, res) => {
@@ -7,15 +9,86 @@ router.route("/").get((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.route("/add").post((req, res) => {
-  const username = req.body.username;
+router.route("/register").post(async (req, res) => {
+  try {
+    const { email, password, passwordCheck, username } = req.body;
+    // Validate
+    if (!email || !password || !passwordCheck || !username) {
+      return res.status(400).json({ msg: "Not all fields have been entered" });
+    }
+    if (password.length < 5) {
+      return res
+        .status(400)
+        .json({ msg: "Password needs to be at least 5 characters long" });
+    }
+    if (password !== passwordCheck) {
+      return res
+        .status(400)
+        .json({ msg: "Enter same password twice for verification" });
+    }
+    if (username.length < 3) {
+      return res
+        .status(400)
+        .json({ msg: "Username needs to be at least 3 characters long" });
+    }
 
-  const newUser = new User({ username });
+    const existingUser = await User.findOne({ email: email });
+    if (existingUser) {
+      return res
+        .status(400)
+        .json({ msg: "An account with this email already exists" });
+    }
 
-  newUser
-    .save()
-    .then(() => res.json("User added!"))
-    .catch((err) => res.status(400).json("Error: " + err));
+    const salt = await bcrypt.genSalt();
+    const passwordHash = await bcrypt.hash(password, salt);
+
+    const newUser = new User({
+      email,
+      password: passwordHash,
+      username,
+    });
+
+    const savedUser = await newUser.save();
+    res.json(savedUser);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.route("/login").post(async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // validate
+    if (!email || !password) {
+      return res.status(400).json({ msg: "Not all fields have been entered" });
+    }
+
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res
+        .status(400)
+        .json({ msg: "No account with this email has been registered" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ msg: "Invalid credentials" });
+    }
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+
+    res.json({
+      token,
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 module.exports = router;
