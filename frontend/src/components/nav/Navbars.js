@@ -2,16 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 // Import Bootstrap styles
-import {
-  Navbar,
-  Nav,
-  Form,
-  FormControl,
-  Button,
-} from "react-bootstrap";
+import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
 import UserLocation from "./UserLocation";
 
-function Navbars() {
+const Navbars = () => {
   return (
     <header>
       <Navbar bg="light" variant="light">
@@ -27,13 +21,25 @@ function Navbars() {
           </Nav.Link>
           <UserLocation />
         </Nav>
-        <Form inline>
-          <FormControl type="text" placeholder="Search for products" className="mr-sm-2" />
+        <Nav>
+          <Nav.Link as={Link} to="/login">
+            Login
+          </Nav.Link>
+          <Nav.Link as={Link} to="/signup">
+            Sign Up
+          </Nav.Link>
+        </Nav>
+        {/* <Form inline>
+          <FormControl
+            type="text"
+            placeholder="Search for products"
+            className="mr-sm-2"
+          />
           <Button variant="outline-primary">Search</Button>
-        </Form>
+        </Form> */}
       </Navbar>
     </header>
   );
-}
+};
 
 export default Navbars;

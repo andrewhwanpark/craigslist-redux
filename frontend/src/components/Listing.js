@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Col, Card, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { ListingContext } from "../Context";
+import { ListingContext } from "../context/Context";
 import placeholder from "../placeholder.png";
 
 function Listing({ title, price, date, thumbnail, id }) {
@@ -16,7 +16,10 @@ function Listing({ title, price, date, thumbnail, id }) {
       <Card>
         <Card.Img variant="top" src={src} />
         <Card.Body>
-          <Link to={"/detail/" + encodeURI(title)} onClick={() => handleDetail(id)}>
+          <Link
+            to={"/detail/" + encodeURI(title)}
+            onClick={() => handleDetail(id)}
+          >
             <Card.Title>
               {title} <Badge variant="secondary">${price}</Badge>
             </Card.Title>

@@ -4,10 +4,12 @@ const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
 let User = require("../models/user.model");
 
-router.route("/").get((req, res) => {
-  User.find()
-    .then((users) => res.json(users))
-    .catch((err) => res.status(400).json("Error: " + err));
+router.route("/").get(auth, async (req, res) => {
+  const user = await User.findById(req.user);
+  res.json({
+    username: user.username,
+    id: user._id,
+  });
 });
 
 router.route("/register").post(async (req, res) => {

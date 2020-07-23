@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Dropdown, FormControl } from "react-bootstrap";
-import { cities } from "../cities";
+import { cities } from "../../cities";
 
 // The forwardRef is important!!
 // Dropdown needs access to the DOM node in order to position the Menu

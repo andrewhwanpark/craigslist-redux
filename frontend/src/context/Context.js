@@ -1,5 +1,5 @@
 import React, { useState, createContext } from "react";
-import { data } from "./data";
+import { data } from "../data";
 
 export const ListingContext = createContext();
 
@@ -22,7 +22,7 @@ export const ListingProvider = (props) => {
       value={{
         contextListings: [listings, setListings],
         contextDetail: [detail, setDetail],
-        contextHandleDetail: handleDetail
+        contextHandleDetail: handleDetail,
       }}
     >
       {props.children}
