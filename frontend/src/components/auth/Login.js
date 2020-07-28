@@ -11,7 +11,6 @@ const Login = () => {
           Experimental site: do not enter sensitive password
         </Form.Text>
       </Form.Group>
-
       <Form.Group controlId="formBasicPassword">
         <Form.Label>Password</Form.Label>
         <Form.Control type="password" placeholder="Password" />
@@ -19,8 +18,8 @@ const Login = () => {
       <Form.Group controlId="formBasicCheckbox">
         <Form.Check type="checkbox" label="Check me out" />
       </Form.Group>
-      <Button variant="primary" type="submit">
-        Submit
+      <Button variant="dark" type="submit" block>
+        Log In
       </Button>
     </Form>
   );
