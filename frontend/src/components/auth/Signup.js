@@ -14,7 +14,6 @@ const Signup = () => {
   const history = useHistory();
 
   const submit = async (e) => {
-    console.log("hi");
     e.preventDefault();
     const newUser = { username, email, password, passwordCheck };
     const registerRes = await Axios.post(
