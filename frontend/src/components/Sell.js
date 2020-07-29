@@ -1,11 +1,24 @@
-import React from "react";
-import { Container, Form, Button, Row, Col, InputGroup } from "react-bootstrap";
+import React, { useContext, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { Container, Form, Button, Row, Col } from "react-bootstrap";
+import UserContext from "../context/UserContext";
 
 export default function Sell() {
+  const { userData } = useContext(UserContext);
+  const history = useHistory();
+
+  // Prevent selling when not logged in
+  useEffect(() => {
+    if (!userData.user) {
+      history.push("/login");
+    }
+  }, [userData]);
+
   return (
     <Container fluid>
-      <Row>
-        <Col lg={10}>
+      <Row className="my-4">
+        <Col lg={12}>
+          <h2>Add a listing</h2>
           <Form>
             <Form.Row>
               <Form.Group as={Col} controlId="formGridEmail">
