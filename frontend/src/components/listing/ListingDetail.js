@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { ListingContext } from "../context/Context";
+import { ListingContext } from "../../context/Context";
 import { Container, Row, Col, Breadcrumb, Button } from "react-bootstrap";
 import ListingImageCarousel from "./ListingImageCarousel";
 

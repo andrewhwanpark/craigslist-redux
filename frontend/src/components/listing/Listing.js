@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { Col, Card, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { ListingContext } from "../context/Context";
-import placeholder from "../placeholder.png";
+import { ListingContext } from "../../context/Context";
+import placeholder from "../../placeholder.png";
 
 function Listing({ title, price, date, thumbnail, id }) {
   const { contextHandleDetail } = useContext(ListingContext);

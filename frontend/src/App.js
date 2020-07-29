@@ -9,7 +9,7 @@ import Home from "./components/Home";
 import Default from "./components/Default";
 import About from "./components/About";
 import Sell from "./components/Sell";
-import ListingDetail from "./components/ListingDetail";
+import ListingDetail from "./components/listing/ListingDetail";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 
