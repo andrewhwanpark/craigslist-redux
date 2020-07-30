@@ -12,6 +12,7 @@ import Sell from "./components/Sell";
 import ListingDetail from "./components/listing/ListingDetail";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
+import UserSettings from "./UserSettings";
 
 import UserContext from "./context/UserContext";
 
@@ -60,6 +61,7 @@ function App() {
           <Route path="/detail/:title" component={ListingDetail} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
+          <Route path="/users/settings" component={UserSettings} />
           <Route component={Default} />
         </Switch>
         <Footers />

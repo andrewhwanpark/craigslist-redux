@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
 let User = require("../models/user.model");
 
-router.route("/").get(auth, async (req, res) => {
+router.get("/", auth, async (req, res) => {
   const user = await User.findById(req.user);
   res.json({
     username: user.username,
@@ -12,7 +12,7 @@ router.route("/").get(auth, async (req, res) => {
   });
 });
 
-router.route("/register").post(async (req, res) => {
+router.post("/register", async (req, res) => {
   try {
     const { email, password, passwordCheck, username } = req.body;
     // Validate
@@ -58,7 +58,7 @@ router.route("/register").post(async (req, res) => {
   }
 });
 
-router.route("/login").post(async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -93,7 +93,7 @@ router.route("/login").post(async (req, res) => {
   }
 });
 
-router.route("/delete").delete(auth, async (req, res) => {
+router.delete("/delete", auth, async (req, res) => {
   try {
     const deletedUser = await User.findByIdAndDelete(req.user);
     res.json(deletedUser);
@@ -102,7 +102,7 @@ router.route("/delete").delete(auth, async (req, res) => {
   }
 });
 
-router.route("/tokenIsValid").post(async (req, res) => {
+router.post("/tokenIsValid", async (req, res) => {
   try {
     const token = req.header("x-auth-token");
     if (!token) {
