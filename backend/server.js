@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const fileUpload = require("express-fileupload");
 const mongoose = require("mongoose");
 
 require("dotenv").config();
@@ -8,6 +9,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(cors());
+app.use(fileUpload());
 app.use(express.json());
 
 const uri = process.env.ATLAS_URI;

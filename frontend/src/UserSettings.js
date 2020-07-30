@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
-import axios from "axios";
+import Axios from "axios";
 import UserContext from "./context/UserContext";
 
 export default function UserSettings() {
@@ -9,7 +9,6 @@ export default function UserSettings() {
   const history = useHistory();
 
   const [file, setFile] = useState("");
-  const [filename, setFilename] = useState("No File Chosen");
   const [uploadedFile, setUploadedFile] = useState({});
 
   // Prevent editing when not logged in
@@ -19,24 +18,28 @@ export default function UserSettings() {
     }
   }, [userData]);
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("file", file);
 
     try {
-      const res = await axios.post('http://localhost:5000/users/uploadImage', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+      const res = await Axios.post(
+        "http://localhost:5000/users/uploadImage",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
-      });
+      );
 
       const { fileName, filePath } = res.data;
-      
+
       setUploadedFile({ fileName, filePath });
     } catch (err) {
       if (err.response.status === 500) {
-        console.log("There was a problem with the server")
+        console.log("There was a problem with the server");
       } else {
         console.log(err.response.data.msg);
       }
@@ -71,7 +74,6 @@ export default function UserSettings() {
                   label="Upload avatar"
                   onChange={(e) => {
                     setFile(e.target.files[0]);
-                    setFilename(e.target.files[0].name);
                   }}
                 />
               </Form.Group>

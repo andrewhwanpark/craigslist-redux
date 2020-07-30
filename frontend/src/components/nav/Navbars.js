@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import UserContext from "../../context/UserContext";
 
 // Import Bootstrap styles
@@ -9,6 +10,7 @@ import Avatar from "./Avatar";
 
 const Navbars = () => {
   const { userData, setUserData } = useContext(UserContext);
+  const history = useHistory();
 
   const logout = () => {
     setUserData({
@@ -16,6 +18,7 @@ const Navbars = () => {
       user: undefined,
     });
     localStorage.setItem("auth-token", "");
+    history.push("/");
   };
 
   return (
