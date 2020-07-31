@@ -5,8 +5,18 @@ const auth = require("../middleware/auth");
 let User = require("../models/user.model");
 
 router.post("/uploadImage", (req, res) => {
+  // If no files uploaded
   if (req.files === null) {
     return res.status(400).json({ msg: "No file uploaded" });
+  }
+
+  // Only allow JPEG and PNG files
+  if (
+    req.files.file.mimetype !== "image/jpeg" &&
+    req.files.file.mimetype !== "image/png"
+  ) {
+    console.log(req.files.file.mimetype);
+    return res.status(400).json({ msg: "Only JPEG and PNG files are allowed" });
   }
 
   const file = req.files.file;
