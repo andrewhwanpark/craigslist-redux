@@ -2,7 +2,9 @@ import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import Axios from "axios";
-import UserContext from "./context/UserContext";
+import UserContext from "../../context/UserContext";
+import UploadMessages from "./UploadMessages";
+import Progress from "./Progress";
 
 export default function UserSettings() {
   const { userData } = useContext(UserContext);
@@ -10,6 +12,8 @@ export default function UserSettings() {
 
   const [file, setFile] = useState("");
   const [uploadedFile, setUploadedFile] = useState({});
+  const [message, setMessage] = useState("");
+  const [uploadPercentage, setUploadPercentage] = useState(0);
 
   // Prevent editing when not logged in
   useEffect(() => {
@@ -31,17 +35,28 @@ export default function UserSettings() {
           headers: {
             "Content-Type": "multipart/form-data",
           },
+          onUploadProgress: (progressEvent) => {
+            setUploadPercentage(
+              parseInt(
+                Math.round((progressEvent.loaded * 100) / progressEvent.total)
+              )
+            );
+
+            // Clear percentage
+            setTimeout(() => setUploadPercentage(0), 10000);
+          },
         }
       );
 
       const { fileName, filePath } = res.data;
 
       setUploadedFile({ fileName, filePath });
+      setMessage("File successfully uploaded");
     } catch (err) {
       if (err.response.status === 500) {
-        console.log("There was a problem with the server");
+        setMessage("There was a problem with the server");
       } else {
-        console.log(err.response.data.msg);
+        setMessage(err.response.data.msg);
       }
     }
   };
@@ -51,6 +66,14 @@ export default function UserSettings() {
       <Row className="my-4">
         <Col lg={12}>
           <h2>Edit Your Info</h2>
+          {message ? (
+            <UploadMessages
+              msg={message}
+              clearError={() => {
+                setMessage(undefined);
+              }}
+            />
+          ) : null}
           <Form>
             <Form.Row>
               <Form.Group as={Col} controlId="changeUsername">
@@ -78,6 +101,7 @@ export default function UserSettings() {
                 />
               </Form.Group>
             </Form.Row>
+            <Progress percentage={uploadPercentage} />
 
             <Button variant="dark" type="submit" onClick={onSubmit}>
               Submit
