@@ -15,7 +15,6 @@ router.post("/uploadImage", auth, async (req, res) => {
     req.files.file.mimetype !== "image/jpeg" &&
     req.files.file.mimetype !== "image/png"
   ) {
-    console.log(req.files.file.mimetype);
     return res.status(400).json({ msg: "Only JPEG and PNG files are allowed" });
   }
 
