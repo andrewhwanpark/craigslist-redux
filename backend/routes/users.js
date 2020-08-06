@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
 let User = require("../models/user.model");
 
-router.post("/uploadImage", (req, res) => {
+router.post("/uploadImage", auth, async (req, res) => {
   // If no files uploaded
   if (req.files === null) {
     return res.status(400).json({ msg: "No file uploaded" });
@@ -30,6 +30,15 @@ router.post("/uploadImage", (req, res) => {
 
     res.json({ fileName: file.name, filePath: `/uploads/${file.name}` });
   });
+
+  // Find User, then update with new pic
+  try {
+    const user = await User.findByIdAndUpdate(req.user, {
+      image: { fileName: file.name, filePath: `/uploads/${file.name}` },
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 router.get("/", auth, async (req, res) => {

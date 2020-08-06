@@ -34,6 +34,7 @@ export default function UserSettings() {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            "x-auth-token": localStorage.getItem("auth-token"),
           },
           onUploadProgress: (progressEvent) => {
             setUploadPercentage(
@@ -49,8 +50,8 @@ export default function UserSettings() {
       );
 
       const { fileName, filePath } = res.data;
-
       setUploadedFile({ fileName, filePath });
+
       setMessage("File successfully uploaded");
     } catch (err) {
       if (err.response.status === 500) {

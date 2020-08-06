@@ -21,6 +21,14 @@ const userSchema = new Schema(
       trim: true,
       minlength: 3,
     },
+    image: {
+      fileName: {
+        type: String,
+      },
+      filePath: {
+        type: String,
+      },
+    },
   },
   {
     timestamps: true,
