@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Axios from "axios";
 
 export default function Avatar(props) {
-  const [avatar, setAvatar] = useState("");
+  const [avatar, setAvatar] = useState(null);
 
   // Fetch avatar image of user
   useEffect(() => {
@@ -28,7 +28,11 @@ export default function Avatar(props) {
     <NavDropdown
       title={
         <Image
-          src={`http://localhost:5000/${avatar}`}
+          src={
+            avatar
+              ? `http://localhost:5000/${avatar}`
+              : "https://lh3.googleusercontent.com/proxy/2vbgYpLEkXTAHAt6colzh4NK7WpRWyGWYZBh2wkAvzpw1jCg4esAqJFQJyW028_3KP-8jIz3_Wh-DuljT9zszLgdNcyZW5IdMmSSWT25GSMlxa286Vx98qbfTtRcYmY1KiL113XaWoQ"
+          }
           width="40"
           height="40"
           roundedCircle
