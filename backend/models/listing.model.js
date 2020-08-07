@@ -4,11 +4,15 @@ const Schema = mongoose.Schema;
 
 const listingSchema = new Schema(
   {
+    writer: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     title: { type: String, required: true },
     price: { type: Number, required: true },
     date: { type: Date, required: true },
-    thumbnail: { type: String, required: false },
-    image: [{ type: String, required: false }],
+    image: { type: Array, default: [], required: false },
     desc: { type: String, required: false },
   },
   {

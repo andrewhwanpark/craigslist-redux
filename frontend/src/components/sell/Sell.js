@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import UserContext from "../../context/UserContext";
-import Dropzone from "./Dropzone";
+import ListingImageUpload from "./ListingImageUpload";
 
 export default function Sell() {
   const { userData } = useContext(UserContext);
@@ -64,7 +64,7 @@ export default function Sell() {
 
             <Form.Group controlId="formImages">
               <Form.Label>Images</Form.Label>
-              <Dropzone />
+              <ListingImageUpload />
             </Form.Group>
             <Button variant="dark" type="submit">
               Submit

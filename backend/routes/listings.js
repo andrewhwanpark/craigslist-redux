@@ -11,7 +11,6 @@ router.route("/add").post((req, res) => {
   const title = req.body.title;
   const price = req.body.price;
   const date = Date.parse(req.body.date);
-  const thumbnail = req.body.thumbnail;
   const image = req.body.image;
   const desc = req.body.desc;
 
@@ -19,11 +18,10 @@ router.route("/add").post((req, res) => {
     title,
     price,
     date,
-    thumbnail,
     image,
     desc,
   });
-  
+
   newListing
     .save()
     .then(() => res.json("Listing added!"))
@@ -48,7 +46,6 @@ router.route("/update/:id").post((req, res) => {
       listing.title = req.body.title;
       listing.price = req.body.price;
       listing.date = Date.parse(req.body.date);
-      listing.thumbnail = req.body.thumbnail;
       listing.image = req.body.image;
       listing.desc = req.body.desc;
 
