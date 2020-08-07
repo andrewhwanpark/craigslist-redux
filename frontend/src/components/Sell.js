@@ -1,7 +1,8 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import UserContext from "../context/UserContext";
+import Dropzone from "./Dropzone";
 
 export default function Sell() {
   const { userData } = useContext(UserContext);
@@ -61,6 +62,10 @@ export default function Sell() {
               </Form.Control>
             </Form.Group>
 
+            <Form.Group controlId="formImages">
+              <Form.Label>Images</Form.Label>
+              <Dropzone />
+            </Form.Group>
             <Button variant="dark" type="submit">
               Submit
             </Button>
