@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
-import UserContext from "../context/UserContext";
+import UserContext from "../../context/UserContext";
 import Dropzone from "./Dropzone";
 
 export default function Sell() {
