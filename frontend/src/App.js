@@ -13,13 +13,14 @@ import ListingDetail from "./components/listing/ListingDetail";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 import UserSettings from "./components/users/UserSettings";
-
+import ProtectedRoute from "./ProtectedRoute";
 import UserContext from "./context/UserContext";
 
 function App() {
   const [userData, setUserData] = useState({
     token: undefined,
     user: undefined,
+    loading: true,
   });
 
   useEffect(() => {
@@ -43,7 +44,10 @@ function App() {
         setUserData({
           token,
           user: userRes.data,
+          loading: false,
         });
+      } else {
+        setUserData({ loading: false });
       }
     };
 
@@ -57,11 +61,11 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/about" component={About} />
-          <Route path="/sell" component={Sell} />
+          <ProtectedRoute path="/sell" component={Sell} />
           <Route path="/detail/:title" component={ListingDetail} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
-          <Route path="/users/settings" component={UserSettings} />
+          <ProtectedRoute path="/users/settings" component={UserSettings} />
           <Route component={Default} />
         </Switch>
         <Footers />

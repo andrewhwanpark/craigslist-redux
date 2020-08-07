@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import Axios from "axios";
@@ -8,19 +8,11 @@ import Progress from "./Progress";
 
 export default function UserSettings() {
   const { userData } = useContext(UserContext);
-  const history = useHistory();
 
   const [file, setFile] = useState("");
-  const [uploadedFile, setUploadedFile] = useState({});
+  const [, setUploadedFile] = useState({});
   const [message, setMessage] = useState("");
   const [uploadPercentage, setUploadPercentage] = useState(0);
-
-  // Prevent editing when not logged in
-  useEffect(() => {
-    if (!userData.user) {
-      history.push("/login");
-    }
-  }, [userData]);
 
   const onSubmit = async (e) => {
     e.preventDefault();

@@ -1,18 +1,70 @@
-import React from "react";
-import Dropzone from "react-dropzone";
+import React, { useCallback } from "react";
+import { useDropzone } from "react-dropzone";
+import styled from "styled-components";
+
+const getColor = (props) => {
+  if (props.isDragAccept) {
+    return "#00e676";
+  }
+  if (props.isDragReject) {
+    return "#ff1744";
+  }
+  if (props.isDragActive) {
+    return "#2196f3";
+  }
+  return "#eeeeee";
+};
+
+const Container = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-width: 2px;
+  border-radius: 2px;
+  border-color: ${(props) => getColor(props)};
+  border-style: dashed;
+  background-color: #fafafa;
+  color: #bdbdbd;
+  outline: none;
+  transition: border 0.24s ease-in-out;
+`;
 
 const ListingImageUpload = () => {
+  const onDrop = useCallback((acceptedFiles) => {
+    // Do something with the files
+    console.log(acceptedFiles);
+  }, []);
+
+  const {
+    acceptedFiles,
+    getRootProps,
+    getInputProps,
+    isDragActive,
+    isDragAccept,
+    isDragReject,
+  } = useDropzone({ onDrop, accept: "image/jpeg, image/png" });
+
+  const files = acceptedFiles.map((file) => (
+    <li key={file.path}>
+      {file.path} - {file.size} bytes
+    </li>
+  ));
+
   return (
-    <Dropzone onDrop={(acceptedFiles) => console.log(acceptedFiles)}>
-      {({ getRootProps, getInputProps }) => (
-        <section>
-          <div {...getRootProps()}>
-            <input {...getInputProps()} />
-            <p>Drag 'n' drop some files here, or click to select files</p>
-          </div>
-        </section>
-      )}
-    </Dropzone>
+    <React.Fragment>
+      <Container
+        {...getRootProps({ isDragActive, isDragAccept, isDragReject })}
+      >
+        <input {...getInputProps()} />
+        <p>Drag 'n' drop some files here, or click to select files</p>
+      </Container>
+      <aside>
+        <p>Accepted Files</p>
+        <ul>{files}</ul>
+      </aside>
+    </React.Fragment>
   );
 };
 

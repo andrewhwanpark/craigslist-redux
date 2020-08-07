@@ -1,20 +1,8 @@
-import React, { useContext, useEffect, useCallback } from "react";
-import { useHistory } from "react-router-dom";
+import React from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
-import UserContext from "../../context/UserContext";
 import ListingImageUpload from "./ListingImageUpload";
 
 export default function Sell() {
-  const { userData } = useContext(UserContext);
-  const history = useHistory();
-
-  // Prevent selling when not logged in
-  useEffect(() => {
-    if (!userData.user) {
-      history.push("/login");
-    }
-  }, [userData]);
-
   return (
     <Container fluid>
       <Row className="my-4">
