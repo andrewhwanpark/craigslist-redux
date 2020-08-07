@@ -2,14 +2,16 @@ import React, { useContext } from "react";
 import { Col, Card, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ListingContext } from "../../context/Context";
-import placeholder from "../../placeholder.png";
 
 function Listing({ title, price, date, thumbnail, id }) {
   const { contextHandleDetail } = useContext(ListingContext);
   const handleDetail = contextHandleDetail;
   // If no image src, then replace with placeholder
   let src;
-  thumbnail === "null" ? (src = placeholder) : (src = thumbnail);
+  thumbnail === "null"
+    ? (src =
+        "https://www.thedome.org/wp-content/uploads/2019/06/300x300-Placeholder-Image.jpg")
+    : (src = thumbnail);
 
   return (
     <Col lg={3} md={6} xs={6} className="my-4">
