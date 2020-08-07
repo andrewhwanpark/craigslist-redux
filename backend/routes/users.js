@@ -27,13 +27,16 @@ router.post("/uploadImage", auth, async (req, res) => {
       return res.status(500).send(err);
     }
 
-    res.json({ fileName: file.name, filePath: `/uploads/${file.name}` });
+    res.json({
+      fileName: file.name,
+      filePath: `/backend/uploads/${file.name}`,
+    });
   });
 
   // Find User, then update with new pic
   try {
-    const user = await User.findByIdAndUpdate(req.user, {
-      image: { fileName: file.name, filePath: `/uploads/${file.name}` },
+    await User.findByIdAndUpdate(req.user, {
+      image: { fileName: file.name, filePath: `uploads/${file.name}` },
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -45,6 +48,7 @@ router.get("/", auth, async (req, res) => {
   res.json({
     username: user.username,
     id: user._id,
+    image: user.image,
   });
 });
 

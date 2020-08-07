@@ -21,7 +21,7 @@ export default function Sell() {
           <h2>Add a listing</h2>
           <Form>
             <Form.Row>
-              <Form.Group as={Col} controlId="formGridEmail">
+              <Form.Group as={Col} controlId="formTitle">
                 <Form.Label>Title</Form.Label>
                 <Form.Control
                   type="text"
@@ -30,18 +30,18 @@ export default function Sell() {
               </Form.Group>
 
               <Form.Row>
-                <Form.Group as={Col} controlId="formGridPassword">
+                <Form.Group as={Col} controlId="formPrice">
                   <Form.Label>Price</Form.Label>
                   <Form.Control type="number" placeholder="250" />
                 </Form.Group>
-                <Form.Group as={Col} controlId="formGridPassword">
+                <Form.Group as={Col} controlId="formZipcode">
                   <Form.Label>Zipcode</Form.Label>
                   <Form.Control type="number" placeholder="10012" />
                 </Form.Group>
               </Form.Row>
             </Form.Row>
 
-            <Form.Group controlId="exampleForm.ControlTextarea1">
+            <Form.Group controlId="formDescription">
               <Form.Label>Description</Form.Label>
               <Form.Control
                 as="textarea"
@@ -50,7 +50,7 @@ export default function Sell() {
               />
             </Form.Group>
 
-            <Form.Group controlId="formGridState">
+            <Form.Group controlId="formCondition">
               <Form.Label>Condition</Form.Label>
               <Form.Control as="select" defaultValue="Choose...">
                 <option>Choose...</option>
