@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { useDropzone } from "react-dropzone";
 import styled from "styled-components";
 
@@ -31,12 +31,7 @@ const Container = styled.div`
   transition: border 0.24s ease-in-out;
 `;
 
-const ListingImageUpload = () => {
-  const onDrop = useCallback((acceptedFiles) => {
-    // Do something with the files
-    console.log(acceptedFiles);
-  }, []);
-
+const ListingImageUpload = ({ onDrop }) => {
   const {
     acceptedFiles,
     getRootProps,
@@ -53,18 +48,10 @@ const ListingImageUpload = () => {
   ));
 
   return (
-    <React.Fragment>
-      <Container
-        {...getRootProps({ isDragActive, isDragAccept, isDragReject })}
-      >
-        <input {...getInputProps()} />
-        <p>Drag 'n' drop some files here, or click to select files</p>
-      </Container>
-      <aside>
-        <p>Accepted Files</p>
-        <ul>{files}</ul>
-      </aside>
-    </React.Fragment>
+    <Container {...getRootProps({ isDragActive, isDragAccept, isDragReject })}>
+      <input {...getInputProps()} />
+      <p>Drag 'n' drop some files here, or click to select files</p>
+    </Container>
   );
 };
 

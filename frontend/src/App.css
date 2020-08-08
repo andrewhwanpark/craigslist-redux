@@ -37,3 +37,25 @@ main > .container {
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
+
+/* Images */
+.file-list {
+  margin: 20px 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+.file-item {
+  width: calc(33% - 20px);
+  height: 300px;
+  border: 1px solid #eaeaea;
+  border-radius: 4px;
+  margin: 10px;
+  cursor: move;
+  transition: all 0.2s linear;
+}
+.file-img {
+  width: 100%;
+  height: 100%;
+}

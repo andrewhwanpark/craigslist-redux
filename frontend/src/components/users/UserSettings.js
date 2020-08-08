@@ -9,7 +9,6 @@ export default function UserSettings() {
   const { userData } = useContext(UserContext);
 
   const [file, setFile] = useState("");
-  const [, setUploadedFile] = useState({});
   const [message, setMessage] = useState("");
   const [uploadPercentage, setUploadPercentage] = useState(0);
 
@@ -41,8 +40,6 @@ export default function UserSettings() {
       );
 
       const { fileName, filePath } = res.data;
-      setUploadedFile({ fileName, filePath });
-
       setMessage("File successfully uploaded");
     } catch (err) {
       if (err.response.status === 500) {

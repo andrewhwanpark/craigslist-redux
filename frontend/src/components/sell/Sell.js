@@ -1,8 +1,50 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
+import cuid from "cuid";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import update from "immutability-helper";
 import ListingImageUpload from "./ListingImageUpload";
+import ImageList from "./ImageList";
 
 export default function Sell() {
+  const [images, setImages] = useState([]);
+
+  const moveImage = (dragIndex, hoverIndex) => {
+    // Get the dragged element
+    const draggedImage = images[dragIndex];
+    /*
+      - copy the dragged image before hovered element (i.e., [hoverIndex, 0, draggedImage])
+      - remove the previous reference of dragged element (i.e., [dragIndex, 1])
+      - here we are using this update helper method from immutability-helper package
+    */
+    setImages(
+      update(images, {
+        $splice: [
+          [dragIndex, 1],
+          [hoverIndex, 0, draggedImage],
+        ],
+      })
+    );
+  };
+
+  const onDrop = useCallback((acceptedFiles) => {
+    // Loop through accepted files
+    acceptedFiles.map((file) => {
+      const reader = new FileReader();
+      // onload callback gets called after the reader reads the file data
+      reader.onload = (e) => {
+        setImages((prevState) => [
+          ...prevState,
+          { id: cuid(), src: e.target.result },
+        ]);
+      };
+      // Read the file as Data URL (since we accept only images)
+      reader.readAsDataURL(file);
+      return file;
+    });
+  }, []);
+
   return (
     <Container fluid>
       <Row className="my-4">
@@ -52,7 +94,10 @@ export default function Sell() {
 
             <Form.Group controlId="formImages">
               <Form.Label>Images</Form.Label>
-              <ListingImageUpload />
+              <ListingImageUpload onDrop={onDrop} />
+              <DndProvider backend={HTML5Backend}>
+                <ImageList images={images} moveImage={moveImage} />
+              </DndProvider>
             </Form.Group>
             <Button variant="dark" type="submit">
               Submit
