@@ -7,7 +7,7 @@ import update from "immutability-helper";
 import ListingImageUpload from "./ListingImageUpload";
 import ImageList from "./ImageList";
 
-export default function Sell() {
+const Sell = () => {
   const [images, setImages] = useState([]);
 
   const moveImage = (dragIndex, hoverIndex) => {
@@ -107,4 +107,6 @@ export default function Sell() {
       </Row>
     </Container>
   );
-}
+};
+
+export default Sell;
