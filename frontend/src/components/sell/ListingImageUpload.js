@@ -41,12 +41,6 @@ const ListingImageUpload = ({ onDrop }) => {
     isDragReject,
   } = useDropzone({ onDrop, accept: "image/jpeg, image/png" });
 
-  const files = acceptedFiles.map((file) => (
-    <li key={file.path}>
-      {file.path} - {file.size} bytes
-    </li>
-  ));
-
   return (
     <Container {...getRootProps({ isDragActive, isDragAccept, isDragReject })}>
       <input {...getInputProps()} />

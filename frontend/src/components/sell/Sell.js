@@ -3,11 +3,18 @@ import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import cuid from "cuid";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import Select from "react-select";
 import update from "immutability-helper";
 import ListingImageUpload from "./ListingImageUpload";
 import ImageList from "./ImageList";
+import { cities } from "../../cities";
 
 const Sell = () => {
+  const [title, setTitle] = useState("");
+  const [price, setPrice] = useState(0);
+  const [region, setRegion] = useState(0);
+  const [desc, setDesc] = useState("");
+  const [condition, setCondition] = useState("");
   const [images, setImages] = useState([]);
 
   const moveImage = (dragIndex, hoverIndex) => {
@@ -45,31 +52,48 @@ const Sell = () => {
     });
   }, []);
 
+  const onSubmit = async (e) => {
+    e.preventDefault();
+  };
+
   return (
     <Container fluid>
       <Row className="my-4">
         <Col lg={12}>
           <h2>Add a listing</h2>
-          <Form>
+          <Form onSubmit={onSubmit}>
             <Form.Row>
               <Form.Group as={Col} controlId="formTitle">
                 <Form.Label>Title</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="the more detail the better!"
+                  onChange={(e) => {
+                    setTitle(e.target.value);
+                  }}
                 />
               </Form.Group>
 
-              <Form.Row>
-                <Form.Group as={Col} controlId="formPrice">
-                  <Form.Label>Price</Form.Label>
-                  <Form.Control type="number" placeholder="250" />
-                </Form.Group>
-                <Form.Group as={Col} controlId="formZipcode">
-                  <Form.Label>Zipcode</Form.Label>
-                  <Form.Control type="number" placeholder="10012" />
-                </Form.Group>
-              </Form.Row>
+              <Form.Group as={Col} controlId="formPrice">
+                <Form.Label>Price</Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="250"
+                  onChange={(e) => {
+                    setPrice(e.target.value);
+                  }}
+                />
+              </Form.Group>
+
+              <Form.Group as={Col} controlId="formZipcode">
+                <Form.Label>Region</Form.Label>
+                <Select
+                  onChange={(e) => {
+                    setRegion(e.value);
+                  }}
+                  options={cities}
+                />
+              </Form.Group>
             </Form.Row>
 
             <Form.Group controlId="formDescription">
@@ -78,12 +102,21 @@ const Sell = () => {
                 as="textarea"
                 rows="4"
                 placeholder="Retail price, Condition, Measurements, Shipping Policy, etc"
+                onChange={(e) => {
+                  setDesc(e.target.value);
+                }}
               />
             </Form.Group>
 
             <Form.Group controlId="formCondition">
               <Form.Label>Condition</Form.Label>
-              <Form.Control as="select" defaultValue="Choose...">
+              <Form.Control
+                as="select"
+                defaultValue="Choose..."
+                onChange={(e) => {
+                  setCondition(e.target.value);
+                }}
+              >
                 <option>Choose...</option>
                 <option>New/Never Used</option>
                 <option>Gently Used</option>
