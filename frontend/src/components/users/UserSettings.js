@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import Axios from "axios";
 import UserContext from "../../context/UserContext";
-import UploadMessages from "./UploadMessages";
+import UploadMessages from "../shared/UploadMessages";
 import Progress from "./Progress";
 
 export default function UserSettings() {

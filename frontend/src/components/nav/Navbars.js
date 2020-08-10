@@ -5,7 +5,6 @@ import UserContext from "../../context/UserContext";
 
 // Import Bootstrap styles
 import { Navbar, Nav } from "react-bootstrap";
-import UserLocation from "./UserLocation";
 import Avatar from "./Avatar";
 
 const Navbars = () => {
@@ -34,7 +33,6 @@ const Navbars = () => {
           <Nav.Link as={Link} to="/sell">
             Sell
           </Nav.Link>
-          <UserLocation />
         </Nav>
         <Nav>
           {userData.user ? (
