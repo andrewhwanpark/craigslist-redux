@@ -51,6 +51,22 @@ router.post("/uploadImage", auth, upload.single("file"), (req, res) => {
     });
 });
 
+router.post("/changeInfo", auth, (req, res) => {
+  const { username, email, location } = req.body;
+
+  User.findByIdAndUpdate(req.user, {
+    username: username,
+    email: email,
+    location: location,
+  })
+    .then(() => {
+      res.json("Information updated");
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err.message });
+    });
+});
+
 router.get("/", auth, async (req, res) => {
   const user = await User.findById(req.user);
   res.json({
