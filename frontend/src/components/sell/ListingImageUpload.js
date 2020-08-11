@@ -39,12 +39,16 @@ const ListingImageUpload = ({ onDrop }) => {
     isDragActive,
     isDragAccept,
     isDragReject,
-  } = useDropzone({ onDrop, accept: "image/jpeg, image/png" });
+  } = useDropzone({
+    onDrop,
+    accept: "image/jpeg, image/png",
+    maxSize: 2000000,
+  });
 
   return (
     <Container {...getRootProps({ isDragActive, isDragAccept, isDragReject })}>
       <input {...getInputProps()} />
-      <p>Drag 'n' drop some files here, or click to select files</p>
+      <p>Drag 'n' drop images here, or click to select files</p>
     </Container>
   );
 };
