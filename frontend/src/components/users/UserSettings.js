@@ -5,49 +5,41 @@ import UserContext from "../../context/UserContext";
 import UploadMessages from "../shared/UploadMessages";
 import Progress from "./Progress";
 
-export default function UserSettings() {
+const UserSettings = () => {
   const { userData } = useContext(UserContext);
 
   const [file, setFile] = useState("");
   const [message, setMessage] = useState("");
   const [uploadPercentage, setUploadPercentage] = useState(0);
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("file", file);
 
-    try {
-      const res = await Axios.post(
-        "http://localhost:5000/users/uploadImage",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            "x-auth-token": localStorage.getItem("auth-token"),
-          },
-          onUploadProgress: (progressEvent) => {
-            setUploadPercentage(
-              parseInt(
-                Math.round((progressEvent.loaded * 100) / progressEvent.total)
-              )
-            );
+    Axios.post("http://localhost:5000/users/uploadImage", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "x-auth-token": localStorage.getItem("auth-token"),
+      },
+      onUploadProgress: (progressEvent) => {
+        setUploadPercentage(
+          parseInt(
+            Math.round((progressEvent.loaded * 100) / progressEvent.total)
+          )
+        );
 
-            // Clear percentage
-            setTimeout(() => setUploadPercentage(0), 10000);
-          },
-        }
-      );
-
-      const { fileName, filePath } = res.data;
-      setMessage("File successfully uploaded");
-    } catch (err) {
-      if (err.response.status === 500) {
-        setMessage("There was a problem with the server");
-      } else {
-        setMessage(err.response.data.msg);
-      }
-    }
+        // Clear percentage
+        setTimeout(() => setUploadPercentage(0), 10000);
+      },
+    })
+      .then(() => {
+        setMessage("Image successfully uploaded! Refresh to see changes.");
+      })
+      .catch((err) => {
+        setMessage("Server Error: Failed to upload");
+        console.error(err);
+      });
   };
 
   return (
@@ -100,4 +92,6 @@ export default function UserSettings() {
       </Row>
     </Container>
   );
-}
+};
+
+export default UserSettings;

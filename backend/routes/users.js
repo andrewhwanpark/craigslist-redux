@@ -1,46 +1,54 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const multer = require("multer");
 const auth = require("../middleware/auth");
 let User = require("../models/user.model");
 
-router.post("/uploadImage", auth, async (req, res) => {
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, `${__dirname}/../uploads/`);
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname.toLowerCase().split(" ").join("-"));
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if (
+      file.mimetype == "image/png" ||
+      file.mimetype == "image/jpg" ||
+      file.mimetype == "image/jpeg"
+    ) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+      return cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
+    }
+  },
+});
+
+router.post("/uploadImage", auth, upload.single("file"), (req, res) => {
   // If no files uploaded
-  if (req.files === null) {
+  if (req.file === null) {
     return res.status(400).json({ msg: "No file uploaded" });
   }
 
-  // Only allow JPEG and PNG files
-  if (
-    req.files.file.mimetype !== "image/jpeg" &&
-    req.files.file.mimetype !== "image/png"
-  ) {
-    return res.status(400).json({ msg: "Only JPEG and PNG files are allowed" });
-  }
-
-  const file = req.files.file;
-
-  // Save to uploads folder in backend/
-  file.mv(`${__dirname}/../uploads/${file.name}`, (err) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send(err);
-    }
-
-    res.json({
-      fileName: file.name,
-      filePath: `/backend/uploads/${file.name}`,
-    });
-  });
-
   // Find User, then update with new pic
-  try {
-    await User.findByIdAndUpdate(req.user, {
-      image: { fileName: file.name, filePath: `uploads/${file.name}` },
+  User.findByIdAndUpdate(req.user, {
+    image: {
+      fileName: req.file.filename,
+      filePath: `uploads/${req.file.filename}`,
+    },
+  })
+    .then(() => {
+      res.json("Profile picture updated");
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err.message });
     });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
 });
 
 router.get("/", auth, async (req, res) => {

@@ -157,7 +157,7 @@ const Sell = () => {
           }
         );
       })
-      .then((res) => {
+      .then(() => {
         setMessage("Listing uploaded");
         history.push("/");
       })

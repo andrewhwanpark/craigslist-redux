@@ -44,7 +44,7 @@ router.post("/add/images", upload.array("images", 6), (req, res) => {
   for (let i = 0; i < req.files.length; i++) {
     uploads.push({
       fileName: req.files[i].filename,
-      filePath: `/backend/uploads/${req.files[i].filename}`,
+      filePath: `uploads/${req.files[i].filename}`,
     });
   }
 
