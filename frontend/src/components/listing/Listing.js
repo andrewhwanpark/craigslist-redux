@@ -1,27 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Col, Card, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { ListingContext } from "../../context/Context";
+import UserContext from "../../context/UserContext";
 
-function Listing({ title, price, location, date, thumbnail, id }) {
-  const { contextHandleDetail } = useContext(ListingContext);
-  const handleDetail = contextHandleDetail;
-  // If no image src, then replace with placeholder
+const Listing = ({ title, date, desc, price, image, location, cuid }) => {
+  // If no images, use placeholder
   let src;
-  thumbnail === "null"
+  image.length === 0
     ? (src =
         "https://www.thedome.org/wp-content/uploads/2019/06/300x300-Placeholder-Image.jpg")
-    : (src = thumbnail);
+    : (src = `http://localhost:5000/${image[0].filePath}`);
 
   return (
     <Col lg={3} md={6} xs={6} className="my-4">
       <Card>
         <Card.Img variant="top" src={src} />
         <Card.Body>
-          <Link
-            to={"/detail/" + encodeURI(title)}
-            onClick={() => handleDetail(id)}
-          >
+          <Link to={"/detail/" + cuid}>
             <Card.Title>
               {title} <Badge variant="secondary">${price}</Badge>
             </Card.Title>
@@ -31,6 +26,6 @@ function Listing({ title, price, location, date, thumbnail, id }) {
       </Card>
     </Col>
   );
-}
+};
 
 export default Listing;

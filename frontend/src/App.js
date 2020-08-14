@@ -24,17 +24,15 @@ function App() {
     loading: true,
   });
 
-  const [listingData, setListingData] = useState({
-    listings: undefined,
-    loading: true,
-  });
+  // const [listingDetail, setListingDetail] = useState({});
 
-  const providerValue = useMemo(() => ({ userData, listingData }), [
-    userData,
-    listingData,
-  ]);
+  // // Helper to find appropriate listing to set as detail
+  // const getListingDetail = (cuid) => {
+  //   const listing = listingData.listings.find((item) => item.cuid === cuid);
+  //   setListingDetail(listing);
+  // };
 
-  const [message, setMessage] = useState("");
+  const providerValue = useMemo(() => ({ userData }), [userData]);
 
   useEffect(() => {
     const checkLoggedIn = () => {
@@ -71,38 +69,18 @@ function App() {
         });
     };
 
-    const getListings = () => {
-      Axios.get("http://localhost:5000/listings/")
-        .then((res) => {
-          setListingData({ listings: res.data, loading: false });
-        })
-        .catch((err) => {
-          setMessage("Unable to fetch listings. Please try again");
-          console.error(err);
-        });
-    };
-
     checkLoggedIn();
-    getListings();
   }, []);
 
   return (
     <React.Fragment>
       <UserContext.Provider value={providerValue}>
         <Navbars />
-        {message ? (
-          <UploadMessages
-            msg={message}
-            clearError={() => {
-              setMessage(undefined);
-            }}
-          />
-        ) : null}
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/about" component={About} />
           <ProtectedRoute path="/sell" component={Sell} />
-          <Route path="/detail/:title" component={ListingDetail} />
+          <Route path="/detail/:cuid" component={ListingDetail} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
           <ProtectedRoute path="/users/settings" component={UserSettings} />

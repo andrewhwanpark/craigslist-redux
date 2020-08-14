@@ -33,6 +33,21 @@ router.get("/", (req, res) => {
     .then((listings) => res.json(listings))
     .catch((err) => res.status(400).json("Error: " + err));
 });
+// `http://localhost:5000/listings/listings_by_id?id=${cuid}&type=single`
+router.get("/listings_by_id", (req, res) => {
+  const type = req.query.type;
+  const cuid = req.query.id;
+
+  if (type === "array") {
+  }
+
+  Listing.find({ cuid: { $in: cuid } })
+    .populate("writer")
+    .exec((err, listing) => {
+      if (err) return res.status(400).send(err);
+      return res.status(200).send(listing);
+    });
+});
 
 router.post("/add/images", upload.array("images", 6), (req, res) => {
   if (req.files === null) {
@@ -68,6 +83,7 @@ router.post("/add", auth, (req, res) => {
   const condition = req.body.condition;
   const desc = req.body.desc;
   const location = req.body.location;
+  const cuid = req.body.cuid;
 
   const newListing = new Listing({
     writer,
@@ -77,6 +93,7 @@ router.post("/add", auth, (req, res) => {
     condition,
     desc,
     location,
+    cuid,
   });
 
   newListing
