@@ -37,7 +37,9 @@ const ListingDetail = (props) => {
       </Breadcrumb>
       <Row>
         <Col lg={7}>
-          <ListingImageCarousel imgs={listing.image} />
+          {listing.image.length === 0 ? null : (
+            <ListingImageCarousel imgs={listing.image} />
+          )}
         </Col>
         <Col lg={5}>
           <h3>{listing.title}</h3>

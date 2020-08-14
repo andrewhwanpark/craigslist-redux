@@ -115,6 +115,12 @@ const Sell = () => {
       return;
     }
 
+    // Check if price is negative
+    if (price < 0) {
+      setMessage("Please enter a price greater than or equal to 0");
+      return;
+    }
+
     const newListing = {
       writer: userData.user.id,
       title: title,

@@ -33,7 +33,7 @@ router.get("/", (req, res) => {
     .then((listings) => res.json(listings))
     .catch((err) => res.status(400).json("Error: " + err));
 });
-// `http://localhost:5000/listings/listings_by_id?id=${cuid}&type=single`
+
 router.get("/listings_by_id", (req, res) => {
   const type = req.query.type;
   const cuid = req.query.id;

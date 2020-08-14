@@ -1,20 +1,15 @@
 import React from "react";
-import { Carousel } from "react-bootstrap";
+import ImageGallery from "react-image-gallery";
 
 function ListingImageCarousel({ imgs }) {
-  return (
-    <Carousel>
-      {imgs.map((img, idx) => (
-        <Carousel.Item key={idx}>
-          <img
-            className="d-block w-100"
-            src={`http://localhost:5000/${img.filePath}`}
-            alt="product photos"
-          />
-        </Carousel.Item>
-      ))}
-    </Carousel>
-  );
+  const images = Array.from(imgs, (img) => {
+    return {
+      original: `http://localhost:5000/${img.filePath}`,
+      thumbnail: `http://localhost:5000/${img.filePath}`,
+    };
+  });
+
+  return <ImageGallery items={images} showPlayButton={false} />;
 }
 
 export default ListingImageCarousel;
