@@ -3,7 +3,7 @@ import { Col, Card, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ListingContext } from "../../context/Context";
 
-function Listing({ title, price, date, thumbnail, id }) {
+function Listing({ title, price, location, date, thumbnail, id }) {
   const { contextHandleDetail } = useContext(ListingContext);
   const handleDetail = contextHandleDetail;
   // If no image src, then replace with placeholder

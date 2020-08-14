@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./App.css";
 import { Switch, Route } from "react-router-dom";
 import Axios from "axios";
@@ -15,6 +15,7 @@ import Signup from "./components/auth/Signup";
 import UserSettings from "./components/users/UserSettings";
 import ProtectedRoute from "./ProtectedRoute";
 import UserContext from "./context/UserContext";
+import UploadMessages from "./components/shared/UploadMessages";
 
 function App() {
   const [userData, setUserData] = useState({
@@ -23,41 +24,80 @@ function App() {
     loading: true,
   });
 
+  const [listingData, setListingData] = useState({
+    listings: undefined,
+    loading: true,
+  });
+
+  const providerValue = useMemo(() => ({ userData, listingData }), [
+    userData,
+    listingData,
+  ]);
+
+  const [message, setMessage] = useState("");
+
   useEffect(() => {
-    const checkLoggedIn = async () => {
+    const checkLoggedIn = () => {
       let token = localStorage.getItem("auth-token");
       if (token === null) {
         localStorage.setItem("auth-token", "");
         token = "";
       }
-      const tokenRes = await Axios.post(
-        "http://localhost:5000/users/tokenIsValid",
-        null,
-        { headers: { "x-auth-token": token } }
-      );
 
-      if (tokenRes.data) {
-        const userRes = await Axios.get("http://localhost:5000/users/", {
-          headers: { "x-auth-token": token },
+      Axios.post("http://localhost:5000/users/tokenIsValid", null, {
+        headers: { "x-auth-token": token },
+      })
+        .then((res) => {
+          if (res.data) {
+            Axios.get("http://localhost:5000/users/", {
+              headers: { "x-auth-token": token },
+            })
+              .then((res) => {
+                setUserData({
+                  token,
+                  user: res.data,
+                  loading: false,
+                });
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          } else {
+            setUserData({ loading: false });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
         });
+    };
 
-        setUserData({
-          token,
-          user: userRes.data,
-          loading: false,
+    const getListings = () => {
+      Axios.get("http://localhost:5000/listings/")
+        .then((res) => {
+          setListingData({ listings: res.data, loading: false });
+        })
+        .catch((err) => {
+          setMessage("Unable to fetch listings. Please try again");
+          console.error(err);
         });
-      } else {
-        setUserData({ loading: false });
-      }
     };
 
     checkLoggedIn();
+    getListings();
   }, []);
 
   return (
     <React.Fragment>
-      <UserContext.Provider value={{ userData, setUserData }}>
+      <UserContext.Provider value={providerValue}>
         <Navbars />
+        {message ? (
+          <UploadMessages
+            msg={message}
+            clearError={() => {
+              setMessage(undefined);
+            }}
+          />
+        ) : null}
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/about" component={About} />

@@ -22,7 +22,7 @@ const Sell = () => {
   // States
   const [title, setTitle] = useState();
   const [price, setPrice] = useState();
-  const [region, setRegion] = useState();
+  const [location, setLocation] = useState();
   const [desc, setDesc] = useState("");
   const [condition, setCondition] = useState();
   const [images, setImages] = useState([]);
@@ -102,7 +102,7 @@ const Sell = () => {
     if (
       isNullable(title) ||
       isNullable(price) ||
-      isNullable(region) ||
+      isNullable(location) ||
       isNullable(condition)
     ) {
       setMessage("All required fields must be entered");
@@ -120,7 +120,7 @@ const Sell = () => {
       title: title,
       price: price,
       date: new Date(),
-      region: region,
+      location: location,
       desc: desc,
       condition: condition,
     };
@@ -134,10 +134,9 @@ const Sell = () => {
         // No images uploaded
         if (files.length === 0) {
           setMessage("Product successfully uploaded");
-          // history.push("/");
+          history.push("/");
           return;
         }
-
         // Prepare images
         const formData = new FormData();
 
@@ -205,12 +204,12 @@ const Sell = () => {
               </Form.Group>
 
               <Form.Group as={Col} controlId="formZipcode">
-                <Form.Label>Region</Form.Label>
+                <Form.Label>Location</Form.Label>
                 <Select
                   isSearchable
                   placeholder="Search for your city"
                   onChange={(e) => {
-                    setRegion(e.value);
+                    setLocation(e.value);
                   }}
                   options={cities}
                 />

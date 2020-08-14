@@ -38,7 +38,7 @@ router.post("/add/images", upload.array("images", 6), (req, res) => {
   if (req.files === null) {
     return res.status(400).json({ msg: "No file uploaded" });
   }
-  console.log(req.header("listing-id"));
+
   const uploads = [];
 
   for (let i = 0; i < req.files.length; i++) {
@@ -67,6 +67,7 @@ router.post("/add", auth, (req, res) => {
   const date = Date.parse(req.body.date);
   const condition = req.body.condition;
   const desc = req.body.desc;
+  const location = req.body.location;
 
   const newListing = new Listing({
     writer,
@@ -75,12 +76,13 @@ router.post("/add", auth, (req, res) => {
     date,
     condition,
     desc,
+    location,
   });
 
   newListing
     .save()
     .then((doc) => res.json({ id: doc._id }))
-    .catch((err) => res.status(400).json("Error: " + err));
+    .catch((err) => res.status(400).json(err));
 });
 
 router.route("/:id").get((req, res) => {

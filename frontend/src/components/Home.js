@@ -1,13 +1,19 @@
 import React, { useContext } from "react";
 import { ListingContext } from "../context/Context";
-import { Container, Row, Col, ListGroup } from "react-bootstrap";
+import { Container, Row, Col, ListGroup, Spinner } from "react-bootstrap";
 import Listing from "./listing/Listing";
+import UserContext from "../context/UserContext";
 
 function Home() {
-  const { contextListings } = useContext(ListingContext);
-  const [listings, setListings] = contextListings;
+  const { listingData } = useContext(UserContext);
+  const listings = listingData.listings;
+  console.log(listings);
 
-  return (
+  return listingData.loading ? (
+    <Spinner animation="border" role="status">
+      <span className="sr-only">Loading...</span>
+    </Spinner>
+  ) : (
     <main>
       <Container fluid>
         <Row>
@@ -23,11 +29,10 @@ function Home() {
               {listings.map((listing) => (
                 <Listing
                   title={listing.title}
-                  price={listing.price}
                   date={listing.date}
-                  thumbnail={listing.thumbnail}
-                  id={listing.id}
-                  key={listing.id}
+                  desc={listing.desc}
+                  price={listing.price}
+                  image={listing.image}
                 />
               ))}
             </Row>
