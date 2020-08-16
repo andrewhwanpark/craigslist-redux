@@ -22,6 +22,7 @@ const Listing = ({ title, date, desc, price, image, location, cuid }) => {
             </Card.Title>
           </Link>
           <Card.Text>{date}</Card.Text>
+          <Card.Text>{location}</Card.Text>
         </Card.Body>
       </Card>
     </Col>

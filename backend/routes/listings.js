@@ -28,8 +28,15 @@ const upload = multer({
   },
 });
 
-router.get("/", (req, res) => {
+router.post("/", (req, res) => {
+  const skip = parseInt(req.body.skip);
+  const limit = parseInt(req.body.limit);
+  console.log(skip);
   Listing.find()
+    .populate("writer")
+    .sort("-date")
+    .skip(skip)
+    .limit(limit)
     .then((listings) => res.json(listings))
     .catch((err) => res.status(400).json("Error: " + err));
 });

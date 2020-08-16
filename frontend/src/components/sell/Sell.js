@@ -12,7 +12,7 @@ import ListingImageUpload from "./ListingImageUpload";
 import ImageList from "./ImageList";
 import UploadMessages from "../shared/UploadMessages";
 import { cities } from "../../cities";
-import { isNullable } from "../utils/null-checks";
+import { isNullable } from "../../utils/null-checks";
 
 const Sell = () => {
   // Context
@@ -115,7 +115,7 @@ const Sell = () => {
       return;
     }
 
-    // Check if price is negative
+    // Price can not be negative
     if (price < 0) {
       setMessage("Please enter a price greater than or equal to 0");
       return;

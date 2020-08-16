@@ -15,7 +15,6 @@ import Signup from "./components/auth/Signup";
 import UserSettings from "./components/users/UserSettings";
 import ProtectedRoute from "./ProtectedRoute";
 import UserContext from "./context/UserContext";
-import UploadMessages from "./components/shared/UploadMessages";
 
 function App() {
   const [userData, setUserData] = useState({
@@ -32,7 +31,7 @@ function App() {
   //   setListingDetail(listing);
   // };
 
-  const providerValue = useMemo(() => ({ userData }), [userData]);
+  const providerValue = useMemo(() => ({ userData, setUserData }), [userData]);
 
   useEffect(() => {
     const checkLoggedIn = () => {

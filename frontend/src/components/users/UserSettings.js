@@ -6,7 +6,7 @@ import UserContext from "../../context/UserContext";
 import UploadMessages from "../shared/UploadMessages";
 import Progress from "./Progress";
 import { cities } from "../../cities";
-import { isNullable } from "../utils/null-checks";
+import { isNullable } from "../../utils/null-checks";
 
 const UserSettings = () => {
   const { userData } = useContext(UserContext);

@@ -10,6 +10,7 @@ import {
   Spinner,
 } from "react-bootstrap";
 import ListingImageCarousel from "./ListingImageCarousel";
+import ListingUserInfo from "./ListingUserInfo";
 
 const ListingDetail = (props) => {
   const cuid = props.match.params.cuid;
@@ -52,6 +53,7 @@ const ListingDetail = (props) => {
           </Button>
           <p className="font-weight-bold my-4">Description</p>
           <p>{listing.desc}</p>
+          <ListingUserInfo />
         </Col>
       </Row>
     </Container>
