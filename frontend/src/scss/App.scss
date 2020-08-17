@@ -1,0 +1,7 @@
+/* make the customizations */
+$theme-colors: (
+  "craigslist-purple": #563d7c,
+);
+
+/* import bootstrap to set changes */
+@import "~bootstrap/scss/bootstrap";

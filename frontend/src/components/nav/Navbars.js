@@ -22,7 +22,7 @@ const Navbars = () => {
 
   return (
     <header>
-      <Navbar bg="dark" variant="dark" className="py-0">
+      <Navbar bg="craigslist-purple" variant="dark" className="py-0">
         <Navbar.Brand as={Link} to="/">
           <svg
             width="1.75em"

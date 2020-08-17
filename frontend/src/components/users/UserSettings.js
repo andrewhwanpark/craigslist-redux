@@ -131,7 +131,11 @@ const UserSettings = () => {
               </Form.Group>
             </Form.Row>
 
-            <Button variant="dark" type="submit" onClick={onChangeInfoSubmit}>
+            <Button
+              variant="craigslist-purple"
+              type="submit"
+              onClick={onChangeInfoSubmit}
+            >
               Submit
             </Button>
           </Form>
@@ -150,7 +154,11 @@ const UserSettings = () => {
             </Form.Row>
             <Progress percentage={uploadPercentage} />
 
-            <Button variant="dark" type="submit" onClick={onSubmit}>
+            <Button
+              variant="craigslist-purple"
+              type="submit"
+              onClick={onSubmit}
+            >
               Submit
             </Button>
           </Form>
