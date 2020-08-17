@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
-import {
-  Container,
-  Row,
-  Col,
-  ListGroup,
-  Spinner,
-  Button,
-} from "react-bootstrap";
+import { Container, Row, Col, ListGroup } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Listing from "./listing/Listing";
 import UploadMessages from "./shared/UploadMessages";
+import LoadingSpinner from "./shared/LoadingSpinner";
 
 const Home = () => {
   const [listingData, setListingData] = useState({
@@ -62,9 +56,7 @@ const Home = () => {
   };
 
   return listingData.loading ? (
-    <Spinner animation="border" role="status">
-      <span className="sr-only">Loading...</span>
-    </Spinner>
+    <LoadingSpinner />
   ) : (
     <main>
       <Container fluid>

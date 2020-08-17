@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
-import UserContext from "../../context/UserContext";
-import {
-  Container,
-  Row,
-  Col,
-  Breadcrumb,
-  Button,
-  Spinner,
-} from "react-bootstrap";
+import { Container, Row, Col, Breadcrumb, Button } from "react-bootstrap";
 import ListingImageCarousel from "./ListingImageCarousel";
 import ListingUserInfo from "./ListingUserInfo";
+import LoadingSpinner from "../shared/LoadingSpinner";
 
 const ListingDetail = (props) => {
   const cuid = props.match.params.cuid;
@@ -27,9 +20,7 @@ const ListingDetail = (props) => {
   }, []);
 
   return loading ? (
-    <Spinner animation="border" role="status">
-      <span className="sr-only">Loading...</span>
-    </Spinner>
+    <LoadingSpinner />
   ) : (
     <Container fluid className="my-4">
       <Breadcrumb>

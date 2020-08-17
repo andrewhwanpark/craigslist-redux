@@ -1,9 +1,8 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import { Col, Card, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import UserContext from "../../context/UserContext";
 
-const Listing = ({ title, date, desc, price, image, location, cuid }) => {
+const Listing = ({ title, date, price, image, location, cuid }) => {
   // If no images, use placeholder
   let src;
   image.length === 0
