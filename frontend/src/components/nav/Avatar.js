@@ -15,7 +15,7 @@ const Avatar = (props) => {
               ? null
               : userData.user.image.filePath
               ? `http://localhost:5000/${userData.user.image.filePath}`
-              : "https://lh3.googleusercontent.com/proxy/2vbgYpLEkXTAHAt6colzh4NK7WpRWyGWYZBh2wkAvzpw1jCg4esAqJFQJyW028_3KP-8jIz3_Wh-DuljT9zszLgdNcyZW5IdMmSSWT25GSMlxa286Vx98qbfTtRcYmY1KiL113XaWoQ"
+              : "https://crossfithvl.com/wp-content/uploads/2016/09/profile-placeholder-copy-2.png"
           }
           width="40"
           height="40"
