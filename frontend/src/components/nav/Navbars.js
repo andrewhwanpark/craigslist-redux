@@ -22,7 +22,7 @@ const Navbars = () => {
 
   return (
     <header>
-      <Navbar bg="craigslist-purple" variant="dark" className="py-0">
+      <Navbar bg="purple" variant="dark">
         <Navbar.Brand as={Link} to="/">
           <svg
             width="1.75em"
@@ -38,7 +38,7 @@ const Navbars = () => {
             />
           </svg>
         </Navbar.Brand>
-        <Nav className="mr-auto">
+        <Nav className="ml-auto">
           <Nav.Link as={Link} to="/about">
             About
           </Nav.Link>

@@ -67,7 +67,7 @@ const Login = () => {
       <Form.Group controlId="formBasicCheckbox">
         <Form.Check type="checkbox" label="Check me out" />
       </Form.Group>
-      <Button variant="dark" type="submit" onClick={submit} block>
+      <Button variant="purple" type="submit" onClick={submit} block>
         Log In
       </Button>
     </Form>

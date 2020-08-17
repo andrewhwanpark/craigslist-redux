@@ -45,14 +45,17 @@ const ListingDetail = (props) => {
         <Col lg={5}>
           <h3>{listing.title}</h3>
           <p>{"$" + listing.price}</p>
-          <Button variant="dark" size="md" block>
+
+          <Button variant="purple" size="lg" block>
             Offer
           </Button>
-          <Button variant="outline-dark" size="md" block>
+          <Button variant="outline-purple" size="lg" block>
             Message
           </Button>
+
           <p className="font-weight-bold my-4">Description</p>
           <p>{listing.desc}</p>
+
           <ListingUserInfo />
         </Col>
       </Row>

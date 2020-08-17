@@ -259,11 +259,7 @@ const Sell = () => {
                 <ImageList images={images} moveImage={moveImage} />
               </DndProvider>
             </Form.Group>
-            <Button
-              variant="craigslist-purple"
-              type="submit"
-              onSubmit={onSubmit}
-            >
+            <Button variant="purple" type="submit" onSubmit={onSubmit}>
               Submit
             </Button>
           </Form>

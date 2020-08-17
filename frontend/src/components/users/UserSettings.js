@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import Axios from "axios";
 import Select from "react-select";
+import bsCustomFileInput from "bs-custom-file-input";
 import UserContext from "../../context/UserContext";
 import UploadMessages from "../shared/UploadMessages";
 import Progress from "./Progress";
@@ -9,6 +10,7 @@ import { cities } from "../../cities";
 import { isNullable } from "../../utils/null-checks";
 
 const UserSettings = () => {
+  bsCustomFileInput.init();
   const { userData } = useContext(UserContext);
 
   const [file, setFile] = useState();
@@ -131,34 +133,26 @@ const UserSettings = () => {
               </Form.Group>
             </Form.Row>
 
-            <Button
-              variant="craigslist-purple"
-              type="submit"
-              onClick={onChangeInfoSubmit}
-            >
+            <Button variant="purple" type="submit" onClick={onChangeInfoSubmit}>
               Submit
             </Button>
           </Form>
-
+          <br />
           <Form onSubmit={onSubmit}>
-            <Form.Row>
-              <Form.Group>
-                <Form.File
-                  id="uploadProfilePicture"
-                  label="Upload Profile Picture"
-                  onChange={(e) => {
-                    setFile(e.target.files[0]);
-                  }}
-                />
-              </Form.Group>
-            </Form.Row>
+            <Form.Group>
+              <Form.Label>Upload Profile Picture</Form.Label>
+              <Form.File
+                id="uploadProfilePicture"
+                label="Only .png, .jpeg files accepted"
+                onChange={(e) => {
+                  setFile(e.target.files[0]);
+                }}
+                custom
+              />
+            </Form.Group>
             <Progress percentage={uploadPercentage} />
-
-            <Button
-              variant="craigslist-purple"
-              type="submit"
-              onClick={onSubmit}
-            >
+            <br />
+            <Button variant="purple" type="submit" onClick={onSubmit}>
               Submit
             </Button>
           </Form>

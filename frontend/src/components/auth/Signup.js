@@ -89,7 +89,7 @@ const Signup = () => {
           }}
         />
       </Form.Group>
-      <Button variant="dark" type="submit" onClick={submit} block>
+      <Button variant="purple" type="submit" onClick={submit} block>
         Create Account
       </Button>
     </Form>
