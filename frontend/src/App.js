@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from "react";
-import "./App.css";
 import { Switch, Route } from "react-router-dom";
 import Axios from "axios";
 
