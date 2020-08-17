@@ -31,7 +31,7 @@ const upload = multer({
 router.post("/", (req, res) => {
   const skip = parseInt(req.body.skip);
   const limit = parseInt(req.body.limit);
-  console.log(skip);
+
   Listing.find()
     .populate("writer")
     .sort("-date")
