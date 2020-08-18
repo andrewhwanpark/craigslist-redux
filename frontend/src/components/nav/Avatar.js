@@ -24,8 +24,8 @@ const Avatar = (props) => {
       id="nav-dropdown-align-right"
     >
       <NavDropdown.Item href="#action/3.1">Messages</NavDropdown.Item>
-      <NavDropdown.Item href="#action/3.2">Favorites</NavDropdown.Item>
-      <NavDropdown.Item href="#action/3.3">My Items</NavDropdown.Item>
+      <NavDropdown.Item href="/users/favorites">Favorites</NavDropdown.Item>
+      <NavDropdown.Item href="/users/myitems">My Items</NavDropdown.Item>
       <NavDropdown.Item as={Link} to="/users/settings">
         Settings
       </NavDropdown.Item>

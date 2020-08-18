@@ -48,7 +48,9 @@ const ListingImageUpload = ({ onDrop }) => {
   return (
     <Container {...getRootProps({ isDragActive, isDragAccept, isDragReject })}>
       <input {...getInputProps()} />
-      <p>Drag 'n' drop images here, or click to select files</p>
+      <p>
+        Drag 'n' drop images here, or click to select files (Max 2MB per image)
+      </p>
     </Container>
   );
 };

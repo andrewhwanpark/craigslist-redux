@@ -14,6 +14,8 @@ import Signup from "./components/auth/Signup";
 import UserSettings from "./components/users/UserSettings";
 import ProtectedRoute from "./ProtectedRoute";
 import UserContext from "./context/UserContext";
+import MyItems from "./components/users/MyItems";
+import Favorites from "./components/users/Favorites";
 
 function App() {
   const [userData, setUserData] = useState({
@@ -82,6 +84,8 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
           <ProtectedRoute path="/users/settings" component={UserSettings} />
+          <ProtectedRoute path="/users/myitems" component={MyItems} />
+          <ProtectedRoute path="/users/favorites" component={Favorites} />
           <Route component={Default} />
         </Switch>
         <Footers />
