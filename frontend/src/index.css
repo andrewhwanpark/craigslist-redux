@@ -85,3 +85,25 @@ main > .container {
   left: 0;
   right: 0;
 }
+
+.feed-item {
+  height: 20%;
+}
+
+.listing-img {
+  width: 212px;
+  height: 252px;
+  max-width: 100%;
+  min-height: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+.listing-link {
+  color: #212529;
+}
+
+.listing-link:hover {
+  color: #212529;
+}
