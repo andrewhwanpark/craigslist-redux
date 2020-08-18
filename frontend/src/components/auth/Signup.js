@@ -49,7 +49,7 @@ const Signup = () => {
           }}
         />
       )}
-      <Form.Group controlId="formBasicUsername">
+      <Form.Group controlId="formUsername">
         <Form.Label>Username</Form.Label>
         <Form.Control
           type="text"
@@ -59,7 +59,7 @@ const Signup = () => {
           }}
         />
       </Form.Group>
-      <Form.Group controlId="formBasicEmail">
+      <Form.Group controlId="formEmail">
         <Form.Label>Email address</Form.Label>
         <Form.Control
           type="email"
@@ -69,7 +69,7 @@ const Signup = () => {
           }}
         />
       </Form.Group>
-      <Form.Group controlId="formBasicPassword">
+      <Form.Group controlId="formPassword">
         <Form.Label>Password</Form.Label>
         <Form.Control
           type="password"
@@ -79,7 +79,7 @@ const Signup = () => {
           }}
         />
       </Form.Group>
-      <Form.Group controlId="formBasicPassword">
+      <Form.Group controlId="formVerifyPassword">
         <Form.Label>Confirm Password</Form.Label>
         <Form.Control
           type="password"

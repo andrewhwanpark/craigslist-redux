@@ -24,11 +24,16 @@ const userSchema = new Schema(
     image: {
       fileName: {
         type: String,
+        default: "avatar_placeholder.png",
+        required: true,
       },
       filePath: {
         type: String,
+        default: "uploads/avatar_placeholder.png",
+        required: true,
       },
     },
+    sold: { type: Number, default: 0, required: true },
   },
   {
     timestamps: true,

@@ -13,9 +13,7 @@ const Avatar = (props) => {
           src={
             userData.loading
               ? null
-              : userData.user.image.filePath
-              ? `http://localhost:5000/${userData.user.image.filePath}`
-              : "https://crossfithvl.com/wp-content/uploads/2016/09/profile-placeholder-copy-2.png"
+              : `http://localhost:5000/${userData.user.image.filePath}`
           }
           width="40"
           height="40"

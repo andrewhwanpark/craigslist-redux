@@ -47,7 +47,7 @@ const ListingDetail = (props) => {
           <p className="font-weight-bold my-4">Description</p>
           <p>{listing.desc}</p>
 
-          <ListingUserInfo />
+          <ListingUserInfo writer={listing.writer} />
         </Col>
       </Row>
     </Container>

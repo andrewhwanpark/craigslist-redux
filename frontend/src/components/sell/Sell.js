@@ -23,7 +23,7 @@ const Sell = () => {
   const [title, setTitle] = useState();
   const [price, setPrice] = useState();
   const [location, setLocation] = useState();
-  const [desc, setDesc] = useState("");
+  const [desc, setDesc] = useState();
   const [condition, setCondition] = useState();
   const [images, setImages] = useState([]);
   const [files, setFiles] = useState([]);
@@ -33,6 +33,10 @@ const Sell = () => {
   const MAXFILES = 6;
   // Counter to track # of images
   let imgCount = 0;
+
+  const resetForm = () => {
+    document.getElementById("create-listing-form").reset();
+  };
 
   const moveImage = (dragIndex, hoverIndex) => {
     // Get the dragged element
@@ -103,7 +107,8 @@ const Sell = () => {
       isNullable(title) ||
       isNullable(price) ||
       isNullable(location) ||
-      isNullable(condition)
+      isNullable(condition) ||
+      condition === "Choose..."
     ) {
       setMessage("All required fields must be entered");
       return;
@@ -141,7 +146,7 @@ const Sell = () => {
         // No images uploaded
         if (files.length === 0) {
           setMessage("Product successfully uploaded");
-          history.push("/");
+          resetForm();
           return;
         }
         // Prepare images
@@ -164,8 +169,8 @@ const Sell = () => {
         );
       })
       .then(() => {
-        setMessage("Listing uploaded");
-        history.push("/");
+        setMessage("Listing uploaded.");
+        resetForm();
       })
       .catch((err) => {
         setMessage("Server Error: Failed to upload");
@@ -186,7 +191,7 @@ const Sell = () => {
               }}
             />
           ) : null}
-          <Form onSubmit={onSubmit}>
+          <Form onSubmit={onSubmit} id="create-listing-form">
             <Form.Row>
               <Form.Group as={Col} controlId="formTitle">
                 <Form.Label>Title</Form.Label>

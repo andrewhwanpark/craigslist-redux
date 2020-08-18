@@ -1,29 +1,21 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { Container, Image } from "react-bootstrap";
-import UserContext from "../../context/UserContext";
-import LoadingSpinner from "../shared/LoadingSpinner";
 
-const ListingUserInfo = () => {
-  const { userData } = useContext(UserContext);
-
-  return userData.loading ? (
-    <LoadingSpinner />
-  ) : (
+const ListingUserInfo = ({ writer }) => {
+  return (
     <Container fluid>
       <Image
-        src={
-          userData.user.image.filePath
-            ? `http://localhost:5000/${userData.user.image.filePath}`
-            : "https://crossfithvl.com/wp-content/uploads/2016/09/profile-placeholder-copy-2.png"
-        }
+        src={`http://localhost:5000/${writer.image.filePath}`}
         roundedCircle
         width="50"
         height="50"
         className="mr-2"
         style={{ float: "left" }}
       />
-      <span>{userData.user.username}</span>
+      <span>
+        {writer.username} ({writer.sold})
+      </span>
       <br />
       <span>0 listings for sale</span>
     </Container>
