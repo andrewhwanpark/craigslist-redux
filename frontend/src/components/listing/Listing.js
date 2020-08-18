@@ -12,12 +12,14 @@ const Listing = ({ title, date, price, image, cuid }) => {
     : (src = `http://localhost:5000/${image[0].filePath}`);
 
   return (
-    <Col lg={3} md={3} xs={6} className="my-4 feed-item">
+    <Col xl={2} lg={3} md={3} sm={4} xs={6} className="my-4 feed-item">
       <Link
         to={"/detail/" + cuid}
         className="listing-link text-decoration-none"
       >
-        <Image src={src} className="listing-img" />
+        <div className="listing-cover-photo">
+          <Image src={src} className="listing-img" alt={title} />
+        </div>
         <p className="my-0">
           <small className="text-muted">{moment(date).fromNow()}</small>
         </p>

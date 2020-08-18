@@ -14,7 +14,7 @@ const Home = () => {
 
   // Hooks for infinite scroll
   const [skip, setSkip] = useState(0);
-  const [limit, setLimit] = useState(8);
+  const [limit, setLimit] = useState(12);
   const [hasMore, setHasMore] = useState(true);
   // Error message
   const [message, setMessage] = useState("");
@@ -69,25 +69,26 @@ const Home = () => {
               }}
             />
           ) : null}
-          <Col lg={2}>
+          <Col xl={2} lg={2} md={12} sm={12} xs={12}>
             <ListGroup className="my-4">
               <ListGroup.Item active>Category 1</ListGroup.Item>
               <ListGroup.Item>Category 2</ListGroup.Item>
               <ListGroup.Item>Category 3</ListGroup.Item>
             </ListGroup>
           </Col>
-          <InfiniteScroll
-            dataLength={listingData.listings.length}
-            next={fetchMore}
-            hasMore={hasMore}
-            loader={<h4>Loading...</h4>}
-            endMessage={
-              <p style={{ textAlign: "center" }}>
-                <b>Yay! You have seen it all</b>
-              </p>
-            }
-          >
-            <Col lg={10}>
+
+          <Col xl={10} lg={10} md={12} sm={12} xs={12}>
+            <InfiniteScroll
+              dataLength={listingData.listings.length}
+              next={fetchMore}
+              hasMore={hasMore}
+              loader={<h4>Loading...</h4>}
+              endMessage={
+                <p style={{ textAlign: "center" }}>
+                  <b>Yay! You have seen it all</b>
+                </p>
+              }
+            >
               <Row>
                 {listingData.listings.map((listing) => (
                   <Listing
@@ -102,8 +103,8 @@ const Home = () => {
                   />
                 ))}
               </Row>
-            </Col>
-          </InfiniteScroll>
+            </InfiniteScroll>
+          </Col>
         </Row>
       </Container>
     </main>
