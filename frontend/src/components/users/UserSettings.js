@@ -1,13 +1,12 @@
 import React, { useState, useContext } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import Axios from "axios";
-import Select from "react-select";
 import bsCustomFileInput from "bs-custom-file-input";
 import UserContext from "../../context/UserContext";
 import UploadMessages from "../shared/UploadMessages";
 import Progress from "./Progress";
-import { cities } from "../../cities";
 import { isNullable } from "../../utils/null-checks";
+import LocationSelector from "../shared/LocationSelector";
 
 const UserSettings = () => {
   bsCustomFileInput.init();
@@ -122,13 +121,11 @@ const UserSettings = () => {
             <Form.Row>
               <Form.Group as={Col} controlId="changeLocation">
                 <Form.Label>Location</Form.Label>
-                <Select
-                  isSearchable
-                  placeholder="Search for your city"
+                <LocationSelector
                   onChange={(e) => {
                     setRegion(e.value);
                   }}
-                  options={cities}
+                  className="z-index-fix"
                 />
               </Form.Group>
             </Form.Row>

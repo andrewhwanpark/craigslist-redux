@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Select from "react-select";
 import { cities } from "../cities";
-import { Col, Button, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { isNullable } from "../utils/null-checks";
 
 const Sidebar = ({ setLocation }) => {
@@ -15,6 +15,7 @@ const Sidebar = ({ setLocation }) => {
           isClearable
           placeholder="Search your city"
           onChange={(e) => {
+            // User clears search, show all listing
             if (isNullable(e)) {
               setDisplayValue(null);
               setLocation(undefined);

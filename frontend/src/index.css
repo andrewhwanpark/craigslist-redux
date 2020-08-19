@@ -125,3 +125,7 @@ div.listing-cover-photo {
   position: relative;
   transition: width 0.2s linear, height 0.2s linear;
 }
+
+.z-index-fix {
+  z-index: 9999;
+}
