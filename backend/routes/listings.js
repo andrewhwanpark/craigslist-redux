@@ -3,6 +3,10 @@ const auth = require("../middleware/auth");
 let Listing = require("../models/listing.model");
 const multer = require("multer");
 
+const isNullable = (x) => {
+  return x == null;
+};
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, `${__dirname}/../uploads/`);
@@ -33,8 +37,9 @@ router.post("/", (req, res) => {
   const limit = parseInt(req.body.limit);
 
   // Typecheck since 0 is falsey
-  const location =
-    req.body.location === undefined ? undefined : parseInt(req.body.location);
+  const location = isNullable(req.body.location)
+    ? undefined
+    : parseInt(req.body.location);
 
   let findArgs = {};
   if (location !== undefined) {
