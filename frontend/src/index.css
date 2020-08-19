@@ -77,7 +77,7 @@ main > .container {
 }
 
 /* Center Spinner on page */
-.spinner-border {
+.centered-on-page-spinner {
   position: absolute;
   margin: auto;
   top: 0;

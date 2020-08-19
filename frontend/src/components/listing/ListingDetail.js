@@ -20,7 +20,7 @@ const ListingDetail = (props) => {
   }, []);
 
   return loading ? (
-    <LoadingSpinner />
+    <LoadingSpinner className="centered-on-page-spinner" />
   ) : (
     <Container fluid className="my-4">
       <Breadcrumb>

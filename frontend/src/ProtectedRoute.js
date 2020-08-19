@@ -8,7 +8,7 @@ const ProtectedRoute = ({ component }) => {
   const { userData } = useContext(UserContext);
 
   return userData.loading ? (
-    <LoadingSpinner />
+    <LoadingSpinner className="centered-on-page-spinner" />
   ) : userData.user ? (
     <Component />
   ) : (

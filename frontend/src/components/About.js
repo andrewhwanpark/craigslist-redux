@@ -1,6 +1,5 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import LoadingSpinner from "./shared/LoadingSpinner";
 
 const About = () => {
   return (

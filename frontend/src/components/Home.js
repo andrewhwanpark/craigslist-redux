@@ -82,7 +82,7 @@ const Home = () => {
   };
 
   return listingData.loading ? (
-    <LoadingSpinner />
+    <LoadingSpinner className="centered-on-page-spinner" />
   ) : (
     <main>
       <Container fluid>
@@ -104,7 +104,11 @@ const Home = () => {
               dataLength={listingData.listings.length}
               next={fetchMore}
               hasMore={hasMore}
-              loader={<h4>Loading...</h4>}
+              loader={
+                <div className="text-center">
+                  <LoadingSpinner />
+                </div>
+              }
               endMessage={
                 <p style={{ textAlign: "center" }}>
                   <b>Yay! You have seen it all</b>
