@@ -18,7 +18,7 @@ const Signup = () => {
   const { setUserData } = useContext(UserContext);
   const history = useHistory();
 
-  const submit = async (e) => {
+  const submit = (e) => {
     e.preventDefault();
 
     const newUser = { username, email, password, passwordCheck, location };
