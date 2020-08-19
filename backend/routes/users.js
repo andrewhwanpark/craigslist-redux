@@ -69,10 +69,13 @@ router.post("/changeInfo", auth, (req, res) => {
 
 router.get("/", auth, async (req, res) => {
   const user = await User.findById(req.user);
+
   res.json({
     username: user.username,
     id: user._id,
     image: user.image,
+    sold: user.sold,
+    createdAt: user.createdAt,
   });
 });
 

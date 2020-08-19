@@ -24,14 +24,6 @@ function App() {
     loading: true,
   });
 
-  // const [listingDetail, setListingDetail] = useState({});
-
-  // // Helper to find appropriate listing to set as detail
-  // const getListingDetail = (cuid) => {
-  //   const listing = listingData.listings.find((item) => item.cuid === cuid);
-  //   setListingDetail(listing);
-  // };
-
   const providerValue = useMemo(() => ({ userData, setUserData }), [userData]);
 
   useEffect(() => {

@@ -55,6 +55,17 @@ router.post("/", (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+router.get("/listings_by_user", (req, res) => {
+  const _id = req.query.id;
+
+  Listing.find({ writer: { $in: _id } })
+    .populate("writer")
+    .exec((err, listing) => {
+      if (err) return res.status(400).send(err);
+      return res.status(200).send(listing);
+    });
+});
+
 router.get("/listings_by_id", (req, res) => {
   const type = req.query.type;
   const cuid = req.query.id;
