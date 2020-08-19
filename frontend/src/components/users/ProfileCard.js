@@ -1,11 +1,12 @@
 import React from "react";
 import moment from "moment";
-import { Row, Col, Image } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { Row, Col, Image, Button } from "react-bootstrap";
 
 const ProfileCard = ({ writer }) => {
   return (
     <Row className="mt-4">
-      <Col lg={12}>
+      <Col lg={12} className="d-flex align-items-center">
         <Image
           src={`http://localhost:5000/${writer.image.filePath}`}
           roundedCircle
@@ -21,8 +22,11 @@ const ProfileCard = ({ writer }) => {
           <br />
           Sold {writer.sold} items
         </span>
-        <hr className="mb-0"></hr>
+        <Link to="/users/settings" className="ml-auto">
+          <Button variant="purple">Edit Profile</Button>
+        </Link>
       </Col>
+      <hr className="mb-0" style={{ width: "100%" }}></hr>
     </Row>
   );
 };
