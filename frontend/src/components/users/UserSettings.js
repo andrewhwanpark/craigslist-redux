@@ -122,6 +122,7 @@ const UserSettings = () => {
               <Form.Group as={Col} controlId="changeLocation">
                 <Form.Label>Location</Form.Label>
                 <LocationSelector
+                  isClearable={false}
                   onChange={(e) => {
                     setRegion(e.value);
                   }}
