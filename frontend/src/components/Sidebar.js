@@ -33,27 +33,6 @@ const Sidebar = ({ setLocation }) => {
           value={displayValue}
         />
       </Col>
-      {/* <Col
-        className="my-2 px-0"
-        xl="auto"
-        lg="auto"
-        md="auto"
-        sm="auto"
-        xs="auto"
-        style={{
-          margin: "auto",
-        }}
-      >
-        <Button
-          variant="purple"
-          onClick={() => {
-            setDisplayValue(null);
-            setLocation(undefined);
-          }}
-        >
-          View All
-        </Button>
-      </Col> */}
     </Row>
   );
 };
