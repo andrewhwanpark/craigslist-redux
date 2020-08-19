@@ -1,24 +1,20 @@
 import React, { useState, useCallback, useContext } from "react";
-import { useHistory } from "react-router-dom";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import Axios from "axios";
 import cuid from "cuid";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import Select from "react-select";
 import update from "immutability-helper";
 import UserContext from "../../context/UserContext";
 import ListingImageUpload from "./ListingImageUpload";
 import ImageList from "./ImageList";
 import UploadMessages from "../shared/UploadMessages";
-import { cities } from "../../cities";
 import { isNullable } from "../../utils/null-checks";
+import LocationSelector from "../shared/LocationSelector";
 
 const Sell = () => {
   // Context
   const { userData } = useContext(UserContext);
-  // Router history hook
-  const history = useHistory();
   // States
   const [title, setTitle] = useState();
   const [price, setPrice] = useState();
@@ -170,6 +166,8 @@ const Sell = () => {
       })
       .then(() => {
         setMessage("Listing uploaded.");
+        setImages([]);
+        setFiles([]);
         resetForm();
       })
       .catch((err) => {
@@ -217,13 +215,10 @@ const Sell = () => {
 
               <Form.Group as={Col} controlId="formZipcode">
                 <Form.Label>Location</Form.Label>
-                <Select
-                  isSearchable
-                  placeholder="Search for your city"
+                <LocationSelector
                   onChange={(e) => {
                     setLocation(e.value);
                   }}
-                  options={cities}
                 />
               </Form.Group>
             </Form.Row>

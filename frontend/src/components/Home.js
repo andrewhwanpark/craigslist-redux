@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
-import { Container, Row, Col, ListGroup } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Listing from "./listing/Listing";
 import UploadMessages from "./shared/UploadMessages";
 import LoadingSpinner from "./shared/LoadingSpinner";
+import Sidebar from "./Sidebar";
 
 const Home = () => {
   const [listingData, setListingData] = useState({
@@ -16,16 +17,26 @@ const Home = () => {
   const [skip, setSkip] = useState(0);
   const [limit, setLimit] = useState(12);
   const [hasMore, setHasMore] = useState(true);
+  // States for sidebar / filter
+  const [location, setLocation] = useState();
   // Error message
   const [message, setMessage] = useState("");
 
-  const getListings = (skipAndLimit) => {
-    Axios.post("http://localhost:5000/listings/", skipAndLimit)
+  const getListings = (variables) => {
+    Axios.post("http://localhost:5000/listings/", variables)
       .then((res) => {
-        setListingData({
-          listings: [...listingData.listings, ...res.data],
-          loading: false,
-        });
+        if (variables.fetchMore === true) {
+          setListingData({
+            listings: [...listingData.listings, ...res.data],
+            loading: false,
+          });
+        } else {
+          setListingData({
+            listings: res.data,
+            loading: false,
+          });
+        }
+
         setHasMore(res.data.length > 0);
       })
       .catch((err) => {
@@ -35,24 +46,39 @@ const Home = () => {
   };
 
   useEffect(() => {
-    const skipAndLimit = {
+    const variables = {
       skip,
       limit,
+      location,
+      fetchMore: true,
     };
 
-    getListings(skipAndLimit);
+    getListings(variables);
   }, []);
+
+  useEffect(() => {
+    const variables = {
+      skip: 0,
+      limit,
+      location,
+      fetchMore: false,
+    };
+
+    getListings(variables);
+  }, [location]);
 
   const fetchMore = () => {
     const newSkip = skip + limit;
     setSkip(newSkip);
 
-    const skipAndLimit = {
+    const variables = {
       skip: newSkip,
       limit,
+      location,
+      fetchMore: true,
     };
 
-    getListings(skipAndLimit);
+    getListings(variables);
   };
 
   return listingData.loading ? (
@@ -70,11 +96,7 @@ const Home = () => {
             />
           ) : null}
           <Col xl={2} lg={2} md={12} sm={12} xs={12}>
-            <ListGroup className="my-4">
-              <ListGroup.Item active>Category 1</ListGroup.Item>
-              <ListGroup.Item>Category 2</ListGroup.Item>
-              <ListGroup.Item>Category 3</ListGroup.Item>
-            </ListGroup>
+            <Sidebar setLocation={setLocation} />
           </Col>
 
           <Col xl={10} lg={10} md={12} sm={12} xs={12}>

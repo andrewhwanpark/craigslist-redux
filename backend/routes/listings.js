@@ -32,7 +32,16 @@ router.post("/", (req, res) => {
   const skip = parseInt(req.body.skip);
   const limit = parseInt(req.body.limit);
 
-  Listing.find()
+  // Typecheck since 0 is falsey
+  const location =
+    req.body.location === undefined ? undefined : parseInt(req.body.location);
+
+  let findArgs = {};
+  if (location !== undefined) {
+    findArgs = { location: location };
+  }
+
+  Listing.find(findArgs)
     .populate("writer")
     .sort("-date")
     .skip(skip)
