@@ -4,12 +4,15 @@ import { Form, Button } from "react-bootstrap";
 import Axios from "axios";
 import UserContext from "../../context/UserContext";
 import ErrorMsg from "./ErrorMsg";
+import LocationSelector from "../shared/LocationSelector";
 
 const Signup = () => {
   const [username, setUsername] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [passwordCheck, setPasswordCheck] = useState();
+  const [location, setLocation] = useState();
+
   const [error, setError] = useState();
 
   const { setUserData } = useContext(UserContext);
@@ -17,30 +20,29 @@ const Signup = () => {
 
   const submit = async (e) => {
     e.preventDefault();
-    try {
-      const newUser = { username, email, password, passwordCheck };
-      const registerRes = await Axios.post(
-        "http://localhost:5000/users/register",
-        newUser
-      );
-      const loginRes = await Axios.post("http://localhost:5000/users/login", {
-        email,
-        password,
+
+    const newUser = { username, email, password, passwordCheck, location };
+
+    Axios.post("http://localhost:5000/users/register", newUser)
+      .then((res) => {
+        return Axios.post("http://localhost:5000/users/login", {
+          email,
+          password,
+        });
+      })
+      .then((res) => {
+        setUserData({ token: res.data.token, user: res.data.user });
+        localStorage.setItem("auth-token", res.data.token);
+        // Redirect to home
+        history.push("/");
+      })
+      .catch((err) => {
+        setError(err.response.data.msg);
       });
-      setUserData({
-        token: loginRes.data.token,
-        user: loginRes.data.user,
-      });
-      localStorage.setItem("auth-token", loginRes.data.token);
-      // Back to home page
-      history.push("/");
-    } catch (err) {
-      err.response.data.msg && setError(err.response.data.msg);
-    }
   };
 
   return (
-    <Form className="form-signin" onSubmit={submit}>
+    <Form className="centered-form" onSubmit={submit}>
       {error && (
         <ErrorMsg
           message={error}
@@ -86,6 +88,14 @@ const Signup = () => {
           placeholder="Password"
           onChange={(e) => {
             setPasswordCheck(e.target.value);
+          }}
+        />
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>Location</Form.Label>
+        <LocationSelector
+          onChange={(e) => {
+            setLocation(e.value);
           }}
         />
       </Form.Group>

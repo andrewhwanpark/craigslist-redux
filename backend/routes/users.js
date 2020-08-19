@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const auth = require("../middleware/auth");
 let User = require("../models/user.model");
+const { isNullable } = require("../utils/null-check");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -81,9 +82,14 @@ router.get("/", auth, async (req, res) => {
 
 router.post("/register", async (req, res) => {
   try {
-    const { email, password, passwordCheck, username } = req.body;
+    const { email, password, passwordCheck, username, location } = req.body;
     // Validate
-    if (!email || !password || !passwordCheck || !username) {
+    if (
+      isNullable(email) ||
+      isNullable(password) ||
+      isNullable(passwordCheck) ||
+      isNullable(username)
+    ) {
       return res.status(400).json({ msg: "Not all fields have been entered" });
     }
     if (password.length < 5) {
@@ -101,6 +107,9 @@ router.post("/register", async (req, res) => {
         .status(400)
         .json({ msg: "Username needs to be at least 3 characters long" });
     }
+    if (isNullable(location)) {
+      return res.status(400).json({ msg: "Please select your location" });
+    }
 
     const existingUser = await User.findOne({ email: email });
     if (existingUser) {
@@ -116,6 +125,7 @@ router.post("/register", async (req, res) => {
       email,
       password: passwordHash,
       username,
+      location,
     });
 
     const savedUser = await newUser.save();
@@ -154,6 +164,7 @@ router.post("/login", async (req, res) => {
         id: user._id,
         username: user.username,
         image: user.image,
+        location: user.location,
       },
     });
   } catch (err) {

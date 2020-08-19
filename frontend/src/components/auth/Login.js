@@ -35,7 +35,7 @@ const Login = () => {
   };
 
   return (
-    <Form className="form-signin" onSubmit={submit}>
+    <Form className="centered-form" onSubmit={submit}>
       {error && (
         <ErrorMsg
           message={error}

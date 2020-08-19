@@ -2,10 +2,7 @@ const router = require("express").Router();
 const auth = require("../middleware/auth");
 let Listing = require("../models/listing.model");
 const multer = require("multer");
-
-const isNullable = (x) => {
-  return x == null;
-};
+const { isNullable } = require("../utils/null-check");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {

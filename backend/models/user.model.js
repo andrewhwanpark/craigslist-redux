@@ -21,6 +21,10 @@ const userSchema = new Schema(
       trim: true,
       minlength: 3,
     },
+    location: {
+      type: Number,
+      required: true,
+    },
     image: {
       fileName: {
         type: String,
