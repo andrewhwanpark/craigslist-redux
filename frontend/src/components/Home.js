@@ -49,7 +49,7 @@ const Home = () => {
             loading: false,
           });
         }
-        console.log(res.data.length);
+
         setHasMore(res.data.length === limit);
       })
       .catch((err) => {
