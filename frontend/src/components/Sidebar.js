@@ -3,11 +3,13 @@ import { Col, Row } from "react-bootstrap";
 import { isNullable } from "../utils/null-checks";
 import LocationSelector from "./shared/LocationSelector";
 
-const Sidebar = ({ location, setLocation }) => {
+const Sidebar = ({ location, setLocation, setSkip }) => {
   const onChange = (e) => {
-    // User clears search, show all listing
+    // If user clears search, show listings from all locations
+    // e will be null when user clears react-select form
     if (isNullable(e)) {
       setLocation(undefined);
+      setSkip(0);
       return;
     }
 

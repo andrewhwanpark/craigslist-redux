@@ -49,7 +49,7 @@ const Home = () => {
             loading: false,
           });
         }
-
+        console.log(res.data.length);
         setHasMore(res.data.length === limit);
       })
       .catch((err) => {
@@ -109,7 +109,11 @@ const Home = () => {
             />
           ) : null}
           <Col xl={2} lg={2} md={12} sm={12} xs={12}>
-            <Sidebar location={location} setLocation={setLocation} />
+            <Sidebar
+              location={location}
+              setLocation={setLocation}
+              setSkip={setSkip}
+            />
           </Col>
 
           <Col xl={10} lg={10} md={12} sm={12} xs={12}>
