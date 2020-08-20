@@ -39,7 +39,7 @@ const ListingDetail = (props) => {
         </Col>
         <Col lg={5}>
           <h3>{listing.title}</h3>
-          <p>{"$" + listing.price}</p>
+          <p>{`$${listing.price}`}</p>
 
           <Button variant="purple" size="lg" block>
             Offer

@@ -5,16 +5,15 @@ import { Link } from "react-router-dom";
 
 const Listing = ({ title, date, price, image, cuid }) => {
   // If no images, use placeholder
-  let src;
-  image.length === 0
-    ? (src =
-        "https://www.thedome.org/wp-content/uploads/2019/06/300x300-Placeholder-Image.jpg")
-    : (src = `http://localhost:5000/${image[0].filePath}`);
+  const src =
+    image.length === 0
+      ? "https://www.thedome.org/wp-content/uploads/2019/06/300x300-Placeholder-Image.jpg"
+      : `http://localhost:5000/${image[0].filePath}`;
 
   return (
     <Col xl={2} lg={3} md={3} sm={4} xs={6} className="my-4 feed-item">
       <Link
-        to={"/detail/" + cuid}
+        to={`/detail/${cuid}`}
         className="listing-link text-decoration-none"
       >
         <div className="listing-cover-photo">
@@ -23,7 +22,7 @@ const Listing = ({ title, date, price, image, cuid }) => {
         <p className="my-0">
           <small className="text-muted">{moment(date).fromNow()}</small>
         </p>
-        <hr className="mt-0 mb-1"></hr>
+        <hr className="mt-0 mb-1" />
         <p className="my-0">{title}</p>
       </Link>
       <div>
@@ -33,6 +32,7 @@ const Listing = ({ title, date, price, image, cuid }) => {
         <button
           className="btn bg-transparent shadow-none py-0"
           style={{ float: "right" }}
+          type="button"
         >
           <svg
             width="1em"

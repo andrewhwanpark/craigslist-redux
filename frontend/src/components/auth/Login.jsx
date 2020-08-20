@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
-import ErrorMsg from "./ErrorMsg";
 import Axios from "axios";
+import ErrorMsg from "./ErrorMsg";
 import UserContext from "../../context/UserContext";
 
 const Login = () => {
@@ -30,7 +30,7 @@ const Login = () => {
       // Back to home page
       history.push("/");
     } catch (err) {
-      err.response.data.msg && setError(err.response.data.msg);
+      setError(err.response.data.msg);
     }
   };
 
