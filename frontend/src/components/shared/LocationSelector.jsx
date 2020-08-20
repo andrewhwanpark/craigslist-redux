@@ -1,6 +1,6 @@
 import React from "react";
 import Select from "react-select";
-import { cities } from "../../cities";
+import cities from "../../cities";
 import { isNullable } from "../../utils/null-checks";
 
 const LocationSelector = ({
@@ -9,7 +9,7 @@ const LocationSelector = ({
   isClearable,
   defaultValue,
 }) => {
-  let defaultLabel = isNullable(defaultValue)
+  const defaultLabel = isNullable(defaultValue)
     ? null
     : cities.find((city) => city.value === defaultValue);
 

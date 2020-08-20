@@ -21,14 +21,14 @@ const Home = () => {
   const decideLocation = () => {
     if (isDefined(userData.user)) {
       return userData.user.location;
-    } else {
-      return undefined;
     }
+
+    return undefined;
   };
 
   // Hooks for infinite scroll
   const [skip, setSkip] = useState(0);
-  const [limit, setLimit] = useState(12);
+  const [limit] = useState(12);
   const [hasMore, setHasMore] = useState(true);
   // States for sidebar / filter
   const [location, setLocation] = useState(decideLocation);

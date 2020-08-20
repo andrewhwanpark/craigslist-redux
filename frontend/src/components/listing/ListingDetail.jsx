@@ -6,7 +6,11 @@ import ListingUserInfo from "./ListingUserInfo";
 import LoadingSpinner from "../shared/LoadingSpinner";
 
 const ListingDetail = (props) => {
-  const cuid = props.match.params.cuid;
+  const {
+    match: {
+      params: { cuid },
+    },
+  } = props;
   const [listing, setListing] = useState();
   const [loading, setLoading] = useState(true);
 

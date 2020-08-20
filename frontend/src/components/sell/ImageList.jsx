@@ -28,6 +28,7 @@ const ImageItem = ({ image, index, moveImage }) => {
         Update the index for dragged item directly to avoid flickering
         when the image was half dragged into the next
       */
+      // eslint-disable-next-line no-param-reassign
       item.index = hoverIndex;
     },
   });

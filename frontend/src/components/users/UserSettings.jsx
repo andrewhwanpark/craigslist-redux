@@ -30,8 +30,8 @@ const UserSettings = () => {
     }
 
     const newInfo = {
-      username: username,
-      email: email,
+      username,
+      email,
       location: region,
     };
 
@@ -63,7 +63,8 @@ const UserSettings = () => {
       onUploadProgress: (progressEvent) => {
         setUploadPercentage(
           parseInt(
-            Math.round((progressEvent.loaded * 100) / progressEvent.total)
+            Math.round((progressEvent.loaded * 100) / progressEvent.total),
+            10
           )
         );
 
@@ -117,7 +118,6 @@ const UserSettings = () => {
                 />
               </Form.Group>
             </Form.Row>
-
             <Form.Row>
               <Form.Group as={Col} controlId="changeLocation">
                 <Form.Label>Location</Form.Label>
@@ -130,10 +130,9 @@ const UserSettings = () => {
                 />
               </Form.Group>
             </Form.Row>
-
             <Button variant="purple" type="submit" onClick={onChangeInfoSubmit}>
               Submit
-            </Button>
+            </Button>{" "}
           </Form>
           <br />
           <Form onSubmit={onSubmit}>

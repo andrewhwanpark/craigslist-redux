@@ -1,4 +1,4 @@
-export const cities = [
+const cities = [
   { value: 0, label: "abilene, TX" },
   { value: 1, label: "akron / canton" },
   { value: 2, label: "albany, GA" },
@@ -413,3 +413,5 @@ export const cities = [
   { value: 411, label: "yuma, AZ" },
   { value: 412, label: "zanesville / cambridge" },
 ];
+
+export default cities;

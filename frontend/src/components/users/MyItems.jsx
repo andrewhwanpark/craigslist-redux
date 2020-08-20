@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import Axios from "axios";
 import UserContext from "../../context/UserContext";
 import LoadingSpinner from "../shared/LoadingSpinner";

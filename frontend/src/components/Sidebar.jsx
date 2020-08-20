@@ -20,7 +20,7 @@ const Sidebar = ({ location, setLocation, setSkip }) => {
     <Row className="my-4">
       <Col xl={12} lg={12} md={12} sm={12} xs={12}>
         <LocationSelector
-          isClearable={true}
+          isClearable
           onChange={onChange}
           defaultValue={location}
         />

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from "react";
 import { useDropzone } from "react-dropzone";
 import styled from "styled-components";
@@ -33,7 +34,6 @@ const Container = styled.div`
 
 const ListingImageUpload = ({ onDrop }) => {
   const {
-    acceptedFiles,
     getRootProps,
     getInputProps,
     isDragActive,
@@ -49,7 +49,7 @@ const ListingImageUpload = ({ onDrop }) => {
     <Container {...getRootProps({ isDragActive, isDragAccept, isDragReject })}>
       <input {...getInputProps()} />
       <p>
-        Drag 'n' drop images here, or click to select files (Max 2MB per image)
+        Drag and drop images here, or click to select files (Max 2MB per image)
       </p>
     </Container>
   );

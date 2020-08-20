@@ -124,12 +124,12 @@ const Sell = () => {
 
     const newListing = {
       writer: userData.user.id,
-      title: title,
-      price: price,
+      title,
+      price,
       date: new Date(),
-      location: location,
-      desc: desc,
-      condition: condition,
+      location,
+      desc,
+      condition,
       cuid: cuid(),
     };
 
@@ -143,12 +143,12 @@ const Sell = () => {
         if (files.length === 0) {
           setMessage("Product successfully uploaded");
           resetForm();
-          return;
+          return undefined;
         }
         // Prepare images
         const formData = new FormData();
 
-        for (let i = 0; i < files.length; i++) {
+        for (let i = 0; i < files.length; i += 1) {
           formData.append("images", files[i]);
         }
 

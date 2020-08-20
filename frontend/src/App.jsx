@@ -42,10 +42,10 @@ function App() {
             Axios.get("http://localhost:5000/users/", {
               headers: { "x-auth-token": token },
             })
-              .then((res) => {
+              .then((userRes) => {
                 setUserData({
                   token,
-                  user: res.data,
+                  user: userRes.data,
                   loading: false,
                 });
               })
@@ -65,7 +65,7 @@ function App() {
   }, []);
 
   return (
-    <React.Fragment>
+    <>
       <UserContext.Provider value={providerValue}>
         <Navbars />
         <Switch>
@@ -82,7 +82,7 @@ function App() {
         </Switch>
         <Footers />
       </UserContext.Provider>
-    </React.Fragment>
+    </>
   );
 }
 

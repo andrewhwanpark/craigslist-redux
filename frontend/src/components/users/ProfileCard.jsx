@@ -26,7 +26,7 @@ const ProfileCard = ({ writer }) => {
           <Button variant="purple">Edit Profile</Button>
         </Link>
       </Col>
-      <hr className="mb-0" style={{ width: "100%" }}></hr>
+      <hr className="mb-0" style={{ width: "100%" }} />
     </Row>
   );
 };
