@@ -77,6 +77,7 @@ router.get("/", auth, async (req, res) => {
     image: user.image,
     sold: user.sold,
     createdAt: user.createdAt,
+    location: user.location,
   });
 });
 

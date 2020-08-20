@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Switch, Route } from "react-router-dom";
 import Axios from "axios";
-
 import Navbars from "./components/nav/Navbars";
 import Footers from "./components/Footers";
 import Home from "./components/Home";
@@ -12,7 +11,8 @@ import ListingDetail from "./components/listing/ListingDetail";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 import UserSettings from "./components/users/UserSettings";
-import ProtectedRoute from "./ProtectedRoute";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import AuthCheckRoute from "./routes/AuthCheckRoute";
 import UserContext from "./context/UserContext";
 import MyItems from "./components/users/MyItems";
 import Favorites from "./components/users/Favorites";
@@ -69,7 +69,7 @@ function App() {
       <UserContext.Provider value={providerValue}>
         <Navbars />
         <Switch>
-          <Route exact path="/" component={Home} />
+          <AuthCheckRoute exact path="/" component={Home} />
           <Route path="/about" component={About} />
           <ProtectedRoute path="/sell" component={Sell} />
           <Route path="/detail/:cuid" component={ListingDetail} />

@@ -1,25 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { isNullable } from "../utils/null-checks";
 import LocationSelector from "./shared/LocationSelector";
 
-const Sidebar = ({ setLocation }) => {
-  const [displayValue, setDisplayValue] = useState([]);
-
+const Sidebar = ({ location, setLocation }) => {
   const onChange = (e) => {
     // User clears search, show all listing
     if (isNullable(e)) {
-      setDisplayValue(null);
       setLocation(undefined);
       return;
     }
 
-    setDisplayValue([
-      {
-        label: e.label,
-        value: e.value,
-      },
-    ]);
     setLocation(e.value);
   };
 
@@ -29,7 +20,7 @@ const Sidebar = ({ setLocation }) => {
         <LocationSelector
           isClearable={true}
           onChange={onChange}
-          value={displayValue}
+          defaultValue={location}
         />
       </Col>
     </Row>

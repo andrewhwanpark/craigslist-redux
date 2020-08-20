@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Axios from "axios";
 import { Container, Row, Col } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -6,19 +6,32 @@ import Listing from "./listing/Listing";
 import UploadMessages from "./shared/UploadMessages";
 import LoadingSpinner from "./shared/LoadingSpinner";
 import Sidebar from "./Sidebar";
+import UserContext from "../context/UserContext";
+import { isDefined } from "../utils/null-checks";
 
 const Home = () => {
+  const { userData } = useContext(UserContext);
+
   const [listingData, setListingData] = useState({
     listings: [],
     loading: true,
   });
+
+  // Determines whether user is logged in, then set location
+  const decideLocation = () => {
+    if (isDefined(userData.user)) {
+      return userData.user.location;
+    } else {
+      return undefined;
+    }
+  };
 
   // Hooks for infinite scroll
   const [skip, setSkip] = useState(0);
   const [limit, setLimit] = useState(12);
   const [hasMore, setHasMore] = useState(true);
   // States for sidebar / filter
-  const [location, setLocation] = useState();
+  const [location, setLocation] = useState(decideLocation);
   // Error message
   const [message, setMessage] = useState("");
 
@@ -37,7 +50,7 @@ const Home = () => {
           });
         }
 
-        setHasMore(res.data.length > 0);
+        setHasMore(res.data.length === limit);
       })
       .catch((err) => {
         setMessage("Unable to fetch listings. Please try again");
@@ -96,7 +109,7 @@ const Home = () => {
             />
           ) : null}
           <Col xl={2} lg={2} md={12} sm={12} xs={12}>
-            <Sidebar setLocation={setLocation} />
+            <Sidebar location={location} setLocation={setLocation} />
           </Col>
 
           <Col xl={10} lg={10} md={12} sm={12} xs={12}>
