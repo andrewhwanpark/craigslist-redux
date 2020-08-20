@@ -61,7 +61,7 @@
     "prettier": "2.0.5"
   },
   "lint-staged": {
-    "**/*.+(js|md|ts|css|sass|less|graphql|yml|yaml|scss|json|vue)": [
+    "**/*.+(js|jsx|md|ts|css|sass|less|graphql|yml|yaml|scss|json|vue)": [
       "eslint --fix",
       "prettier --write",
       "git add"
