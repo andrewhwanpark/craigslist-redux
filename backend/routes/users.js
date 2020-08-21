@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const auth = require("../middleware/auth");
-let User = require("../models/user.model");
+const User = require("../models/user.model");
 const { isNullable } = require("../utils/null-check");
 
 const storage = multer.diskStorage({
@@ -16,12 +16,13 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({
-  storage: storage,
+  storage,
+  // eslint-disable-next-line consistent-return
   fileFilter: (req, file, cb) => {
     if (
-      file.mimetype == "image/png" ||
-      file.mimetype == "image/jpg" ||
-      file.mimetype == "image/jpeg"
+      file.mimetype === "image/png" ||
+      file.mimetype === "image/jpg" ||
+      file.mimetype === "image/jpeg"
     ) {
       cb(null, true);
     } else {
@@ -50,15 +51,17 @@ router.post("/uploadImage", auth, upload.single("file"), (req, res) => {
     .catch((err) => {
       res.status(500).json({ error: err.message });
     });
+
+  return res.status(500).json({ error: "Server error. Please try again" });
 });
 
 router.post("/changeInfo", auth, (req, res) => {
   const { username, email, location } = req.body;
 
   User.findByIdAndUpdate(req.user, {
-    username: username,
-    email: email,
-    location: location,
+    username,
+    email,
+    location,
   })
     .then(() => {
       res.json("Information updated");
@@ -112,7 +115,7 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({ msg: "Please select your location" });
     }
 
-    const existingUser = await User.findOne({ email: email });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res
         .status(400)
@@ -134,6 +137,8 @@ router.post("/register", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+
+  return res.status(500).json({ error: "Server error. Please try again" });
 });
 
 router.post("/login", async (req, res) => {
@@ -145,7 +150,7 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ msg: "Not all fields have been entered" });
     }
 
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email });
     if (!user) {
       return res
         .status(400)
@@ -171,6 +176,8 @@ router.post("/login", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+
+  return res.status(500).json({ error: "Server error. Please try again" });
 });
 
 router.delete("/delete", auth, async (req, res) => {
@@ -203,6 +210,8 @@ router.post("/tokenIsValid", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+
+  return res.status(500).json({ error: "Server error. Please try again" });
 });
 
 module.exports = router;

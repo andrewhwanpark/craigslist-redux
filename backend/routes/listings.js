@@ -98,10 +98,10 @@ router.post("/add/images", upload.array("images", 6), (req, res) => {
     image: uploads,
   })
     .then(() => {
-      return res.json("Images uploaded");
+      res.json("Images uploaded");
     })
     .catch((err) => {
-      return res.status(500).json({ error: err.message });
+      res.status(500).json({ error: err.message });
     });
 
   return res.status(500).json({ error: "Server erorr, please try again" });
