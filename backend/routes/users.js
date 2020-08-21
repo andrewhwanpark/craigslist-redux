@@ -51,8 +51,6 @@ router.post("/uploadImage", auth, upload.single("file"), (req, res) => {
     .catch((err) => {
       res.status(500).json({ error: err.message });
     });
-
-  return res.status(500).json({ error: "Server error. Please try again" });
 });
 
 router.post("/changeInfo", auth, (req, res) => {
@@ -137,8 +135,6 @@ router.post("/register", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-
-  return res.status(500).json({ error: "Server error. Please try again" });
 });
 
 router.post("/login", async (req, res) => {
@@ -176,8 +172,6 @@ router.post("/login", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-
-  return res.status(500).json({ error: "Server error. Please try again" });
 });
 
 router.delete("/delete", auth, async (req, res) => {
@@ -210,8 +204,6 @@ router.post("/tokenIsValid", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-
-  return res.status(500).json({ error: "Server error. Please try again" });
 });
 
 module.exports = router;

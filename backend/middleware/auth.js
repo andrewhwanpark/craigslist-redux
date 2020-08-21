@@ -21,8 +21,6 @@ const auth = (req, res, next) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-
-  return res.status(500).json({ error: "Server error. Please try again" });
 };
 
 module.exports = auth;

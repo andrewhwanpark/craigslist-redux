@@ -27,4 +27,6 @@ For those unaware of [Grailed](https://www.grailed.com/), here are some reasons 
 
 We are using the MERN stack: MongoDB, Express, React, Node
 
+The code is linted by the airbnb ESlint config: [github.com/airbnb/javascript](https://github.com/airbnb/javascript)
+
 ## TBD
