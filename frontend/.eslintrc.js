@@ -18,6 +18,5 @@ module.exports = {
   plugins: ["react"],
   rules: {
     "react/prop-types": 0,
-    "no-nested-ternary": 0,
   },
 };

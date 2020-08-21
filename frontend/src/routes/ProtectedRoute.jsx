@@ -7,13 +7,15 @@ const ProtectedRoute = ({ component }) => {
   const Component = component;
   const { userData } = useContext(UserContext);
 
-  return userData.loading ? (
-    <LoadingSpinner className="centered-on-page-spinner" />
-  ) : userData.user ? (
-    <Component />
-  ) : (
-    <Redirect to={{ pathname: "/login" }} />
-  );
+  if (userData.loading) {
+    return <LoadingSpinner className="centered-on-page-spinner" />;
+  }
+
+  if (userData.user) {
+    return <Component />;
+  }
+
+  return <Redirect to={{ pathname: "/login" }} />;
 };
 
 export default ProtectedRoute;
