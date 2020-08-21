@@ -6,11 +6,13 @@ module.exports = {
     node: true,
   },
   extends: [
-    'airbnb-base',
+    "eslint:recommended",
+    "plugin:node/recommended",
+    "airbnb-base",
+    "prettier",
   ],
   parserOptions: {
     ecmaVersion: 11,
   },
-  rules: {
-  },
+  rules: {},
 };
