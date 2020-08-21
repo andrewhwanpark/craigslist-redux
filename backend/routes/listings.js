@@ -98,11 +98,13 @@ router.post("/add/images", upload.array("images", 6), (req, res) => {
     image: uploads,
   })
     .then(() => {
-      res.json("Images uploaded");
+      return res.json("Images uploaded");
     })
     .catch((err) => {
-      res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: err.message });
     });
+
+  return undefined;
 });
 
 router.post("/add", auth, (req, res) => {

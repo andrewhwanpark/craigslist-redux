@@ -46,11 +46,13 @@ router.post("/uploadImage", auth, upload.single("file"), (req, res) => {
     },
   })
     .then(() => {
-      res.json("Profile picture updated");
+      return res.json("Profile picture updated");
     })
     .catch((err) => {
-      res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: err.message });
     });
+
+  return undefined;
 });
 
 router.post("/changeInfo", auth, (req, res) => {
@@ -131,9 +133,9 @@ router.post("/register", async (req, res) => {
     });
 
     const savedUser = await newUser.save();
-    res.json(savedUser);
+    return res.json(savedUser);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 });
 
@@ -160,7 +162,7 @@ router.post("/login", async (req, res) => {
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
-    res.json({
+    return res.json({
       token,
       user: {
         id: user._id,
@@ -170,7 +172,7 @@ router.post("/login", async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 });
 
@@ -202,7 +204,7 @@ router.post("/tokenIsValid", async (req, res) => {
 
     return res.json(true);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 });
 
