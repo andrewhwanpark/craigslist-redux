@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const auth = require("../middleware/auth");
-let Listing = require("../models/listing.model");
 const multer = require("multer");
+const auth = require("../middleware/auth");
+const Listing = require("../models/listing.model");
 const { isNullable } = require("../utils/null-check");
 
 const storage = multer.diskStorage({
@@ -14,12 +14,13 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({
-  storage: storage,
+  storage,
+  // eslint-disable-next-line consistent-return
   fileFilter: (req, file, cb) => {
     if (
-      file.mimetype == "image/png" ||
-      file.mimetype == "image/jpg" ||
-      file.mimetype == "image/jpeg"
+      file.mimetype === "image/png" ||
+      file.mimetype === "image/jpg" ||
+      file.mimetype === "image/jpeg"
     ) {
       cb(null, true);
     } else {
@@ -30,17 +31,17 @@ const upload = multer({
 });
 
 router.post("/", (req, res) => {
-  const skip = parseInt(req.body.skip);
-  const limit = parseInt(req.body.limit);
+  const skip = parseInt(req.body.skip, 10);
+  const limit = parseInt(req.body.limit, 10);
 
   // Typecheck since 0 is falsey
   const location = isNullable(req.body.location)
     ? undefined
-    : parseInt(req.body.location);
+    : parseInt(req.body.location, 10);
 
   let findArgs = {};
   if (location !== undefined) {
-    findArgs = { location: location };
+    findArgs = { location };
   }
 
   Listing.find(findArgs)
@@ -49,7 +50,7 @@ router.post("/", (req, res) => {
     .skip(skip)
     .limit(limit)
     .then((listings) => res.json(listings))
-    .catch((err) => res.status(400).json("Error: " + err));
+    .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
 router.get("/listings_by_user", (req, res) => {
@@ -64,11 +65,11 @@ router.get("/listings_by_user", (req, res) => {
 });
 
 router.get("/listings_by_id", (req, res) => {
-  const type = req.query.type;
+  // const type = req.query.type;
   const cuid = req.query.id;
 
-  if (type === "array") {
-  }
+  // if (type === "array") {
+  // }
 
   Listing.find({ cuid: { $in: cuid } })
     .populate("writer")
@@ -85,7 +86,7 @@ router.post("/add/images", upload.array("images", 6), (req, res) => {
 
   const uploads = [];
 
-  for (let i = 0; i < req.files.length; i++) {
+  for (let i = 0; i < req.files.length; i += 1) {
     uploads.push({
       fileName: req.files[i].filename,
       filePath: `uploads/${req.files[i].filename}`,
@@ -97,11 +98,13 @@ router.post("/add/images", upload.array("images", 6), (req, res) => {
     image: uploads,
   })
     .then(() => {
-      res.json("Images uploaded");
+      return res.json("Images uploaded");
     })
     .catch((err) => {
-      res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: err.message });
     });
+
+  return res.status(500).json({ error: "Server erorr, please try again" });
 });
 
 router.post("/add", auth, (req, res) => {
@@ -134,13 +137,13 @@ router.post("/add", auth, (req, res) => {
 router.route("/:id").get((req, res) => {
   Listing.findById(req.params.id)
     .then((listing) => res.json(listing))
-    .catch((err) => res.status(400).json("Error: " + err));
+    .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
 router.route("/:id").delete((req, res) => {
   Listing.findByIdAndDelete(req.params.id)
     .then(() => res.json("Listing deleted."))
-    .catch((err) => res.status(400).json("Error: " + err));
+    .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
 router.route("/update/:id").post((req, res) => {
@@ -155,9 +158,9 @@ router.route("/update/:id").post((req, res) => {
       listing
         .save()
         .then(() => res.json("Listing updated!"))
-        .catch((err) => res.status(400).json("Error: " + err));
+        .catch((err) => res.status(400).json(`Error: ${err}`));
     })
-    .catch((err) => res.status(400).json("Error: " + err));
+    .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
 module.exports = router;

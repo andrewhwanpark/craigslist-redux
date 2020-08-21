@@ -16,6 +16,8 @@ module.exports = {
   },
   rules: {
     "prefer-destructuring": 0,
+    "no-underscore-dangle": 0,
+    "no-param-reassign": 0,
     "node/exports-style": ["error", "module.exports"],
     "node/file-extension-in-import": ["error", "always"],
     "node/prefer-global/buffer": ["error", "always"],
