@@ -19,8 +19,7 @@ const FavoritesToggle = ({ id }) => {
   const isMount = useIsMount();
 
   useEffect(() => {
-    // Don't post at initial render
-    if (!isMount) {
+    const addToFavorites = () => {
       Axios.post(
         "http://localhost:5000/users/addToFavorites",
         { id },
@@ -32,6 +31,11 @@ const FavoritesToggle = ({ id }) => {
       ).catch((err) => {
         console.error(err);
       });
+    };
+
+    // Don't post at initial render
+    if (!isMount) {
+      addToFavorites();
     }
   }, [checked]);
 

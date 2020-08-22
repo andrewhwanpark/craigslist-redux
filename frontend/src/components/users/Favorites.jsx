@@ -5,11 +5,13 @@ import UserContext from "../../context/UserContext";
 import { isDefined, isNullable } from "../../utils/null-checks";
 import LoadingSpinner from "../shared/LoadingSpinner";
 import Listing from "../listing/Listing";
+import UploadMessages from "../shared/UploadMessages";
 
 const Favorites = () => {
   const { userData } = useContext(UserContext);
   const [listings, setListings] = useState();
   const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState();
 
   const favorites =
     userData.user.favorites.length === 0
@@ -25,8 +27,8 @@ const Favorites = () => {
           setListings(res.data);
           setLoading(false);
         })
-        .catch((err) => {
-          console.error(err);
+        .catch(() => {
+          setMessage("Server error. Please try again");
         });
     } else {
       setLoading(false);
@@ -42,6 +44,16 @@ const Favorites = () => {
       <h2 className="text-center my-4">Favorites</h2>
       <hr className="my-0" />
       <Row className="my-4">
+        {message ? (
+          <Col>
+            <UploadMessages
+              msg={message}
+              clearError={() => {
+                setMessage(undefined);
+              }}
+            />
+          </Col>
+        ) : null}
         {isNullable(favorites) ? (
           <Col className="text-center">
             <h4>No favorites</h4>
@@ -63,28 +75,6 @@ const Favorites = () => {
       </Row>
     </Container>
   );
-
-  // return loading ? (
-  //   <LoadingSpinner className="centered-on-page-spinner" />
-  // ) : (
-  //   <Container fluid>
-  //     <h2 className="text-center">Favorites</h2>
-  //     <Row className="my-4">
-  //       {listings.map((listing) => (
-  //         <Listing
-  //           title={listing.title}
-  //           date={listing.date}
-  //           desc={listing.desc}
-  //           price={listing.price}
-  //           image={listing.image}
-  //           location={listing.location}
-  //           id={listing._id}
-  //           key={listing._id}
-  //         />
-  //       ))}
-  //     </Row>
-  //   </Container>
-  // );
 };
 
 export default Favorites;
