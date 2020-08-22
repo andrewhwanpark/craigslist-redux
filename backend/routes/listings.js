@@ -76,6 +76,7 @@ router.get("/listings_by_id", (req, res) => {
 
   Listing.find({ _id: { $in: id } })
     .populate("writer")
+    .sort("-date")
     .exec((err, listing) => {
       if (err) return res.status(400).send(err);
       return res.status(200).send(listing);
