@@ -1,8 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { ButtonGroup, ToggleButton } from "react-bootstrap";
+import Axios from "axios";
+import useIsMount from "../../hooks/useIsMount";
+import UserContext from "../../context/UserContext";
 
-const FavoritesToggle = () => {
-  const [checked, setChecked] = useState(false);
+const FavoritesToggle = ({ id }) => {
+  const { userData } = useContext(UserContext);
+
+  const decideChecked = () => {
+    if (userData.user.favorites.includes(id)) {
+      return true;
+    }
+    return false;
+  };
+
+  const [checked, setChecked] = useState(decideChecked);
+  // Used to detect initial render of component
+  const isMount = useIsMount();
+
+  useEffect(() => {
+    // Don't post at initial render
+    if (!isMount) {
+      Axios.post(
+        "http://localhost:5000/users/addToFavorites",
+        { id },
+        {
+          headers: {
+            "x-auth-token": localStorage.getItem("auth-token"),
+          },
+        }
+      ).catch((err) => {
+        console.error(err);
+      });
+    }
+  }, [checked]);
 
   return (
     <ButtonGroup toggle style={{ float: "right" }}>

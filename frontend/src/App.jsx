@@ -43,6 +43,7 @@ function App() {
               headers: { "x-auth-token": token },
             })
               .then((userRes) => {
+                console.log(userRes.data);
                 setUserData({
                   token,
                   user: userRes.data,

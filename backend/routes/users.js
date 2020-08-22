@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const auth = require("../middleware/auth");
 const User = require("../models/user.model");
-const { isNullable } = require("../utils/null-check");
+const { isNullable, isDefined } = require("../utils/null-check");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -30,6 +30,40 @@ const upload = multer({
       return cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
     }
   },
+});
+
+router.post("/addToFavorites", auth, (req, res) => {
+  const id = req.body.id;
+
+  User.findOne({ _id: req.user, favorites: id })
+    .then((findRes) => {
+      const exists = isDefined(findRes);
+
+      if (exists === true) {
+        User.findByIdAndUpdate(req.user, {
+          $pull: { favorites: id },
+        })
+          .then(() => {
+            return res.json({ msg: "Removed from favorites" });
+          })
+          .catch((err) => {
+            return res.status(500).json({ error: err.message });
+          });
+      } else {
+        User.findByIdAndUpdate(req.user, {
+          $push: { favorites: id },
+        })
+          .then(() => {
+            return res.json({ msg: "Added to favorites" });
+          })
+          .catch((err) => {
+            return res.status(500).json({ error: err.message });
+          });
+      }
+    })
+    .catch((err) => {
+      return res.status(500).json({ error: err.message });
+    });
 });
 
 router.post("/uploadImage", auth, upload.single("file"), (req, res) => {
@@ -81,6 +115,7 @@ router.get("/", auth, async (req, res) => {
     sold: user.sold,
     createdAt: user.createdAt,
     location: user.location,
+    favorites: user.favorites,
   });
 });
 

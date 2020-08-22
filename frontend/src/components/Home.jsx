@@ -143,6 +143,7 @@ const Home = () => {
                     location={listing.location}
                     cuid={listing.cuid}
                     key={listing.cuid}
+                    id={listing._id}
                   />
                 ))}
               </Row>

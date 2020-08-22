@@ -4,7 +4,7 @@ import { Col, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import FavoritesToggle from "./FavoritesToggle";
 
-const Listing = ({ title, date, price, image, cuid }) => {
+const Listing = ({ title, date, price, image, cuid, id }) => {
   // If no images, use placeholder
   const src =
     image.length === 0
@@ -30,7 +30,7 @@ const Listing = ({ title, date, price, image, cuid }) => {
         <p className="my-0" style={{ float: "left" }}>
           <strong>${price}</strong>
         </p>
-        <FavoritesToggle />
+        <FavoritesToggle id={id} />
       </div>
     </Col>
   );
