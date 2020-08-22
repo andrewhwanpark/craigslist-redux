@@ -130,7 +130,6 @@ const Sell = () => {
       location,
       desc,
       condition,
-      cuid: cuid(),
     };
 
     Axios.post("http://localhost:5000/listings/add", newListing, {

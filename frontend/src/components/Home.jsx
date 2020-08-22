@@ -141,8 +141,7 @@ const Home = () => {
                     price={listing.price}
                     image={listing.image}
                     location={listing.location}
-                    cuid={listing.cuid}
-                    key={listing.cuid}
+                    key={listing._id}
                     id={listing._id}
                   />
                 ))}

@@ -38,8 +38,8 @@ const MyItems = () => {
             price={listing.price}
             image={listing.image}
             location={listing.location}
-            cuid={listing.cuid}
-            key={listing.cuid}
+            id={listing._id}
+            key={listing._id}
           />
         ))}
       </Row>

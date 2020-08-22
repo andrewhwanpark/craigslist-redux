@@ -65,13 +65,16 @@ router.get("/listings_by_user", (req, res) => {
 });
 
 router.get("/listings_by_id", (req, res) => {
-  // const type = req.query.type;
-  const cuid = req.query.id;
+  const type = req.query.type;
+  let id;
 
-  // if (type === "array") {
-  // }
+  if (type === "array") {
+    id = req.query.id.split(",");
+  } else {
+    id = req.query.id;
+  }
 
-  Listing.find({ cuid: { $in: cuid } })
+  Listing.find({ _id: { $in: id } })
     .populate("writer")
     .exec((err, listing) => {
       if (err) return res.status(400).send(err);

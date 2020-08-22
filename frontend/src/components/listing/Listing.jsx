@@ -4,7 +4,7 @@ import { Col, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import FavoritesToggle from "./FavoritesToggle";
 
-const Listing = ({ title, date, price, image, cuid, id }) => {
+const Listing = ({ title, date, price, image, id }) => {
   // If no images, use placeholder
   const src =
     image.length === 0
@@ -13,10 +13,7 @@ const Listing = ({ title, date, price, image, cuid, id }) => {
 
   return (
     <Col xl={2} lg={3} md={3} sm={4} xs={6} className="my-4 feed-item">
-      <Link
-        to={`/detail/${cuid}`}
-        className="listing-link text-decoration-none"
-      >
+      <Link to={`/detail/${id}`} className="listing-link text-decoration-none">
         <div className="listing-cover-photo">
           <Image src={src} className="listing-img" alt={title} />
         </div>

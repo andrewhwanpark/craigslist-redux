@@ -43,7 +43,6 @@ function App() {
               headers: { "x-auth-token": token },
             })
               .then((userRes) => {
-                console.log(userRes.data);
                 setUserData({
                   token,
                   user: userRes.data,
@@ -73,7 +72,7 @@ function App() {
           <AuthCheckRoute exact path="/" component={Home} />
           <Route path="/about" component={About} />
           <ProtectedRoute path="/sell" component={Sell} />
-          <Route path="/detail/:cuid" component={ListingDetail} />
+          <Route path="/detail/:id" component={ListingDetail} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
           <ProtectedRoute path="/users/settings" component={UserSettings} />

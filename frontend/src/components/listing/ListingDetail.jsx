@@ -8,7 +8,7 @@ import LoadingSpinner from "../shared/LoadingSpinner";
 const ListingDetail = (props) => {
   const {
     match: {
-      params: { cuid },
+      params: { id },
     },
   } = props;
   const [listing, setListing] = useState();
@@ -16,7 +16,7 @@ const ListingDetail = (props) => {
 
   useEffect(() => {
     Axios.get(
-      `http://localhost:5000/listings/listings_by_id?id=${cuid}&type=single`
+      `http://localhost:5000/listings/listings_by_id?id=${id}&type=single`
     )
       .then((res) => {
         setListing(res.data[0]);
