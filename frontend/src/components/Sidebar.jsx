@@ -2,6 +2,7 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { isNullable } from "../utils/null-checks";
 import LocationSelector from "./shared/LocationSelector";
+import CategorySelector from "./shared/CategorySelector";
 
 const Sidebar = ({ location, setLocation, setSkip }) => {
   const onChange = (e) => {
@@ -20,6 +21,12 @@ const Sidebar = ({ location, setLocation, setSkip }) => {
     <Row className="my-4">
       <Col xl={12} lg={12} md={12} sm={12} xs={12}>
         <LocationSelector
+          isClearable
+          onChange={onChange}
+          defaultValue={location}
+        />
+
+        <CategorySelector
           isClearable
           onChange={onChange}
           defaultValue={location}
