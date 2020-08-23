@@ -1,6 +1,6 @@
 import React from "react";
 import Select from "react-select";
-import cities from "../../cities";
+import cities from "../../data/cities";
 import { isNullable } from "../../utils/null-checks";
 
 const LocationSelector = ({
