@@ -27,7 +27,7 @@ const Listing = ({ title, date, price, image, id }) => {
         <p className="my-0" style={{ float: "left" }}>
           <strong>${price}</strong>
         </p>
-        <FavoritesToggle id={id} />
+        <FavoritesToggle id={id} size="1em" />
       </div>
     </Col>
   );

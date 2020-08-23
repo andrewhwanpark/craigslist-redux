@@ -204,6 +204,7 @@ router.post("/login", async (req, res) => {
         username: user.username,
         image: user.image,
         location: user.location,
+        favorites: user.favorites,
       },
     });
   } catch (err) {

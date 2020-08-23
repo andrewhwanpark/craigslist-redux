@@ -97,60 +97,58 @@ const Home = () => {
   return listingData.loading ? (
     <LoadingSpinner className="centered-on-page-spinner" />
   ) : (
-    <main>
-      <Container fluid>
-        <Row>
-          {message ? (
-            <UploadMessages
-              msg={message}
-              clearError={() => {
-                setMessage(undefined);
-              }}
-            />
-          ) : null}
-          <Col xl={2} lg={2} md={12} sm={12} xs={12}>
-            <Sidebar
-              location={location}
-              setLocation={setLocation}
-              setSkip={setSkip}
-            />
-          </Col>
+    <Container fluid>
+      <Row>
+        {message ? (
+          <UploadMessages
+            msg={message}
+            clearError={() => {
+              setMessage(undefined);
+            }}
+          />
+        ) : null}
+        <Col xl={2} lg={2} md={12} sm={12} xs={12}>
+          <Sidebar
+            location={location}
+            setLocation={setLocation}
+            setSkip={setSkip}
+          />
+        </Col>
 
-          <Col xl={10} lg={10} md={12} sm={12} xs={12}>
-            <InfiniteScroll
-              dataLength={listingData.listings.length}
-              next={fetchMore}
-              hasMore={hasMore}
-              loader={
-                <div className="text-center">
-                  <LoadingSpinner />
-                </div>
-              }
-              endMessage={
-                <p style={{ textAlign: "center" }}>
-                  <b>Yay! You have seen it all</b>
-                </p>
-              }
-            >
-              <Row>
-                {listingData.listings.map((listing) => (
-                  <Listing
-                    title={listing.title}
-                    date={listing.date}
-                    desc={listing.desc}
-                    price={listing.price}
-                    image={listing.image}
-                    location={listing.location}
-                    key={listing._id}
-                    id={listing._id}
-                  />
-                ))}
-              </Row>
-            </InfiniteScroll>
-          </Col>
-        </Row>
-      </Container>
-    </main>
+        <Col xl={10} lg={10} md={12} sm={12} xs={12}>
+          <InfiniteScroll
+            dataLength={listingData.listings.length}
+            next={fetchMore}
+            hasMore={hasMore}
+            loader={
+              <div className="text-center">
+                <LoadingSpinner />
+              </div>
+            }
+            endMessage={
+              <p style={{ textAlign: "center" }}>
+                <b>Yay! You have seen it all</b>
+              </p>
+            }
+          >
+            <Row>
+              {listingData.listings.map((listing) => (
+                <Listing
+                  title={listing.title}
+                  date={listing.date}
+                  desc={listing.desc}
+                  price={listing.price}
+                  image={listing.image}
+                  location={listing.location}
+                  key={listing._id}
+                  id={listing._id}
+                />
+              ))}
+            </Row>
+          </InfiniteScroll>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

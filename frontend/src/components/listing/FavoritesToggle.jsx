@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
 import { ButtonGroup, ToggleButton } from "react-bootstrap";
 import Axios from "axios";
-import useIsMount from "../../hooks/useIsMount";
 import UserContext from "../../context/UserContext";
+import useIsMount from "../../hooks/useIsMount";
+import { isDefined } from "../../utils/null-checks";
 
-const FavoritesToggle = ({ id }) => {
+const FavoritesToggle = ({ id, size }) => {
   const { userData } = useContext(UserContext);
 
   const decideChecked = () => {
-    if (userData.user.favorites.includes(id)) {
+    if (isDefined(userData.user) && userData.user.favorites.includes(id)) {
       return true;
     }
     return false;
@@ -49,8 +50,8 @@ const FavoritesToggle = ({ id }) => {
       >
         {checked ? (
           <svg
-            width="1em"
-            height="1em"
+            width={size}
+            height={size}
             viewBox="0 0 16 16"
             className="bi bi-star-fill"
             fill="currentColor"
@@ -60,8 +61,8 @@ const FavoritesToggle = ({ id }) => {
           </svg>
         ) : (
           <svg
-            width="1em"
-            height="1em"
+            width={size}
+            height={size}
             viewBox="0 0 16 16"
             className="bi bi-star"
             fill="currentColor"

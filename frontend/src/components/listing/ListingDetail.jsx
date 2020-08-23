@@ -4,6 +4,7 @@ import { Container, Row, Col, Breadcrumb, Button } from "react-bootstrap";
 import ListingImageCarousel from "./ListingImageCarousel";
 import ListingUserInfo from "./ListingUserInfo";
 import LoadingSpinner from "../shared/LoadingSpinner";
+import FavoritesToggle from "./FavoritesToggle";
 
 const ListingDetail = (props) => {
   const {
@@ -42,7 +43,10 @@ const ListingDetail = (props) => {
           )}
         </Col>
         <Col lg={5}>
-          <h3>{listing.title}</h3>
+          <div style={{ overflow: "hidden" }}>
+            <h3 style={{ float: "left" }}>{listing.title}</h3>
+            <FavoritesToggle id={listing._id} size="1.5em" />
+          </div>
           <p>{`$${listing.price}`}</p>
 
           <Button variant="purple" size="lg" block>
