@@ -15,7 +15,6 @@ const listingSchema = new Schema(
     image: { type: Array, default: [], required: false },
     desc: { type: String, required: false },
     location: { type: Number, required: true },
-    cuid: { type: String, required: true },
   },
   {
     timestamps: true,

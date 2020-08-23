@@ -129,3 +129,40 @@ div.listing-cover-photo {
 .z-index-fix {
   z-index: 9999;
 }
+
+/* Favorites heart icon toggle styles */
+.heart-toggle {
+  color: #212529;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.heart-toggle:hover {
+  color: #212529;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.heart-toggle:active {
+  color: #212529 !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+.heart-toggle:focus {
+  color: #212529 !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+.heart-toggle.btn.active.btn-primary {
+  color: #212529 !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+.heart-toggle.btn.focus.btn-primary {
+  color: #212529 !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}

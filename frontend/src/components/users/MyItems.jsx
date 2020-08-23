@@ -1,27 +1,34 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Container, Row } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import Axios from "axios";
 import UserContext from "../../context/UserContext";
 import LoadingSpinner from "../shared/LoadingSpinner";
 import Listing from "../listing/Listing";
 import ProfileCard from "./ProfileCard";
+import UploadMessages from "../shared/UploadMessages";
 
 const MyItems = () => {
   const { userData } = useContext(UserContext);
   const [listings, setListings] = useState();
   const [loading, setLoading] = useState(true);
+  // Error message
+  const [message, setMessage] = useState();
 
   useEffect(() => {
-    Axios.get(
-      `http://localhost:5000/listings/listings_by_user?id=${userData.user.id}`
-    )
-      .then((res) => {
-        setListings(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    const getMyItems = () => {
+      Axios.get(
+        `http://localhost:5000/listings/listings_by_user?id=${userData.user.id}`
+      )
+        .then((res) => {
+          setListings(res.data);
+          setLoading(false);
+        })
+        .catch(() => {
+          setMessage("Server error. Please try again");
+        });
+    };
+
+    getMyItems();
   }, []);
 
   return loading ? (
@@ -30,6 +37,16 @@ const MyItems = () => {
     <Container fluid>
       <ProfileCard writer={userData.user} />
       <Row className="my-4">
+        {message ? (
+          <Col>
+            <UploadMessages
+              msg={message}
+              clearError={() => {
+                setMessage(undefined);
+              }}
+            />
+          </Col>
+        ) : null}
         {listings.map((listing) => (
           <Listing
             title={listing.title}
@@ -38,8 +55,8 @@ const MyItems = () => {
             price={listing.price}
             image={listing.image}
             location={listing.location}
-            cuid={listing.cuid}
-            key={listing.cuid}
+            id={listing._id}
+            key={listing._id}
           />
         ))}
       </Row>

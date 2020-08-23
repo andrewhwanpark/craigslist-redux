@@ -1,21 +1,27 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useContext } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import LoadingSpinner from "../components/shared/LoadingSpinner";
 
-const ProtectedRoute = ({ component }) => {
-  const Component = component;
+const ProtectedRoute = ({ component: Component, ...rest }) => {
   const { userData } = useContext(UserContext);
 
-  if (userData.loading) {
-    return <LoadingSpinner className="centered-on-page-spinner" />;
-  }
-
-  if (userData.user) {
-    return <Component />;
-  }
-
-  return <Redirect to={{ pathname: "/login" }} />;
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        userData.loading ? (
+          <LoadingSpinner className="centered-on-page-spinner" />
+        ) : userData.user ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to={{ pathname: "/login" }} />
+        )
+      }
+    />
+  );
 };
 
 export default ProtectedRoute;

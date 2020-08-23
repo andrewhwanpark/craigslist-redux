@@ -24,7 +24,7 @@ const Sell = () => {
   const [images, setImages] = useState([]);
   const [files, setFiles] = useState([]);
   // Error message
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState();
   // Max number of images to be uploaded
   const MAXFILES = 6;
   // Counter to track # of images
@@ -130,7 +130,6 @@ const Sell = () => {
       location,
       desc,
       condition,
-      cuid: cuid(),
     };
 
     Axios.post("http://localhost:5000/listings/add", newListing, {
@@ -170,9 +169,8 @@ const Sell = () => {
         setFiles([]);
         resetForm();
       })
-      .catch((err) => {
+      .catch(() => {
         setMessage("Server Error: Failed to upload");
-        console.error(err);
       });
   };
 

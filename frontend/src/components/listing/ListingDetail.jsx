@@ -4,11 +4,12 @@ import { Container, Row, Col, Breadcrumb, Button } from "react-bootstrap";
 import ListingImageCarousel from "./ListingImageCarousel";
 import ListingUserInfo from "./ListingUserInfo";
 import LoadingSpinner from "../shared/LoadingSpinner";
+import FavoritesToggle from "./FavoritesToggle";
 
 const ListingDetail = (props) => {
   const {
     match: {
-      params: { cuid },
+      params: { id },
     },
   } = props;
   const [listing, setListing] = useState();
@@ -16,7 +17,7 @@ const ListingDetail = (props) => {
 
   useEffect(() => {
     Axios.get(
-      `http://localhost:5000/listings/listings_by_id?id=${cuid}&type=single`
+      `http://localhost:5000/listings/listings_by_id?id=${id}&type=single`
     )
       .then((res) => {
         setListing(res.data[0]);
@@ -42,7 +43,10 @@ const ListingDetail = (props) => {
           )}
         </Col>
         <Col lg={5}>
-          <h3>{listing.title}</h3>
+          <div style={{ overflow: "hidden" }}>
+            <h3 style={{ float: "left" }}>{listing.title}</h3>
+            <FavoritesToggle id={listing._id} size="1.5em" />
+          </div>
           <p>{`$${listing.price}`}</p>
 
           <Button variant="purple" size="lg" block>

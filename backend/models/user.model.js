@@ -37,7 +37,16 @@ const userSchema = new Schema(
         required: true,
       },
     },
-    sold: { type: Number, default: 0, required: true },
+    sold: {
+      type: Number,
+      default: 0,
+      required: true,
+    },
+    favorites: {
+      type: Array,
+      default: [],
+      required: true,
+    },
   },
   {
     timestamps: true,
