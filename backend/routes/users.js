@@ -105,6 +105,18 @@ router.post("/changeInfo", auth, (req, res) => {
     });
 });
 
+router.get("/find_by_username", (req, res) => {
+  const user = req.query.username;
+
+  User.find({ username: user })
+    .then((userRes) => {
+      res.json(userRes);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+});
+
 router.get("/", auth, async (req, res) => {
   const user = await User.findById(req.user);
 

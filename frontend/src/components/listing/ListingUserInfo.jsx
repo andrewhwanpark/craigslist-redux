@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Image } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const ListingUserInfo = ({ writer }) => {
   return (
@@ -12,9 +13,11 @@ const ListingUserInfo = ({ writer }) => {
         className="mr-2"
         style={{ float: "left" }}
       />
-      <span>
-        {writer.username} ({writer.sold})
-      </span>
+      <Link to={`/${writer.username}`}>
+        <span>
+          {writer.username} ({writer.sold})
+        </span>
+      </Link>
       <br />
       <span>0 listings for sale</span>
     </Container>
