@@ -2,6 +2,7 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { isNullable } from "../utils/null-checks";
 import LocationSelector from "./shared/LocationSelector";
+import CategorySelector from "./shared/CategorySelector";
 
 const Sidebar = ({ location, setLocation, setSkip }) => {
   const onChange = (e) => {
@@ -24,6 +25,7 @@ const Sidebar = ({ location, setLocation, setSkip }) => {
           onChange={onChange}
           defaultValue={location}
         />
+        <CategorySelector />
       </Col>
     </Row>
   );
