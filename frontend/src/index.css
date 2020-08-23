@@ -166,3 +166,7 @@ div.listing-cover-photo {
   background-color: transparent !important;
   border-color: transparent !important;
 }
+
+.link-no-style {
+  color: #212529;
+}
