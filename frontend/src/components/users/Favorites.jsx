@@ -42,6 +42,11 @@ const Favorites = () => {
   return (
     <Container fluid>
       <h2 className="text-center my-4">Favorites</h2>
+      <h5 className="text-center mb-4">
+        <small className="text-muted">
+          Click the star icon in listings to favorite and unfavorite them
+        </small>
+      </h5>
       <hr className="my-0" />
       <Row className="my-4">
         {message ? (
