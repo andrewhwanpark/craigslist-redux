@@ -2,6 +2,7 @@ const router = require("express").Router();
 const multer = require("multer");
 const auth = require("../middleware/auth");
 const Listing = require("../models/listing.model");
+const User = require("../models/user.model");
 const { isNullable } = require("../utils/null-check");
 
 const storage = multer.diskStorage({
@@ -121,6 +122,11 @@ router.post("/add", auth, (req, res) => {
   const desc = req.body.desc;
   const location = req.body.location;
   const cuid = req.body.cuid;
+
+  // Increment forSale of user
+  User.findByIdAndUpdate(req.user, { $inc: { forSale: 1 } }).catch((err) => {
+    return res.status(500).json({ error: err.message });
+  });
 
   const newListing = new Listing({
     writer,

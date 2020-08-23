@@ -125,6 +125,7 @@ router.get("/", auth, async (req, res) => {
     id: user._id,
     image: user.image,
     sold: user.sold,
+    forSale: user.forSale,
     createdAt: user.createdAt,
     location: user.location,
     favorites: user.favorites,
@@ -216,6 +217,7 @@ router.post("/login", async (req, res) => {
         username: user.username,
         image: user.image,
         location: user.location,
+        forSale: user.forSale,
         favorites: user.favorites,
       },
     });
