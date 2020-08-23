@@ -60,17 +60,6 @@ const Home = () => {
 
   useEffect(() => {
     const variables = {
-      skip,
-      limit,
-      location,
-      fetchMore: true,
-    };
-
-    getListings(variables);
-  }, []);
-
-  useEffect(() => {
-    const variables = {
       skip: 0,
       limit,
       location,
