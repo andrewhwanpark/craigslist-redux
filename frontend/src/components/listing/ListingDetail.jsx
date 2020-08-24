@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
-import { Container, Row, Col, Breadcrumb, Button } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import ListingImageCarousel from "./ListingImageCarousel";
 import ListingUserInfo from "./ListingUserInfo";
 import LoadingSpinner from "../shared/LoadingSpinner";
 import FavoritesToggle from "./FavoritesToggle";
+import ListingBreadcrumb from "./ListingBreadcrumb";
 
 const ListingDetail = (props) => {
   const {
@@ -32,10 +33,7 @@ const ListingDetail = (props) => {
     <LoadingSpinner className="centered-on-page-spinner" />
   ) : (
     <Container fluid className="my-4">
-      <Breadcrumb>
-        <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
-        <Breadcrumb.Item active>{listing.title}</Breadcrumb.Item>
-      </Breadcrumb>
+      <ListingBreadcrumb listing={listing} />
       <Row>
         <Col lg={7}>
           {listing.image.length === 0 ? null : (
