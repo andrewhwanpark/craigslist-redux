@@ -18,17 +18,19 @@ const Sidebar = ({ location, setLocation, setSkip }) => {
   };
 
   return (
-    <Row className="my-4">
-      <Col xl={12} lg={12} md={12} sm={12} xs={12}>
+    <Row className="mt-4">
+      <Col className="my-2" xl={12} lg={12} md={6} sm={6} xs={6}>
         <LocationSelector
           isClearable
           onChange={onLocationChange}
           defaultValue={location}
         />
+      </Col>
+      <Col className="my-2" xl={12} lg={12} md={6} sm={6} xs={6}>
         <CategorySelector
           isClearable
           isMulti
-          className="mt-2 basic-multi-select"
+          className="basic-multi-select"
           classNamePrefix="select"
         />
       </Col>

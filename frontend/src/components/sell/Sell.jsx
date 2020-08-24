@@ -11,6 +11,7 @@ import ImageList from "./ImageList";
 import UploadMessages from "../shared/UploadMessages";
 import { isNullable } from "../../utils/null-checks";
 import LocationSelector from "../shared/LocationSelector";
+import CategorySelector from "../shared/CategorySelector";
 
 const Sell = () => {
   // Context
@@ -19,6 +20,7 @@ const Sell = () => {
   const [title, setTitle] = useState();
   const [price, setPrice] = useState();
   const [location, setLocation] = useState();
+  const [category, setCategory] = useState();
   const [desc, setDesc] = useState();
   const [condition, setCondition] = useState();
   const [images, setImages] = useState([]);
@@ -103,6 +105,7 @@ const Sell = () => {
       isNullable(title) ||
       isNullable(price) ||
       isNullable(location) ||
+      isNullable(category) ||
       isNullable(condition) ||
       condition === "Choose..."
     ) {
@@ -128,6 +131,7 @@ const Sell = () => {
       price,
       date: new Date(),
       location,
+      category,
       desc,
       condition,
     };
@@ -210,12 +214,24 @@ const Sell = () => {
                   }}
                 />
               </Form.Group>
+            </Form.Row>
 
+            <Form.Row>
               <Form.Group as={Col} controlId="formZipcode">
                 <Form.Label>Location</Form.Label>
                 <LocationSelector
                   onChange={(e) => {
                     setLocation(e.value);
+                  }}
+                />
+              </Form.Group>
+
+              <Form.Group as={Col} controlId="formCategory">
+                <Form.Label>Category</Form.Label>
+                <CategorySelector
+                  isMulti={false}
+                  onChange={(e) => {
+                    setCategory(e.value);
                   }}
                 />
               </Form.Group>
