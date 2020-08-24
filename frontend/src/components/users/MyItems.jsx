@@ -48,18 +48,24 @@ const MyItems = () => {
             />
           </Col>
         ) : null}
-        {listings.map((listing) => (
-          <Listing
-            title={listing.title}
-            date={listing.date}
-            desc={listing.desc}
-            price={listing.price}
-            image={listing.image}
-            location={listing.location}
-            id={listing._id}
-            key={listing._id}
-          />
-        ))}
+        {listings.length === 0 ? (
+          <Col className="text-center">
+            <h4>You haven&apos;t posted any listings</h4>
+          </Col>
+        ) : (
+          listings.map((listing) => (
+            <Listing
+              title={listing.title}
+              date={listing.date}
+              desc={listing.desc}
+              price={listing.price}
+              image={listing.image}
+              location={listing.location}
+              id={listing._id}
+              key={listing._id}
+            />
+          ))
+        )}
       </Row>
     </Container>
   );
