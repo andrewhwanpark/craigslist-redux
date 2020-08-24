@@ -4,7 +4,7 @@ import { isNullable } from "../utils/null-checks";
 import LocationSelector from "./shared/LocationSelector";
 import CategorySelector from "./shared/CategorySelector";
 
-const Sidebar = ({ location, setLocation, setSkip }) => {
+const Sidebar = ({ location, setLocation, setCategories, setSkip }) => {
   const onLocationChange = (e) => {
     // If user clears search, show listings from all locations
     // e will be null when user clears react-select form
@@ -15,6 +15,16 @@ const Sidebar = ({ location, setLocation, setSkip }) => {
     }
 
     setLocation(e.value);
+  };
+
+  const onCategoriesChange = (e) => {
+    if (isNullable(e)) {
+      setCategories([]);
+      setSkip(0);
+      return;
+    }
+
+    setCategories(e.map((category) => category.value));
   };
 
   return (
@@ -30,6 +40,7 @@ const Sidebar = ({ location, setLocation, setSkip }) => {
         <CategorySelector
           isClearable
           isMulti
+          onChange={onCategoriesChange}
           className="basic-multi-select"
           classNamePrefix="select"
         />

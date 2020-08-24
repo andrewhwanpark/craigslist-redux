@@ -45,6 +45,10 @@ router.post("/", (req, res) => {
     findArgs = { location };
   }
 
+  if (req.body.categories.length !== 0) {
+    findArgs.category = { $in: req.body.categories };
+  }
+
   Listing.find(findArgs)
     .populate("writer")
     .sort("-date")
