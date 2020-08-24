@@ -45,6 +45,10 @@ router.post("/", (req, res) => {
     findArgs = { location };
   }
 
+  if (req.body.categories.length !== 0) {
+    findArgs.category = { $in: req.body.categories };
+  }
+
   Listing.find(findArgs)
     .populate("writer")
     .sort("-date")
@@ -119,9 +123,9 @@ router.post("/add", auth, (req, res) => {
   const price = req.body.price;
   const date = Date.parse(req.body.date);
   const condition = req.body.condition;
+  const category = req.body.category;
   const desc = req.body.desc;
   const location = req.body.location;
-  const cuid = req.body.cuid;
 
   // Increment forSale of user
   User.findByIdAndUpdate(req.user, { $inc: { forSale: 1 } }).catch((err) => {
@@ -134,9 +138,9 @@ router.post("/add", auth, (req, res) => {
     price,
     date,
     condition,
+    category,
     desc,
     location,
-    cuid,
   });
 
   newListing

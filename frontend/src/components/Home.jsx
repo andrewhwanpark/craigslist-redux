@@ -32,6 +32,7 @@ const Home = () => {
   const [hasMore, setHasMore] = useState(true);
   // States for sidebar / filter
   const [location, setLocation] = useState(decideLocation);
+  const [categories, setCategories] = useState([]);
   // Error message
   const [message, setMessage] = useState("");
 
@@ -63,11 +64,12 @@ const Home = () => {
       skip: 0,
       limit,
       location,
+      categories,
       fetchMore: false,
     };
 
     getListings(variables);
-  }, [location]);
+  }, [location, categories]);
 
   const fetchMore = () => {
     const newSkip = skip + limit;
@@ -77,6 +79,7 @@ const Home = () => {
       skip: newSkip,
       limit,
       location,
+      categories,
       fetchMore: true,
     };
 
@@ -100,6 +103,8 @@ const Home = () => {
           <Sidebar
             location={location}
             setLocation={setLocation}
+            categories={categories}
+            setCategories={setCategories}
             setSkip={setSkip}
           />
         </Col>

@@ -2,9 +2,10 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { isNullable } from "../utils/null-checks";
 import LocationSelector from "./shared/LocationSelector";
+import CategorySelector from "./shared/CategorySelector";
 
-const Sidebar = ({ location, setLocation, setSkip }) => {
-  const onChange = (e) => {
+const Sidebar = ({ location, setLocation, setCategories, setSkip }) => {
+  const onLocationChange = (e) => {
     // If user clears search, show listings from all locations
     // e will be null when user clears react-select form
     if (isNullable(e)) {
@@ -16,13 +17,32 @@ const Sidebar = ({ location, setLocation, setSkip }) => {
     setLocation(e.value);
   };
 
+  const onCategoriesChange = (e) => {
+    if (isNullable(e)) {
+      setCategories([]);
+      setSkip(0);
+      return;
+    }
+
+    setCategories(e.map((category) => category.value));
+  };
+
   return (
-    <Row className="my-4">
-      <Col xl={12} lg={12} md={12} sm={12} xs={12}>
+    <Row className="mt-4">
+      <Col className="my-2" xl={12} lg={12} md={6} sm={6} xs={6}>
         <LocationSelector
           isClearable
-          onChange={onChange}
+          onChange={onLocationChange}
           defaultValue={location}
+        />
+      </Col>
+      <Col className="my-2" xl={12} lg={12} md={6} sm={6} xs={6}>
+        <CategorySelector
+          isClearable
+          isMulti
+          onChange={onCategoriesChange}
+          className="basic-multi-select"
+          classNamePrefix="select"
         />
       </Col>
     </Row>
