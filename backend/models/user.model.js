@@ -42,6 +42,11 @@ const userSchema = new Schema(
       default: 0,
       required: true,
     },
+    forSale: {
+      type: Number,
+      default: 0,
+      required: true,
+    },
     favorites: {
       type: Array,
       default: [],

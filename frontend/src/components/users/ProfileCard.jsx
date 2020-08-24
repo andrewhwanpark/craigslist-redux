@@ -3,7 +3,7 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import { Row, Col, Image, Button } from "react-bootstrap";
 
-const ProfileCard = ({ writer }) => {
+const ProfileCard = ({ writer, hideEditButton }) => {
   return (
     <Row className="mt-4">
       <Col lg={12} className="d-flex align-items-center">
@@ -22,9 +22,11 @@ const ProfileCard = ({ writer }) => {
           <br />
           Sold {writer.sold} items
         </span>
-        <Link to="/users/settings" className="ml-auto">
-          <Button variant="purple">Edit Profile</Button>
-        </Link>
+        {hideEditButton ? null : (
+          <Link to="/users/settings" className="ml-auto">
+            <Button variant="purple">Edit Profile</Button>
+          </Link>
+        )}
       </Col>
       <hr className="mb-0" style={{ width: "100%" }} />
     </Row>

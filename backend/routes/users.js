@@ -105,6 +105,18 @@ router.post("/changeInfo", auth, (req, res) => {
     });
 });
 
+router.get("/find_by_username", (req, res) => {
+  const user = req.query.username;
+
+  User.find({ username: user })
+    .then((userRes) => {
+      res.json(userRes);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+});
+
 router.get("/", auth, async (req, res) => {
   const user = await User.findById(req.user);
 
@@ -113,6 +125,7 @@ router.get("/", auth, async (req, res) => {
     id: user._id,
     image: user.image,
     sold: user.sold,
+    forSale: user.forSale,
     createdAt: user.createdAt,
     location: user.location,
     favorites: user.favorites,
@@ -204,6 +217,7 @@ router.post("/login", async (req, res) => {
         username: user.username,
         image: user.image,
         location: user.location,
+        forSale: user.forSale,
         favorites: user.favorites,
       },
     });

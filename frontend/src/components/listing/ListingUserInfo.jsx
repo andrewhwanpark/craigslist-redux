@@ -1,9 +1,13 @@
 import React from "react";
-import { Container, Image } from "react-bootstrap";
+import { Image } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const ListingUserInfo = ({ writer }) => {
   return (
-    <Container fluid>
+    <Link
+      to={`/${writer.username}`}
+      className="link-no-style text-decoration-none"
+    >
       <Image
         src={`http://localhost:5000/${writer.image.filePath}`}
         roundedCircle
@@ -13,11 +17,13 @@ const ListingUserInfo = ({ writer }) => {
         style={{ float: "left" }}
       />
       <span>
-        {writer.username} ({writer.sold})
+        <strong>
+          {writer.username} ({writer.sold})
+        </strong>
       </span>
       <br />
-      <span>0 listings for sale</span>
-    </Container>
+      <span>{writer.forSale} listings for sale</span>
+    </Link>
   );
 };
 
