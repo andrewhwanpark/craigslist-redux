@@ -1,8 +1,11 @@
 import React from "react";
 import Select from "react-select";
+import makeAnimated from "react-select/animated";
 import categories from "../../data/categories";
 
 const CategorySelector = ({ onChange, className, isClearable, isMulti }) => {
+  const animatedComponents = makeAnimated();
+
   const groupStyles = {
     display: "flex",
     alignItems: "center",
@@ -33,6 +36,7 @@ const CategorySelector = ({ onChange, className, isClearable, isMulti }) => {
     <Select
       isSearchable
       options={categories}
+      components={animatedComponents}
       isClearable={isClearable}
       isMulti={isMulti}
       placeholder="Search for categories"
