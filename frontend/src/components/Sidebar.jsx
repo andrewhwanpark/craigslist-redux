@@ -5,7 +5,7 @@ import LocationSelector from "./shared/LocationSelector";
 import CategorySelector from "./shared/CategorySelector";
 
 const Sidebar = ({ location, setLocation, setSkip }) => {
-  const onChange = (e) => {
+  const onLocationChange = (e) => {
     // If user clears search, show listings from all locations
     // e will be null when user clears react-select form
     if (isNullable(e)) {
@@ -22,10 +22,15 @@ const Sidebar = ({ location, setLocation, setSkip }) => {
       <Col xl={12} lg={12} md={12} sm={12} xs={12}>
         <LocationSelector
           isClearable
-          onChange={onChange}
+          onChange={onLocationChange}
           defaultValue={location}
         />
-        <CategorySelector />
+        <CategorySelector
+          isClearable
+          isMulti
+          className="mt-2 basic-multi-select"
+          classNamePrefix="select"
+        />
       </Col>
     </Row>
   );
