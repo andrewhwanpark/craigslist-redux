@@ -3,7 +3,7 @@ import { Image, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import UserContext from "../../context/UserContext";
 
-const Avatar = (props) => {
+const Avatar = ({ logout }) => {
   const { userData } = useContext(UserContext);
 
   return (
@@ -30,7 +30,7 @@ const Avatar = (props) => {
         Settings
       </NavDropdown.Item>
       <NavDropdown.Divider />
-      <NavDropdown.Item onClick={props.logout}>Logout</NavDropdown.Item>
+      <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
     </NavDropdown>
   );
 };

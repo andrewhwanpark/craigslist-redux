@@ -7,6 +7,7 @@ import UploadMessages from "../shared/UploadMessages";
 import Progress from "./Progress";
 import { isNullable } from "../../utils/null-checks";
 import LocationSelector from "../shared/LocationSelector";
+import ProfileCard from "./ProfileCard";
 
 const UserSettings = () => {
   bsCustomFileInput.init();
@@ -83,6 +84,8 @@ const UserSettings = () => {
 
   return (
     <Container fluid>
+      <ProfileCard writer={userData.user} hideEditButton />
+
       <Row className="my-4">
         <Col lg={12}>
           <h2>Edit Your Info</h2>
@@ -126,6 +129,7 @@ const UserSettings = () => {
                   onChange={(e) => {
                     setRegion(e.value);
                   }}
+                  defaultValue={userData.user.location}
                   className="z-index-fix"
                 />
               </Form.Group>
