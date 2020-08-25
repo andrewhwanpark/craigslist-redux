@@ -35,12 +35,12 @@ const ListingDetail = (props) => {
     <Container fluid className="my-4">
       <ListingBreadcrumb listing={listing} />
       <Row>
-        <Col lg={7}>
+        <Col xl={9} lg={8} md={8} sm={12} xs={12}>
           {listing.image.length === 0 ? null : (
             <ListingImageCarousel imgs={listing.image} />
           )}
         </Col>
-        <Col lg={5}>
+        <Col xl={3} lg={4} md={4} sm={12} xs={12}>
           <div style={{ overflow: "hidden" }}>
             <h3 style={{ float: "left" }}>{listing.title}</h3>
             <FavoritesToggle id={listing._id} size="1.5em" />

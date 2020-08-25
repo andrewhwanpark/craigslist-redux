@@ -1,10 +1,7 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
-import UserContext from "../../context/UserContext";
-
-// Import Bootstrap styles
+import { Link, useHistory } from "react-router-dom";
 import { Navbar, Nav } from "react-bootstrap";
+import UserContext from "../../context/UserContext";
 import Avatar from "./Avatar";
 
 const Navbars = () => {
@@ -50,14 +47,14 @@ const Navbars = () => {
           {userData.user ? (
             <Avatar logout={logout} />
           ) : (
-            <React.Fragment>
+            <>
               <Nav.Link as={Link} to="/login">
                 Login
               </Nav.Link>
               <Nav.Link as={Link} to="/signup">
                 Sign Up
               </Nav.Link>
-            </React.Fragment>
+            </>
           )}
         </Nav>
       </Navbar>
