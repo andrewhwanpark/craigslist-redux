@@ -5,6 +5,7 @@ import LoadingSpinner from "../shared/LoadingSpinner";
 import ProfileCard from "./ProfileCard";
 import Listing from "../listing/Listing";
 import UploadMessages from "../shared/UploadMessages";
+import Default from "../Default";
 
 const Seller = (props) => {
   const {
@@ -18,6 +19,8 @@ const Seller = (props) => {
   const [loading, setLoading] = useState(true);
   // Error message
   const [message, setMessage] = useState();
+  // 404
+  const [noRoute, setNoRoute] = useState(false);
 
   useEffect(() => {
     const getSellerListings = () => {
@@ -25,6 +28,11 @@ const Seller = (props) => {
         `http://localhost:5000/users/find_by_username?username=${username}`
       )
         .then((res) => {
+          // 404
+          if (res.data.length === 0) {
+            setNoRoute(true);
+            return undefined;
+          }
           setWriter(res.data[0]);
 
           return Axios.get(
@@ -43,6 +51,9 @@ const Seller = (props) => {
 
     getSellerListings();
   }, []);
+
+  // Handle 404 error
+  if (noRoute) return <Default />;
 
   return loading ? (
     <LoadingSpinner className="centered-on-page-spinner" />

@@ -71,14 +71,18 @@ function App() {
         <Navbars />
         <Switch>
           <AuthCheckRoute exact path="/" component={Home} />
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={Signup} />
-          <Route path="/about" component={About} />
-          <ProtectedRoute path="/sell" component={Sell} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={Signup} />
+          <Route exact path="/about" component={About} />
+          <ProtectedRoute exact path="/sell" component={Sell} />
           <AuthCheckRoute path="/detail/:id" component={ListingDetail} />
-          <ProtectedRoute path="/users/settings" component={UserSettings} />
-          <ProtectedRoute path="/users/myitems" component={MyItems} />
-          <ProtectedRoute path="/users/favorites" component={Favorites} />
+          <ProtectedRoute
+            exact
+            path="/users/settings"
+            component={UserSettings}
+          />
+          <ProtectedRoute exact path="/users/myitems" component={MyItems} />
+          <ProtectedRoute exact path="/users/favorites" component={Favorites} />
           <Route path="/:username" component={Seller} />
           <Route component={Default} />
         </Switch>
