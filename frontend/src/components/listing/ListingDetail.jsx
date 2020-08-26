@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Axios from "axios";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import ListingImageCarousel from "./ListingImageCarousel";
@@ -6,6 +6,7 @@ import ListingUserInfo from "./ListingUserInfo";
 import LoadingSpinner from "../shared/LoadingSpinner";
 import FavoritesToggle from "./FavoritesToggle";
 import ListingBreadcrumb from "./ListingBreadcrumb";
+import UserContext from "../../context/UserContext";
 
 const ListingDetail = (props) => {
   const {
@@ -13,6 +14,10 @@ const ListingDetail = (props) => {
       params: { id },
     },
   } = props;
+
+  const { userData } = useContext(UserContext);
+
+  const [userIsWriter, setUserIsWriter] = useState(false);
   const [listing, setListing] = useState();
   const [loading, setLoading] = useState(true);
 
@@ -21,6 +26,10 @@ const ListingDetail = (props) => {
       `http://localhost:5000/listings/listings_by_id?id=${id}&type=single`
     )
       .then((res) => {
+        // Check if user is the writer of the listing
+        if (res.data[0].writer._id === userData.user.id) {
+          setUserIsWriter(true);
+        }
         setListing(res.data[0]);
         setLoading(false);
       })
@@ -47,12 +56,25 @@ const ListingDetail = (props) => {
           </div>
           <p>{`$${listing.price}`}</p>
 
-          <Button variant="purple" size="lg" block>
-            Offer
-          </Button>
-          <Button variant="outline-purple" size="lg" block>
-            Message
-          </Button>
+          {userIsWriter ? (
+            <>
+              <Button variant="purple" size="lg" block>
+                Edit
+              </Button>
+              <Button variant="outline-purple" size="lg" block>
+                Delete
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button variant="purple" size="lg" block>
+                Offer
+              </Button>
+              <Button variant="outline-purple" size="lg" block>
+                Message
+              </Button>
+            </>
+          )}
 
           <p className="font-weight-bold my-4">Description</p>
           <p>{listing.desc}</p>

@@ -17,6 +17,7 @@ import UserContext from "./context/UserContext";
 import MyItems from "./components/users/MyItems";
 import Favorites from "./components/users/Favorites";
 import Seller from "./components/users/Seller";
+import EditListing from "./components/listing/EditListing";
 
 function App() {
   const [userData, setUserData] = useState({
@@ -75,7 +76,9 @@ function App() {
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/about" component={About} />
           <ProtectedRoute exact path="/sell" component={Sell} />
-          <AuthCheckRoute path="/detail/:id" component={ListingDetail} />
+          <Route exact path="/:username" component={Seller} />
+          <AuthCheckRoute exact path="/detail/:id" component={ListingDetail} />
+          <ProtectedRoute exact path="/detail/:id/edit" component={Sell} />
           <ProtectedRoute
             exact
             path="/users/settings"
@@ -83,7 +86,6 @@ function App() {
           />
           <ProtectedRoute exact path="/users/myitems" component={MyItems} />
           <ProtectedRoute exact path="/users/favorites" component={Favorites} />
-          <Route path="/:username" component={Seller} />
           <Route component={Default} />
         </Switch>
         <Footers />

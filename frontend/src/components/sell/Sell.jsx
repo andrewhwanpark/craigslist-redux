@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useCallback, useContext, useRef } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import Axios from "axios";
 import cuid from "cuid";
@@ -25,12 +25,15 @@ const Sell = () => {
   const [condition, setCondition] = useState();
   const [images, setImages] = useState([]);
   const [files, setFiles] = useState([]);
+
   // Error message
   const [message, setMessage] = useState();
+
   // Max number of images to be uploaded
   const MAXFILES = 6;
+
   // Counter to track # of images
-  let imgCount = 0;
+  const imageCount = useRef(0);
 
   const resetForm = () => {
     document.getElementById("create-listing-form").reset();
@@ -72,11 +75,11 @@ const Sell = () => {
     }
 
     // Increment image count
-    imgCount += acceptedFiles.length;
+    imageCount.current += acceptedFiles.length;
     // Return if image count exceeds max
-    if (imgCount > MAXFILES) {
+    if (imageCount.current > MAXFILES) {
       setMessage(`Please upload less or equal to ${MAXFILES} images`);
-      imgCount -= acceptedFiles.length;
+      imageCount.current -= acceptedFiles.length;
       return;
     }
 
@@ -178,6 +181,21 @@ const Sell = () => {
       });
   };
 
+  // Delete image when user clicks "X"
+  const onDelete = (index) => {
+    // Decrement imgCount local var
+    imageCount.current -= 1;
+
+    const newImages = [...images];
+    const newFiles = [...files];
+
+    newImages.splice(index, 1);
+    newFiles.splice(index, 1);
+
+    setImages(newImages);
+    setFiles(newFiles);
+  };
+
   return (
     <Container fluid>
       <Row className="my-4">
@@ -270,7 +288,11 @@ const Sell = () => {
               <Form.Label>Images</Form.Label>
               <ListingImageUpload onDrop={onDrop} />
               <DndProvider backend={HTML5Backend}>
-                <ImageList images={images} moveImage={moveImage} />
+                <ImageList
+                  images={images}
+                  moveImage={moveImage}
+                  onDelete={onDelete}
+                />
               </DndProvider>
             </Form.Group>
             <Button variant="purple" type="submit" onSubmit={onSubmit}>
