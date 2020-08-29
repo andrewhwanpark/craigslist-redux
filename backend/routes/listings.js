@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const multer = require("multer");
+const fs = require("fs/promises");
 const auth = require("../middleware/auth");
 const Listing = require("../models/listing.model");
 const User = require("../models/user.model");
@@ -10,7 +11,10 @@ const storage = multer.diskStorage({
     cb(null, `${__dirname}/../uploads/`);
   },
   filename: (req, file, cb) => {
-    cb(null, file.originalname.toLowerCase().split(" ").join("-"));
+    cb(
+      null,
+      `${Date.now()}-${file.originalname.toLowerCase().split(" ").join("-")}`
+    );
   },
 });
 
@@ -156,9 +160,26 @@ router.route("/:id").get((req, res) => {
 });
 
 router.route("/:id").delete((req, res) => {
-  Listing.findByIdAndDelete(req.params.id)
-    .then(() => res.json("Listing deleted."))
-    .catch((err) => res.status(400).json(`Error: ${err}`));
+  // Find images associated
+  Listing.findById(req.params.id)
+    .then((listingRes) => {
+      const images = listingRes.image;
+
+      Listing.findByIdAndDelete(req.params.id)
+        .then(() => {
+          images.forEach(async (img) => {
+            try {
+              await fs.unlink(`${__dirname}/../${img.filePath}`);
+            } catch (err) {
+              console.error(err);
+            }
+          });
+
+          res.json("Listing deleted.");
+        })
+        .catch((err) => res.status(500).json(`Error: ${err}`));
+    })
+    .catch((err) => res.status(500).json(`Error: ${err}`));
 });
 
 router.route("/update/:id").post((req, res) => {
