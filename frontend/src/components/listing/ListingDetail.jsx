@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
 import Axios from "axios";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
 import ListingImageCarousel from "./ListingImageCarousel";
 import ListingUserInfo from "./ListingUserInfo";
 import LoadingSpinner from "../shared/LoadingSpinner";
 import FavoritesToggle from "./FavoritesToggle";
 import ListingBreadcrumb from "./ListingBreadcrumb";
 import UserContext from "../../context/UserContext";
+import DeleteModal from "./DeleteModal";
 
 const ListingDetail = (props) => {
   const {
@@ -16,10 +18,12 @@ const ListingDetail = (props) => {
   } = props;
 
   const { userData } = useContext(UserContext);
+  const history = useHistory();
 
   const [userIsWriter, setUserIsWriter] = useState(false);
   const [listing, setListing] = useState();
   const [loading, setLoading] = useState(true);
+  const [modalShow, setModalShow] = useState(false);
 
   useEffect(() => {
     Axios.get(
@@ -37,6 +41,16 @@ const ListingDetail = (props) => {
         console.error(err);
       });
   }, []);
+
+  const deleteListing = () => {
+    Axios.delete(`http://localhost:5000/listings/${id}`)
+      .then(() => {
+        history.push("/");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   return loading ? (
     <LoadingSpinner className="centered-on-page-spinner" />
@@ -58,12 +72,30 @@ const ListingDetail = (props) => {
 
           {userIsWriter ? (
             <>
-              <Button variant="purple" size="lg" block>
+              <Button
+                as={Link}
+                to={`/detail/${id}/edit`}
+                variant="purple"
+                size="lg"
+                block
+              >
                 Edit
               </Button>
-              <Button variant="outline-purple" size="lg" block>
+
+              <Button
+                variant="outline-purple"
+                size="lg"
+                block
+                onClick={() => setModalShow(true)}
+              >
                 Delete
               </Button>
+
+              <DeleteModal
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+                onDelete={deleteListing}
+              />
             </>
           ) : (
             <>

@@ -2,8 +2,15 @@ import React from "react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import categories from "../../data/categories";
+import { isDefined } from "../../utils/null-checks";
 
-const CategorySelector = ({ onChange, className, isClearable, isMulti }) => {
+const CategorySelector = ({
+  onChange,
+  className,
+  isClearable,
+  isMulti,
+  defaultValue,
+}) => {
   const animatedComponents = makeAnimated();
 
   const groupStyles = {
@@ -32,6 +39,18 @@ const CategorySelector = ({ onChange, className, isClearable, isMulti }) => {
     </div>
   );
 
+  // If provided with default value, find
+  let found = null;
+  if (isDefined(defaultValue)) {
+    for (let i = 0; i < categories.length; i += 1) {
+      found = categories[i].options.find(
+        (option) => option.value === defaultValue
+      );
+
+      if (isDefined(found)) break;
+    }
+  }
+
   return (
     <Select
       isSearchable
@@ -39,6 +58,7 @@ const CategorySelector = ({ onChange, className, isClearable, isMulti }) => {
       components={animatedComponents}
       isClearable={isClearable}
       isMulti={isMulti}
+      defaultValue={found}
       placeholder="Search for categories"
       onChange={onChange}
       className={className}

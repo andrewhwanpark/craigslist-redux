@@ -78,7 +78,11 @@ function App() {
           <ProtectedRoute exact path="/sell" component={Sell} />
           <Route exact path="/:username" component={Seller} />
           <AuthCheckRoute exact path="/detail/:id" component={ListingDetail} />
-          <ProtectedRoute exact path="/detail/:id/edit" component={Sell} />
+          <ProtectedRoute
+            exact
+            path="/detail/:id/edit"
+            component={EditListing}
+          />
           <ProtectedRoute
             exact
             path="/users/settings"
