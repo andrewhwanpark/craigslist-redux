@@ -129,7 +129,7 @@ div.listing-cover-photo {
 }
 
 .z-index-fix {
-  z-index: 9999;
+  z-index: 5;
 }
 
 /* Favorites heart icon toggle styles */

@@ -8,7 +8,7 @@ import LoadingSpinner from "../shared/LoadingSpinner";
 import FavoritesToggle from "./FavoritesToggle";
 import ListingBreadcrumb from "./ListingBreadcrumb";
 import UserContext from "../../context/UserContext";
-import DeleteModal from "./DeleteModal";
+import DeleteModal from "../shared/DeleteModal";
 
 const ListingDetail = (props) => {
   const {
@@ -92,9 +92,10 @@ const ListingDetail = (props) => {
               </Button>
 
               <DeleteModal
+                name="Listing"
                 show={modalShow}
                 onHide={() => setModalShow(false)}
-                onDelete={deleteListing}
+                deleteFunc={deleteListing}
               />
             </>
           ) : (
