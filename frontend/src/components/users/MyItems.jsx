@@ -5,7 +5,7 @@ import UserContext from "../../context/UserContext";
 import LoadingSpinner from "../shared/LoadingSpinner";
 import Listing from "../listing/Listing";
 import ProfileCard from "./ProfileCard";
-import UploadMessages from "../shared/UploadMessages";
+import AlertMsg from "../shared/AlertMsg";
 
 const MyItems = () => {
   const { userData } = useContext(UserContext);
@@ -40,26 +40,33 @@ const MyItems = () => {
       <Row className="my-4">
         {message ? (
           <Col>
-            <UploadMessages
+            <AlertMsg
               msg={message}
+              variant="danger"
               clearError={() => {
                 setMessage(undefined);
               }}
             />
           </Col>
         ) : null}
-        {listings.map((listing) => (
-          <Listing
-            title={listing.title}
-            date={listing.date}
-            desc={listing.desc}
-            price={listing.price}
-            image={listing.image}
-            location={listing.location}
-            id={listing._id}
-            key={listing._id}
-          />
-        ))}
+        {listings.length === 0 ? (
+          <Col className="text-center">
+            <h4>You haven&apos;t posted any listings</h4>
+          </Col>
+        ) : (
+          listings.map((listing) => (
+            <Listing
+              title={listing.title}
+              date={listing.date}
+              desc={listing.desc}
+              price={listing.price}
+              image={listing.image}
+              location={listing.location}
+              id={listing._id}
+              key={listing._id}
+            />
+          ))
+        )}
       </Row>
     </Container>
   );

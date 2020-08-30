@@ -1,15 +1,26 @@
-import React from "react"
+import React from "react";
+import { Container } from "react-bootstrap";
 
-import { Container } from "react-bootstrap"
+const Footers = () => {
+  return (
+    <footer className="footer mt-auto">
+      <Container className="text-center">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 16 16"
+          className="bi bi-peace-fill mr-3"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M14 13.292A8 8 0 0 0 8.5.015v7.778l5.5 5.5zm-.708.708L8.5 9.206v6.778a7.967 7.967 0 0 0 4.792-1.986zM7.5 15.985V9.207L2.708 14A7.967 7.967 0 0 0 7.5 15.985zM2 13.292A8 8 0 0 1 7.5.015v7.778l-5.5 5.5z" />
+        </svg>
+        <span className="text-muted">
+          Andrew Park and Aadil Mufti production
+        </span>
+      </Container>
+    </footer>
+  );
+};
 
-function Footers() {
-    return (
-        <footer className="footer mt-auto py-3">
-            <Container>
-                <span className="text-muted">Place sticky footer content here.</span>
-            </Container>
-        </footer>
-    )
-}
-
-export default Footers
+export default Footers;

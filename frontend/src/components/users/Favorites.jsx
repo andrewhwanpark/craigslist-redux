@@ -5,7 +5,7 @@ import UserContext from "../../context/UserContext";
 import { isDefined, isNullable } from "../../utils/null-checks";
 import LoadingSpinner from "../shared/LoadingSpinner";
 import Listing from "../listing/Listing";
-import UploadMessages from "../shared/UploadMessages";
+import AlertMsg from "../shared/AlertMsg";
 
 const Favorites = () => {
   const { userData } = useContext(UserContext);
@@ -51,8 +51,9 @@ const Favorites = () => {
       <Row className="my-4">
         {message ? (
           <Col>
-            <UploadMessages
+            <AlertMsg
               msg={message}
+              variant="danger"
               clearError={() => {
                 setMessage(undefined);
               }}

@@ -17,6 +17,8 @@ import UserContext from "./context/UserContext";
 import MyItems from "./components/users/MyItems";
 import Favorites from "./components/users/Favorites";
 import Seller from "./components/users/Seller";
+import EditListing from "./components/listing/EditListing";
+import AlertMsg from "./components/shared/AlertMsg";
 
 function App() {
   const [userData, setUserData] = useState({
@@ -25,7 +27,15 @@ function App() {
     loading: true,
   });
 
-  const providerValue = useMemo(() => ({ userData, setUserData }), [userData]);
+  const [globalMsg, setGlobalMsg] = useState({
+    message: undefined,
+    variant: undefined,
+  });
+
+  const providerValue = useMemo(
+    () => ({ userData, setUserData, globalMsg, setGlobalMsg }),
+    [userData, globalMsg]
+  );
 
   useEffect(() => {
     const checkLoggedIn = () => {
@@ -69,17 +79,35 @@ function App() {
     <>
       <UserContext.Provider value={providerValue}>
         <Navbars />
+        {globalMsg.message ? (
+          <AlertMsg
+            variant={globalMsg.variant}
+            msg={globalMsg.message}
+            clearError={() => {
+              setGlobalMsg({ message: undefined, variant: undefined });
+            }}
+          />
+        ) : null}
         <Switch>
           <AuthCheckRoute exact path="/" component={Home} />
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={Signup} />
-          <Route path="/about" component={About} />
-          <ProtectedRoute path="/sell" component={Sell} />
-          <AuthCheckRoute path="/detail/:id" component={ListingDetail} />
-          <ProtectedRoute path="/users/settings" component={UserSettings} />
-          <ProtectedRoute path="/users/myitems" component={MyItems} />
-          <ProtectedRoute path="/users/favorites" component={Favorites} />
-          <Route path="/:username" component={Seller} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={Signup} />
+          <Route exact path="/about" component={About} />
+          <ProtectedRoute exact path="/sell" component={Sell} />
+          <Route exact path="/:username" component={Seller} />
+          <AuthCheckRoute exact path="/detail/:id" component={ListingDetail} />
+          <ProtectedRoute
+            exact
+            path="/detail/:id/edit"
+            component={EditListing}
+          />
+          <ProtectedRoute
+            exact
+            path="/users/settings"
+            component={UserSettings}
+          />
+          <ProtectedRoute exact path="/users/myitems" component={MyItems} />
+          <ProtectedRoute exact path="/users/favorites" component={Favorites} />
           <Route component={Default} />
         </Switch>
         <Footers />

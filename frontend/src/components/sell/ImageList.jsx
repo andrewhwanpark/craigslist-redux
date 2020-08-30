@@ -1,9 +1,10 @@
 import React, { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
+import { Image } from "react-bootstrap";
 
 const type = "Image"; // Need to pass which type element can be draggable, its a simple string or Symbol. This is like an Unique ID so that the library know what type of element is dragged or dropped on.
 
-const ImageItem = ({ image, index, moveImage }) => {
+const ImageItem = ({ image, index, moveImage, onDelete }) => {
   const ref = useRef(null); // Initialize the reference
 
   // useDrop hook is responsible for handling whether any item gets hovered or dropped on the element
@@ -53,14 +54,41 @@ const ImageItem = ({ image, index, moveImage }) => {
     <div
       ref={ref}
       style={{ opacity: isDragging ? 0 : 1 }}
-      className="file-item"
+      className="file-item delete-image-div"
     >
-      <img alt={`img - ${image.id}`} src={image.src} className="file-img" />
+      {/* Delete image button */}
+      <div className="delete-image-overlay">
+        <button
+          type="button"
+          aria-label="Close"
+          onClick={() => {
+            onDelete(index);
+          }}
+        >
+          <span
+            aria-hidden="true"
+            style={{
+              fontSize: "1.5em",
+              color: "red",
+              textShadow: "none",
+            }}
+          >
+            &times;
+          </span>
+        </button>
+      </div>
+
+      <Image
+        alt={`img - ${image.id}`}
+        src={image.src}
+        className="file-img"
+        style={{ position: "relative", display: "inline-block" }}
+      />
     </div>
   );
 };
 
-const ImageList = ({ images, moveImage }) => {
+const ImageList = ({ images, moveImage, onDelete }) => {
   const renderImage = (image, index) => {
     return (
       <ImageItem
@@ -68,6 +96,7 @@ const ImageList = ({ images, moveImage }) => {
         index={index}
         key={`${image.id}-image`}
         moveImage={moveImage}
+        onDelete={onDelete}
       />
     );
   };

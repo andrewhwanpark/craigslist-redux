@@ -1,16 +1,20 @@
 import React, { useState, useContext } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import Axios from "axios";
+import { useHistory } from "react-router-dom";
 import bsCustomFileInput from "bs-custom-file-input";
 import UserContext from "../../context/UserContext";
-import UploadMessages from "../shared/UploadMessages";
 import Progress from "./Progress";
 import { isNullable } from "../../utils/null-checks";
 import LocationSelector from "../shared/LocationSelector";
+import ProfileCard from "./ProfileCard";
+import DeleteModal from "../shared/DeleteModal";
+import AlertMsg from "../shared/AlertMsg";
 
 const UserSettings = () => {
   bsCustomFileInput.init();
-  const { userData } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
+  const history = useHistory();
 
   const [file, setFile] = useState();
   const [message, setMessage] = useState("");
@@ -18,6 +22,8 @@ const UserSettings = () => {
   const [username, setUsername] = useState();
   const [email, setEmail] = useState();
   const [region, setRegion] = useState();
+
+  const [modalShow, setModalShow] = useState(false);
 
   // Handler for information change
   // TODO: Need to write location into register data in order to update
@@ -81,14 +87,36 @@ const UserSettings = () => {
       });
   };
 
+  const deleteAccount = () => {
+    Axios.delete("http://localhost:5000/users/delete", {
+      headers: { "x-auth-token": localStorage.getItem("auth-token") },
+    })
+      .then(() => {
+        // Logout user
+        setUserData({
+          token: undefined,
+          user: undefined,
+        });
+        localStorage.setItem("auth-token", "");
+        // Back to home page
+        history.push("/");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   return (
     <Container fluid>
+      <ProfileCard writer={userData.user} hideEditButton />
+
       <Row className="my-4">
         <Col lg={12}>
           <h2>Edit Your Info</h2>
           {message ? (
-            <UploadMessages
+            <AlertMsg
               msg={message}
+              variant="danger"
               clearError={() => {
                 setMessage(undefined);
               }}
@@ -126,6 +154,7 @@ const UserSettings = () => {
                   onChange={(e) => {
                     setRegion(e.value);
                   }}
+                  defaultValue={userData.user.location}
                   className="z-index-fix"
                 />
               </Form.Group>
@@ -153,6 +182,21 @@ const UserSettings = () => {
               Submit
             </Button>
           </Form>
+          <br />
+          <Button
+            variant="danger"
+            className="float-right"
+            onClick={() => setModalShow(true)}
+          >
+            Delete Account
+          </Button>
+
+          <DeleteModal
+            name="My Account"
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+            deleteFunc={deleteAccount}
+          />
         </Col>
       </Row>
     </Container>

@@ -14,6 +14,7 @@ const listingSchema = new Schema(
     date: { type: Date, required: true },
     image: { type: Array, default: [], required: false },
     desc: { type: String, required: false },
+    condition: { type: String, required: true },
     location: { type: Number, required: true },
     category: { type: Number, required: true },
   },

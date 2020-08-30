@@ -1,21 +1,25 @@
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useCallback, useContext, useRef } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import Axios from "axios";
 import cuid from "cuid";
+import { useHistory } from "react-router-dom";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import update from "immutability-helper";
 import UserContext from "../../context/UserContext";
 import ListingImageUpload from "./ListingImageUpload";
 import ImageList from "./ImageList";
-import UploadMessages from "../shared/UploadMessages";
 import { isNullable } from "../../utils/null-checks";
 import LocationSelector from "../shared/LocationSelector";
 import CategorySelector from "../shared/CategorySelector";
+import AlertMsg from "../shared/AlertMsg";
 
 const Sell = () => {
   // Context
-  const { userData } = useContext(UserContext);
+  const { userData, setGlobalMsg } = useContext(UserContext);
+
+  const history = useHistory();
+
   // States
   const [title, setTitle] = useState();
   const [price, setPrice] = useState();
@@ -25,15 +29,22 @@ const Sell = () => {
   const [condition, setCondition] = useState();
   const [images, setImages] = useState([]);
   const [files, setFiles] = useState([]);
+
   // Error message
   const [message, setMessage] = useState();
+
   // Max number of images to be uploaded
   const MAXFILES = 6;
+
   // Counter to track # of images
-  let imgCount = 0;
+  const imageCount = useRef(0);
 
   const resetForm = () => {
-    document.getElementById("create-listing-form").reset();
+    setGlobalMsg({
+      message: "Listing updated!",
+      variant: "success",
+    });
+    history.push("/");
   };
 
   const moveImage = (dragIndex, hoverIndex) => {
@@ -72,11 +83,11 @@ const Sell = () => {
     }
 
     // Increment image count
-    imgCount += acceptedFiles.length;
+    imageCount.current += acceptedFiles.length;
     // Return if image count exceeds max
-    if (imgCount > MAXFILES) {
+    if (imageCount.current > MAXFILES) {
       setMessage(`Please upload less or equal to ${MAXFILES} images`);
-      imgCount -= acceptedFiles.length;
+      imageCount.current -= acceptedFiles.length;
       return;
     }
 
@@ -144,7 +155,6 @@ const Sell = () => {
       .then((res) => {
         // No images uploaded
         if (files.length === 0) {
-          setMessage("Product successfully uploaded");
           resetForm();
           return undefined;
         }
@@ -168,14 +178,26 @@ const Sell = () => {
         );
       })
       .then(() => {
-        setMessage("Listing uploaded.");
-        setImages([]);
-        setFiles([]);
         resetForm();
       })
       .catch(() => {
         setMessage("Server Error: Failed to upload");
       });
+  };
+
+  // Delete image when user clicks "X"
+  const onDelete = (index) => {
+    // Decrement imgCount local var
+    imageCount.current -= 1;
+
+    const newImages = [...images];
+    const newFiles = [...files];
+
+    newImages.splice(index, 1);
+    newFiles.splice(index, 1);
+
+    setImages(newImages);
+    setFiles(newFiles);
   };
 
   return (
@@ -184,8 +206,9 @@ const Sell = () => {
         <Col lg={12}>
           <h2>Add a listing</h2>
           {message ? (
-            <UploadMessages
+            <AlertMsg
               msg={message}
+              variant="danger"
               clearError={() => {
                 setMessage(undefined);
               }}
@@ -270,7 +293,11 @@ const Sell = () => {
               <Form.Label>Images</Form.Label>
               <ListingImageUpload onDrop={onDrop} />
               <DndProvider backend={HTML5Backend}>
-                <ImageList images={images} moveImage={moveImage} />
+                <ImageList
+                  images={images}
+                  moveImage={moveImage}
+                  onDelete={onDelete}
+                />
               </DndProvider>
             </Form.Group>
             <Button variant="purple" type="submit" onSubmit={onSubmit}>

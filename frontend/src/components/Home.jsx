@@ -3,11 +3,11 @@ import Axios from "axios";
 import { Container, Row, Col } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Listing from "./listing/Listing";
-import UploadMessages from "./shared/UploadMessages";
 import LoadingSpinner from "./shared/LoadingSpinner";
 import Sidebar from "./Sidebar";
 import UserContext from "../context/UserContext";
 import { isDefined } from "../utils/null-checks";
+import AlertMsg from "./shared/AlertMsg";
 
 const Home = () => {
   const { userData } = useContext(UserContext);
@@ -92,8 +92,9 @@ const Home = () => {
     <Container fluid>
       <Row>
         {message ? (
-          <UploadMessages
+          <AlertMsg
             msg={message}
+            variant="danger"
             clearError={() => {
               setMessage(undefined);
             }}
@@ -121,7 +122,7 @@ const Home = () => {
             }
             endMessage={
               <p style={{ textAlign: "center" }}>
-                <b>Yay! You have seen it all</b>
+                <b>End of content</b>
               </p>
             }
           >
