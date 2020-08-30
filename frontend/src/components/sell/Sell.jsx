@@ -2,6 +2,7 @@ import React, { useState, useCallback, useContext, useRef } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import Axios from "axios";
 import cuid from "cuid";
+import { useHistory } from "react-router-dom";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import update from "immutability-helper";
@@ -15,7 +16,10 @@ import CategorySelector from "../shared/CategorySelector";
 
 const Sell = () => {
   // Context
-  const { userData } = useContext(UserContext);
+  const { userData, setGlobalMsg } = useContext(UserContext);
+
+  const history = useHistory();
+
   // States
   const [title, setTitle] = useState();
   const [price, setPrice] = useState();
@@ -36,7 +40,11 @@ const Sell = () => {
   const imageCount = useRef(0);
 
   const resetForm = () => {
-    document.getElementById("create-listing-form").reset();
+    setGlobalMsg({
+      message: "Listing updated!",
+      variant: "success",
+    });
+    history.push("/");
   };
 
   const moveImage = (dragIndex, hoverIndex) => {
@@ -147,7 +155,6 @@ const Sell = () => {
       .then((res) => {
         // No images uploaded
         if (files.length === 0) {
-          setMessage("Product successfully uploaded");
           resetForm();
           return undefined;
         }
@@ -171,9 +178,6 @@ const Sell = () => {
         );
       })
       .then(() => {
-        setMessage("Listing uploaded.");
-        setImages([]);
-        setFiles([]);
         resetForm();
       })
       .catch(() => {
