@@ -1,28 +1,31 @@
 import React, {
   useState,
   useCallback,
-  useContext,
   useEffect,
   useRef,
+  useContext,
 } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import Axios from "axios";
 import cuid from "cuid";
+import { useHistory } from "react-router-dom";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import update from "immutability-helper";
-import UserContext from "../../context/UserContext";
 import ListingImageUpload from "../sell/ListingImageUpload";
 import ImageList from "../sell/ImageList";
 import UploadMessages from "../shared/UploadMessages";
-import { isNullable } from "../../utils/null-checks";
+import { isNullable, isDefined } from "../../utils/null-checks";
 import LocationSelector from "../shared/LocationSelector";
 import CategorySelector from "../shared/CategorySelector";
 import LoadingSpinner from "../shared/LoadingSpinner";
+import UserContext from "../../context/UserContext";
 
 const EditListing = (props) => {
-  // Context
-  const { userData } = useContext(UserContext);
+  const { setGlobalMsg } = useContext(UserContext);
+
+  const history = useHistory();
+
   // States
   const [title, setTitle] = useState();
   const [price, setPrice] = useState();
@@ -44,6 +47,7 @@ const EditListing = (props) => {
   // Counter to track # of images
   const imageCount = useRef(0);
 
+  // Fetch listing and pre-fill all fields and images
   useEffect(() => {
     Axios.get(
       `http://localhost:5000/listings/listings_by_id?id=${props.match.params.id}&type=single`
@@ -55,6 +59,20 @@ const EditListing = (props) => {
         setCategory(res.data[0].category);
         setDesc(res.data[0].desc);
         setCondition(res.data[0].condition);
+
+        // Prepare images for upload preview
+        const preparedImgs = res.data[0].image.map((img) => ({
+          ...img,
+          id: cuid(),
+          src: `http://localhost:5000/${img.filePath}`,
+        }));
+
+        setImages(preparedImgs);
+        setFiles(res.data[0].image);
+
+        // Set image counter tracking # of images to be sent
+        imageCount.current = res.data[0].image.length;
+
         setLoading(false);
       })
       .catch((err) => {
@@ -63,7 +81,11 @@ const EditListing = (props) => {
   }, []);
 
   const resetForm = () => {
-    document.getElementById("create-listing-form").reset();
+    setGlobalMsg({
+      message: "Listing updated!",
+      variant: "success",
+    });
+    history.push("/");
   };
 
   const moveImage = (dragIndex, hoverIndex) => {
@@ -112,7 +134,6 @@ const EditListing = (props) => {
 
     // Loop through accepted files
     acceptedFiles.map((file) => {
-      console.log(file);
       setFiles((prevState) => [...prevState, file]);
 
       const reader = new FileReader();
@@ -156,57 +177,108 @@ const EditListing = (props) => {
       return;
     }
 
-    const newListing = {
-      writer: userData.user.id,
-      title,
-      price,
-      date: new Date(),
-      location,
-      category,
-      desc,
-      condition,
-    };
+    // Check if new images have been added
+    let imagesChanged = false;
 
-    Axios.post("http://localhost:5000/listings/add", newListing, {
-      headers: {
-        "x-auth-token": localStorage.getItem("auth-token"),
-      },
-    })
-      .then((res) => {
-        // No images uploaded
-        if (files.length === 0) {
-          setMessage("Product successfully uploaded");
+    files.forEach((file) => {
+      if (isNullable(file.filePath)) {
+        imagesChanged = true;
+      }
+    });
+
+    // If no new images have been added, we can make one API call
+    if (!imagesChanged) {
+      const updatedListing = {
+        title,
+        price,
+        location,
+        category,
+        files,
+        desc,
+        condition,
+      };
+
+      Axios.post(
+        `http://localhost:5000/listings/update/${props.match.params.id}`,
+        updatedListing,
+        {
+          headers: {
+            "x-auth-token": localStorage.getItem("auth-token"),
+          },
+        }
+      )
+        .then(() => {
           resetForm();
-          return undefined;
-        }
-        // Prepare images
-        const formData = new FormData();
+        })
+        .catch((err) => {
+          console.error(err);
+          setMessage("Server Error: Failed to upload");
+        });
+    } else {
+      const updatedListing = {
+        title,
+        price,
+        location,
+        category,
+        files: undefined,
+        desc,
+        condition,
+      };
 
-        for (let i = 0; i < files.length; i += 1) {
-          formData.append("images", files[i]);
+      Axios.post(
+        `http://localhost:5000/listings/update/${props.match.params.id}`,
+        updatedListing,
+        {
+          headers: {
+            "x-auth-token": localStorage.getItem("auth-token"),
+          },
         }
+      )
+        .then(() => {
+          // Prepare images
+          const formData = new FormData();
 
-        // Upload images
-        return Axios.post(
-          "http://localhost:5000/listings/add/images",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              "listing-id": res.data.id,
-            },
-          }
-        );
-      })
-      .then(() => {
-        setMessage("Listing uploaded.");
-        setImages([]);
-        setFiles([]);
-        resetForm();
-      })
-      .catch(() => {
-        setMessage("Server Error: Failed to upload");
-      });
+          files.forEach((file) => {
+            // Some files in iteration may be files already existing in backend
+            // Thus check if a property only existant on the pre-existing files is defined (filePath)
+            if (isNullable(file.filePath)) {
+              formData.append("images", file);
+            }
+          });
+
+          // Create binary order array
+          // 1: new, 0: original
+          const order = [];
+          const filenames = [];
+          files.forEach((file) => {
+            if (isDefined(file.filePath)) {
+              order.push(0);
+              filenames.push(file.fileName);
+            } else {
+              order.push(1);
+            }
+          });
+
+          return Axios.post(
+            `http://localhost:5000/listings/updateImages/?id=${
+              props.match.params.id
+            }&order=${order.join(",")}&filenames=${filenames.join(",")}`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+        })
+        .then(() => {
+          resetForm();
+        })
+        .catch((err) => {
+          console.error(err);
+          setMessage("Server Error: Failed to upload");
+        });
+    }
   };
 
   // Delete image when user clicks "X"

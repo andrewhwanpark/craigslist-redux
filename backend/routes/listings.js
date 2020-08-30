@@ -1,10 +1,11 @@
+/* eslint-disable consistent-return */
 const router = require("express").Router();
 const multer = require("multer");
 const fs = require("fs/promises");
 const auth = require("../middleware/auth");
 const Listing = require("../models/listing.model");
 const User = require("../models/user.model");
-const { isNullable } = require("../utils/null-check");
+const { isNullable, isDefined } = require("../utils/null-check");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -153,13 +154,13 @@ router.post("/add", auth, (req, res) => {
     .catch((err) => res.status(400).json(err));
 });
 
-router.route("/:id").get((req, res) => {
+router.get("/:id", (req, res) => {
   Listing.findById(req.params.id)
     .then((listing) => res.json(listing))
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
-router.route("/:id").delete((req, res) => {
+router.delete("/:id", (req, res) => {
   // Find images associated
   Listing.findById(req.params.id)
     .then((listingRes) => {
@@ -182,21 +183,120 @@ router.route("/:id").delete((req, res) => {
     .catch((err) => res.status(500).json(`Error: ${err}`));
 });
 
-router.route("/update/:id").post((req, res) => {
+router.post("/updateImages", upload.array("images", 6), (req, res) => {
+  if (req.files === null) {
+    return res.status(400).json({ msg: "No file uploaded" });
+  }
+
+  const id = req.query.id;
+  const order = req.query.order.split(",").map((o) => parseInt(o, 10));
+  const filenames = req.query.filenames.split(",");
+
+  // New files uploaded from client
+  const uploads = [];
+
+  for (let i = 0; i < req.files.length; i += 1) {
+    uploads.push({
+      fileName: req.files[i].filename,
+      filePath: `uploads/${req.files[i].filename}`,
+    });
+  }
+
+  Listing.findById(id)
+    .then((listing) => {
+      const shouldDel = [];
+
+      listing.image.forEach((img) => {
+        const found = filenames.find((fname) => fname === img.fileName);
+
+        if (isNullable(found)) shouldDel.push(img);
+      });
+
+      shouldDel.forEach(async (file) => {
+        try {
+          await fs.unlink(`${__dirname}/../${file.filePath}`);
+        } catch (err) {
+          console.error(err);
+        }
+      });
+
+      const images = [];
+
+      order.forEach((o) => {
+        if (o === 1) {
+          // New image
+          images.push(uploads.pop());
+        } else {
+          // Old image
+          const file = filenames.pop();
+          images.push({
+            fileName: file,
+            filePath: `uploads/${file}`,
+          });
+        }
+      });
+
+      listing.image = images;
+
+      listing
+        .save()
+        .then(() => res.json("Listing updated!"))
+        .catch((err) => res.status(500).json(`Error: ${err}`));
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json(`Error: ${err}`);
+    });
+});
+
+router.post("/update/:id", auth, (req, res) => {
   Listing.findById(req.params.id)
     .then((listing) => {
       listing.title = req.body.title;
       listing.price = req.body.price;
-      listing.date = Date.parse(req.body.date);
-      listing.image = req.body.image;
+      listing.location = req.body.location;
+      listing.category = req.body.category;
       listing.desc = req.body.desc;
+      listing.condition = req.body.condition;
+
+      if (
+        isDefined(req.body.files) &&
+        listing.image.length !== req.body.files.length
+      ) {
+        // User deleted pre-existing photos
+        // We must find the photos that the user deleted, then delete from uploads folder
+        const shouldDel = [];
+
+        listing.image.forEach((img) => {
+          const found = req.body.files.find(
+            (file) => file.fileName === img.fileName
+          );
+          if (isNullable(found)) shouldDel.push(img);
+        });
+
+        // Delete files in shouldDel
+        shouldDel.forEach(async (file) => {
+          try {
+            await fs.unlink(`${__dirname}/../${file.filePath}`);
+          } catch (err) {
+            console.error(err);
+          }
+        });
+      }
+
+      // Assign new images
+      listing.image = isDefined(req.body.files)
+        ? req.body.files
+        : listing.image;
 
       listing
         .save()
         .then(() => res.json("Listing updated!"))
         .catch((err) => res.status(400).json(`Error: ${err}`));
     })
-    .catch((err) => res.status(400).json(`Error: ${err}`));
+    .catch((err) => {
+      return res.status(400).json(`Error: ${err}`);
+    });
 });
 
 module.exports = router;
