@@ -14,12 +14,12 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import update from "immutability-helper";
 import ListingImageUpload from "../sell/ListingImageUpload";
 import ImageList from "../sell/ImageList";
-import UploadMessages from "../shared/UploadMessages";
 import { isNullable, isDefined } from "../../utils/null-checks";
 import LocationSelector from "../shared/LocationSelector";
 import CategorySelector from "../shared/CategorySelector";
 import LoadingSpinner from "../shared/LoadingSpinner";
 import UserContext from "../../context/UserContext";
+import AlertMsg from "../shared/AlertMsg";
 
 const EditListing = (props) => {
   const { setGlobalMsg } = useContext(UserContext);
@@ -304,8 +304,9 @@ const EditListing = (props) => {
         <Col lg={12}>
           <h2>Edit your listing</h2>
           {message ? (
-            <UploadMessages
+            <AlertMsg
               msg={message}
+              variant="danger"
               clearError={() => {
                 setMessage(undefined);
               }}

@@ -4,8 +4,8 @@ import Axios from "axios";
 import LoadingSpinner from "../shared/LoadingSpinner";
 import ProfileCard from "./ProfileCard";
 import Listing from "../listing/Listing";
-import UploadMessages from "../shared/UploadMessages";
 import Default from "../Default";
+import AlertMsg from "../shared/AlertMsg";
 
 const Seller = (props) => {
   const {
@@ -63,8 +63,9 @@ const Seller = (props) => {
       <Row className="my-4">
         {message ? (
           <Col>
-            <UploadMessages
+            <AlertMsg
               msg={message}
+              variant="danger"
               clearError={() => {
                 setMessage(undefined);
               }}

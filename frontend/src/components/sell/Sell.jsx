@@ -9,10 +9,10 @@ import update from "immutability-helper";
 import UserContext from "../../context/UserContext";
 import ListingImageUpload from "./ListingImageUpload";
 import ImageList from "./ImageList";
-import UploadMessages from "../shared/UploadMessages";
 import { isNullable } from "../../utils/null-checks";
 import LocationSelector from "../shared/LocationSelector";
 import CategorySelector from "../shared/CategorySelector";
+import AlertMsg from "../shared/AlertMsg";
 
 const Sell = () => {
   // Context
@@ -206,8 +206,9 @@ const Sell = () => {
         <Col lg={12}>
           <h2>Add a listing</h2>
           {message ? (
-            <UploadMessages
+            <AlertMsg
               msg={message}
+              variant="danger"
               clearError={() => {
                 setMessage(undefined);
               }}

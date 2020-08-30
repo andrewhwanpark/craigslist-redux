@@ -4,12 +4,12 @@ import Axios from "axios";
 import { useHistory } from "react-router-dom";
 import bsCustomFileInput from "bs-custom-file-input";
 import UserContext from "../../context/UserContext";
-import UploadMessages from "../shared/UploadMessages";
 import Progress from "./Progress";
 import { isNullable } from "../../utils/null-checks";
 import LocationSelector from "../shared/LocationSelector";
 import ProfileCard from "./ProfileCard";
 import DeleteModal from "../shared/DeleteModal";
+import AlertMsg from "../shared/AlertMsg";
 
 const UserSettings = () => {
   bsCustomFileInput.init();
@@ -114,8 +114,9 @@ const UserSettings = () => {
         <Col lg={12}>
           <h2>Edit Your Info</h2>
           {message ? (
-            <UploadMessages
+            <AlertMsg
               msg={message}
+              variant="danger"
               clearError={() => {
                 setMessage(undefined);
               }}

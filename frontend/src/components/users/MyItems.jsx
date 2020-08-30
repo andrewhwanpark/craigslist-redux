@@ -5,7 +5,7 @@ import UserContext from "../../context/UserContext";
 import LoadingSpinner from "../shared/LoadingSpinner";
 import Listing from "../listing/Listing";
 import ProfileCard from "./ProfileCard";
-import UploadMessages from "../shared/UploadMessages";
+import AlertMsg from "../shared/AlertMsg";
 
 const MyItems = () => {
   const { userData } = useContext(UserContext);
@@ -40,8 +40,9 @@ const MyItems = () => {
       <Row className="my-4">
         {message ? (
           <Col>
-            <UploadMessages
+            <AlertMsg
               msg={message}
+              variant="danger"
               clearError={() => {
                 setMessage(undefined);
               }}
