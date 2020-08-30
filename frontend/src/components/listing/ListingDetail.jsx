@@ -9,6 +9,7 @@ import FavoritesToggle from "./FavoritesToggle";
 import ListingBreadcrumb from "./ListingBreadcrumb";
 import UserContext from "../../context/UserContext";
 import DeleteModal from "../shared/DeleteModal";
+import Default from "../Default";
 
 const ListingDetail = (props) => {
   const {
@@ -20,6 +21,9 @@ const ListingDetail = (props) => {
   const { userData } = useContext(UserContext);
   const history = useHistory();
 
+  // 404
+  const [noRoute, setNoRoute] = useState(false);
+
   const [userIsWriter, setUserIsWriter] = useState(false);
   const [listing, setListing] = useState();
   const [loading, setLoading] = useState(true);
@@ -30,6 +34,7 @@ const ListingDetail = (props) => {
       `http://localhost:5000/listings/listings_by_id?id=${id}&type=single`
     )
       .then((res) => {
+        console.log(res.data);
         // Check if user is the writer of the listing
         if (res.data[0].writer._id === userData.user.id) {
           setUserIsWriter(true);
@@ -38,6 +43,8 @@ const ListingDetail = (props) => {
         setLoading(false);
       })
       .catch((err) => {
+        // set 404 boolean to true
+        setNoRoute(true);
         console.error(err);
       });
   }, []);
@@ -51,6 +58,9 @@ const ListingDetail = (props) => {
         console.error(err);
       });
   };
+
+  // Handle 404 error
+  if (noRoute) return <Default />;
 
   return loading ? (
     <LoadingSpinner className="centered-on-page-spinner" />
