@@ -10,6 +10,8 @@ import ListingBreadcrumb from "./ListingBreadcrumb";
 import UserContext from "../../context/UserContext";
 import DeleteModal from "../shared/DeleteModal";
 import Default from "../Default";
+import OfferModal from "./OfferModal";
+import MessageModal from "./MessageModal";
 
 const ListingDetail = (props) => {
   const {
@@ -27,7 +29,10 @@ const ListingDetail = (props) => {
   const [userIsWriter, setUserIsWriter] = useState(false);
   const [listing, setListing] = useState();
   const [loading, setLoading] = useState(true);
+
   const [modalShow, setModalShow] = useState(false);
+  const [offerModalShow, setOfferModalShow] = useState(false);
+  const [messageModalShow, setMessageModalShow] = useState(false);
 
   useEffect(() => {
     Axios.get(
@@ -110,12 +115,33 @@ const ListingDetail = (props) => {
             </>
           ) : (
             <>
-              <Button variant="purple" size="lg" block>
+              <Button
+                variant="purple"
+                size="lg"
+                block
+                onClick={() => setOfferModalShow(true)}
+              >
                 Offer
               </Button>
-              <Button variant="outline-purple" size="lg" block>
+              <Button
+                variant="outline-purple"
+                size="lg"
+                block
+                onClick={() => setMessageModalShow(true)}
+              >
                 Message
               </Button>
+
+              <OfferModal
+                show={offerModalShow}
+                onHide={() => setOfferModalShow(false)}
+                // deleteFunc={}
+              />
+
+              <MessageModal
+                show={messageModalShow}
+                onHide={() => setMessageModalShow(false)}
+              />
             </>
           )}
 
