@@ -8,21 +8,11 @@ require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors());
-app.use(express.json());
-
-// Socket.io
 const http = require("http").createServer(app);
-// eslint-disable-next-line no-unused-vars
 const io = require("socket.io")(http);
 
-// io.on("connection", (socket) => {
-//   console.log("a user connected");
-// });
-
-// http.listen(3000, () => {
-//   console.log("listening on *:3000");
-// });
+app.use(cors());
+app.use(express.json());
 
 const dir = path.join(__dirname, "uploads");
 app.use("/uploads", express.static(dir));
@@ -33,6 +23,7 @@ mongoose.connect(uri, {
   useUnifiedTopology: true,
   useCreateIndex: true,
 });
+
 const connection = mongoose.connection;
 connection.once("open", () => {
   console.log("MongoDB database connection established successfully");
@@ -44,6 +35,39 @@ const usersRouter = require("./routes/users");
 app.use("/listings", listingsRouter);
 app.use("/users", usersRouter);
 
-app.listen(port, () => {
+// Socket.io
+const Chat = require("./models/chat.model");
+
+io.on("connection", (socket) => {
+  console.log("user connected");
+  socket.on("Chat Sent", ({ chatMessage, id, date }, callback) => {
+    const chat = new Chat({
+      message: chatMessage,
+      writer: id,
+      date,
+    });
+
+    chat
+      .save()
+      .then((res) => {
+        Chat.findById(res._id)
+          .populate("writer")
+          .exec((chatErr, chatDoc) => {
+            if (chatErr) return callback(chatErr);
+
+            return io.emit("Output Chat Sent", chatDoc);
+          });
+      })
+      .catch((err) => {
+        callback(err);
+      });
+  });
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+});
+
+http.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
