@@ -19,6 +19,7 @@ import Favorites from "./components/users/Favorites";
 import Seller from "./components/users/Seller";
 import EditListing from "./components/listing/EditListing";
 import AlertMsg from "./components/shared/AlertMsg";
+import Messages from "./components/messaging/Messages";
 
 function App() {
   const [userData, setUserData] = useState({
@@ -94,6 +95,7 @@ function App() {
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/about" component={About} />
           <ProtectedRoute exact path="/sell" component={Sell} />
+          <ProtectedRoute exact path="/messages" component={Messages} />
           <Route exact path="/:username" component={Seller} />
           <AuthCheckRoute exact path="/detail/:id" component={ListingDetail} />
           <ProtectedRoute

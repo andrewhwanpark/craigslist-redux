@@ -23,7 +23,7 @@ const Avatar = ({ logout }) => {
       alignRight
       id="nav-dropdown-align-right"
     >
-      <NavDropdown.Item href="#action/3.1">Messages</NavDropdown.Item>
+      <NavDropdown.Item href="/messages">Messages</NavDropdown.Item>
       <NavDropdown.Item href="/users/favorites">Favorites</NavDropdown.Item>
       <NavDropdown.Item href="/users/myitems">My Items</NavDropdown.Item>
       <NavDropdown.Item as={Link} to="/users/settings">
