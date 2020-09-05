@@ -8,12 +8,18 @@ const chatSchema = new Schema({
     ref: "User",
     required: true,
   },
-  // receiver: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: "User",
-  //   required: true,
-  // },
+  receiver: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   message: { type: String, required: true },
+  offerPrice: { type: Number, required: false },
+  listing: {
+    type: Schema.Types.ObjectId,
+    ref: "Listing",
+    required: true,
+  },
   date: { type: Date, required: true },
 });
 

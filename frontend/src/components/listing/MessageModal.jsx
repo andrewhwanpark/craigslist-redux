@@ -4,7 +4,7 @@ import React from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
 const MessageModal = (props) => {
-  const { deleteFunc, ...rest } = props;
+  const { onSendMessage, setChatMessage, ...rest } = props;
 
   return (
     <Modal
@@ -24,11 +24,16 @@ const MessageModal = (props) => {
             as="textarea"
             rows="3"
             placeholder="Send a message to request more details or discuss price"
+            onChange={(e) => setChatMessage(e.target.value)}
           />
         </Form.Group>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="purple" onClick={deleteFunc}>
+        <Button
+          variant="purple"
+          disabled={props.disabled}
+          onClick={onSendMessage}
+        >
           Send Message
         </Button>
         <Button variant="secondary" onClick={props.onHide}>
