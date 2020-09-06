@@ -192,3 +192,19 @@ div.listing-cover-photo {
 .message-tabs .nav-item .active {
   background-color: #7952b3;
 }
+
+.conversation-title {
+  color: #212529;
+}
+
+.conversation-last-msg {
+  color: #212529;
+}
+
+.conversation-date {
+  color: #212529;
+}
+
+.conversation-partner {
+  color: #212529;
+}

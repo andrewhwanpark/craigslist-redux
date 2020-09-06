@@ -26,7 +26,7 @@ router.get("/buy_messages", auth, (req, res) => {
   })
     .populate("writer")
     .populate("receiver")
-    .sort("-date")
+    .sort("+date")
     .exec((err, chatRes) => {
       if (err) return res.status(400).send(err);
 

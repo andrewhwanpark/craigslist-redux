@@ -5,6 +5,7 @@ import io from "socket.io-client";
 import { Container, Row, Tab, Nav, Col, Accordion } from "react-bootstrap";
 import UserContext from "../../context/UserContext";
 import ConversationBox from "./ConversationBox";
+import ProfileCard from "../users/ProfileCard";
 
 // Group an array of objects by property
 const groupBy = (arr, property) => {
@@ -77,7 +78,7 @@ const Messages = () => {
 
   return (
     <Container fluid>
-      <h2 className="text-center my-4">Messages</h2>
+      <ProfileCard writer={userData.user} />
       <Row className="my-4">
         <Tab.Container defaultActiveKey="Buy Messages">
           <Col xl={12} lg={12} md={12} sm={12} xs={12}>
@@ -102,6 +103,7 @@ const Messages = () => {
                     <ConversationBox
                       key={key}
                       listing={key}
+                      user={userData.user}
                       conversations={buyMessages[key]}
                     />
                   ))}
