@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
+import { css } from "glamor";
+import ScrollToBottom from "react-scroll-to-bottom";
 import { Accordion, Card, Button, Image } from "react-bootstrap";
 import ConversationItem from "./ConversationItem";
 import ChatInput from "./ChatInput";
+
+const SCROLL_TO_BOTTOM_CSS = css({
+  height: 300,
+});
 
 const ConversationBox = ({ listing, conversations }) => {
   const [listingTitle, setListingTitle] = useState();
@@ -36,11 +42,13 @@ const ConversationBox = ({ listing, conversations }) => {
       </Card.Header>
       <Accordion.Collapse eventKey={listing}>
         <Card.Body>
-          <ul className="list-unstyled">
-            {conversations.map((convo) => (
-              <ConversationItem key={convo._id} conversation={convo} />
-            ))}
-          </ul>
+          <ScrollToBottom className={`${SCROLL_TO_BOTTOM_CSS}`}>
+            <ul className="list-unstyled">
+              {conversations.map((convo) => (
+                <ConversationItem key={convo._id} conversation={convo} />
+              ))}
+            </ul>
+          </ScrollToBottom>
           <ChatInput />
         </Card.Body>
       </Accordion.Collapse>
