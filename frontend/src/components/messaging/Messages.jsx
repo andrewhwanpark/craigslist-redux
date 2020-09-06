@@ -2,17 +2,9 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import Axios from "axios";
 import io from "socket.io-client";
-import {
-  Container,
-  Row,
-  // InputGroup,
-  // Button,
-  // FormControl,
-  Tab,
-  Nav,
-  Col,
-} from "react-bootstrap";
+import { Container, Row, Tab, Nav, Col, Accordion } from "react-bootstrap";
 import UserContext from "../../context/UserContext";
+import ConversationBox from "./ConversationBox";
 
 // Group an array of objects by property
 const groupBy = (arr, property) => {
@@ -51,7 +43,6 @@ const Messages = () => {
         const chats = res.data;
         // Sort by listings
         const sortedChats = groupBy(chats, "listing");
-
         setBuyMessages(sortedChats);
       })
       .catch((err) => {
@@ -106,31 +97,22 @@ const Messages = () => {
           <Col xl={12} lg={12} md={12} sm={12} xs={12}>
             <Tab.Content>
               <Tab.Pane eventKey="Buy Messages">
-                <h1>Hi</h1>
+                <Accordion className="mt-4">
+                  {Object.keys(buyMessages).map((key) => (
+                    <ConversationBox
+                      key={key}
+                      listing={key}
+                      conversations={buyMessages[key]}
+                    />
+                  ))}
+                </Accordion>
               </Tab.Pane>
               <Tab.Pane eventKey="Sell Messages">
-                <h1>Bye</h1>
+                <h1>Hi</h1>
               </Tab.Pane>
             </Tab.Content>
           </Col>
         </Tab.Container>
-
-        {/* <InputGroup className="mb-3">
-          <FormControl
-            placeholder="Chat with the user"
-            aria-label="Chat with the user"
-            aria-describedby="chat-input"
-            value={chatMessage}
-            onChange={(e) => {
-              setChatMessage(e.target.value);
-            }}
-          />
-          <InputGroup.Append>
-            <Button variant="outline-secondary" onClick={onChatSubmit}>
-              Send
-            </Button>
-          </InputGroup.Append>
-        </InputGroup> */}
       </Row>
     </Container>
   );

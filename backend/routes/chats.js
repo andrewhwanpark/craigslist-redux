@@ -1,14 +1,31 @@
 const router = require("express").Router();
 const auth = require("../middleware/auth");
 const Chat = require("../models/chat.model");
+const Listing = require("../models/listing.model");
 
-// Get buy messages (sender is user)
+// Get buy messages
+// Get all messages with sender & receiver as user, but the listing should not be owned by the user
 router.get("/buy_messages", auth, (req, res) => {
   const user = req.user;
+  // Store listings user owns
+  const userListings = [];
 
-  Chat.find({ writer: user })
+  Listing.find({ writer: user })
+    .then((doc) => {
+      doc.forEach((listing) => {
+        userListings.push(listing._id);
+      });
+    })
+    .catch((err) => console.error(err));
+
+  Chat.find({
+    $and: [
+      { listing: { $nin: userListings } },
+      { $or: [{ writer: user }, { receiver: user }] },
+    ],
+  })
+    .populate("writer")
     .populate("receiver")
-    // .populate("listing")
     .sort("-date")
     .exec((err, chatRes) => {
       if (err) return res.status(400).send(err);
