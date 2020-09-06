@@ -4,7 +4,6 @@ import { Image } from "react-bootstrap";
 import { isDefined } from "../../utils/null-checks";
 
 const ConversationItem = ({ conversation }) => {
-  console.log(conversation);
   return (
     <li className="media my-2">
       <Image
