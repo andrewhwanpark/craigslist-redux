@@ -12,7 +12,7 @@ const SCROLL_TO_BOTTOM_CSS = css({
   height: 300,
 });
 
-const ConversationBox = ({ listing, conversations, user }) => {
+const ConversationBox = ({ listing, conversations, user, socket }) => {
   // Determine the counterparty of chat
   const getChatPartner = () => {
     const sample = conversations[0];
@@ -22,6 +22,7 @@ const ConversationBox = ({ listing, conversations, user }) => {
     return sample.writer;
   };
 
+  const [chatMessage, setChatMessage] = useState("");
   const [listingTitle, setListingTitle] = useState();
   const [listingImagePath, setListingImagePath] = useState();
   const [chatPartner] = useState(getChatPartner);
@@ -37,6 +38,28 @@ const ConversationBox = ({ listing, conversations, user }) => {
       setLoading(false);
     });
   }, []);
+
+  const onChatSubmit = () => {
+    const senderId = user.id;
+    const receiverId = chatPartner._id;
+    const date = new Date();
+
+    socket.emit(
+      "Chat Sent",
+      {
+        chatMessage,
+        senderId,
+        receiverId,
+        listingId: listing,
+        date,
+      },
+      (err) => {
+        if (err) console.error(err);
+      }
+    );
+
+    setChatMessage("");
+  };
 
   return loading ? null : (
     <Card>
@@ -60,9 +83,12 @@ const ConversationBox = ({ listing, conversations, user }) => {
               {listingTitle}
             </span>
             <span className="ml-4 conversation-last-msg">
-              {conversations[0].message.length > 40
-                ? `${conversations[0].message.substring(0, 40)}...`
-                : conversations[0].message}
+              {conversations[conversations.length - 1].message.length > 40
+                ? `${conversations[conversations.length - 1].message.substring(
+                    0,
+                    40
+                  )}...`
+                : conversations[conversations.length - 1].message}
             </span>
           </div>
 
@@ -88,7 +114,11 @@ const ConversationBox = ({ listing, conversations, user }) => {
               ))}
             </ul>
           </ScrollToBottom>
-          <ChatInput />
+          <ChatInput
+            chatMessage={chatMessage}
+            setChatMessage={setChatMessage}
+            onChatSubmit={onChatSubmit}
+          />
         </Card.Body>
       </Accordion.Collapse>
     </Card>

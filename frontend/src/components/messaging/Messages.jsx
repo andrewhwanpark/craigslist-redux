@@ -25,16 +25,9 @@ const Messages = () => {
   const { userData } = useContext(UserContext);
 
   const [buyMessages, setBuyMessages] = useState({});
+  const [sellMessages, setSellMessages] = useState({});
 
-  useEffect(() => {
-    socket.on("Output Chat Sent", (msg) => {
-      console.log(msg);
-    });
-
-    socket.on("Output Offer Sent", (msg) => {
-      console.log(msg);
-    });
-
+  const getBuyMessages = () => {
     Axios.get("http://localhost:5000/chats/buy_messages", {
       headers: {
         "x-auth-token": localStorage.getItem("auth-token"),
@@ -49,32 +42,51 @@ const Messages = () => {
       .catch((err) => {
         console.error(err);
       });
+  };
+
+  const getSellMessages = () => {
+    Axios.get("http://localhost:5000/chats/sell_messages", {
+      headers: {
+        "x-auth-token": localStorage.getItem("auth-token"),
+      },
+    })
+      .then((res) => {
+        const chats = res.data;
+        // Sort by listings
+        const sortedChats = groupBy(chats, "listing");
+        setSellMessages(sortedChats);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  useEffect(() => {
+    socket.on("Output Chat Sent", (msg) => {
+      if (msg.listing.writer === userData.user.id) {
+        // User made listing, add to sell messages
+        getSellMessages();
+      } else {
+        // Add to buy messages
+        getBuyMessages();
+      }
+    });
+
+    socket.on("Output Offer Sent", (msg) => {
+      if (msg.listing.writer === userData.user.id) {
+        getSellMessages();
+      } else {
+        getBuyMessages();
+      }
+    });
+
+    getBuyMessages();
+    getSellMessages();
 
     return () => {
       socket.off();
     };
   }, []);
-
-  // const onChatSubmit = (e) => {
-  //   e.preventDefault();
-
-  //   const id = userData.user.id;
-  //   const date = new Date();
-
-  //   socket.emit(
-  //     "Chat Sent",
-  //     {
-  //       chatMessage,
-  //       id,
-  //       date,
-  //     },
-  //     (err) => {
-  //       if (err) console.error(err);
-  //     }
-  //   );
-
-  //   setChatMessage("");
-  // };
 
   return (
     <Container fluid>
@@ -99,18 +111,37 @@ const Messages = () => {
             <Tab.Content>
               <Tab.Pane eventKey="Buy Messages">
                 <Accordion className="mt-4">
-                  {Object.keys(buyMessages).map((key) => (
-                    <ConversationBox
-                      key={key}
-                      listing={key}
-                      user={userData.user}
-                      conversations={buyMessages[key]}
-                    />
-                  ))}
+                  {Object.keys(buyMessages).length === 0 ? (
+                    <h3>No Messages</h3>
+                  ) : (
+                    Object.keys(buyMessages).map((key) => (
+                      <ConversationBox
+                        key={key}
+                        socket={socket}
+                        listing={key}
+                        user={userData.user}
+                        conversations={buyMessages[key]}
+                      />
+                    ))
+                  )}
                 </Accordion>
               </Tab.Pane>
               <Tab.Pane eventKey="Sell Messages">
-                <h1>Hi</h1>
+                <Accordion className="mt-4">
+                  {Object.keys(sellMessages).length === 0 ? (
+                    <h3>No Messages</h3>
+                  ) : (
+                    Object.keys(sellMessages).map((key) => (
+                      <ConversationBox
+                        key={key}
+                        socket={socket}
+                        listing={key}
+                        user={userData.user}
+                        conversations={buyMessages[key]}
+                      />
+                    ))
+                  )}
+                </Accordion>
               </Tab.Pane>
             </Tab.Content>
           </Col>

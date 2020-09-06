@@ -37,11 +37,26 @@ router.get("/buy_messages", auth, (req, res) => {
 // Get sell messages (receiver is user)
 router.get("/sell_messages", auth, (req, res) => {
   const user = req.user;
+  // Store listings user owns
+  const userListings = [];
 
-  Chat.find({ receiver: user })
-    .populate("writer", "receiver")
-    .populate("listing")
-    .sort("-date")
+  Listing.find({ writer: user })
+    .then((doc) => {
+      doc.forEach((listing) => {
+        userListings.push(listing._id);
+      });
+    })
+    .catch((err) => console.error(err));
+
+  Chat.find({
+    $and: [
+      { listing: { $in: userListings } },
+      { $or: [{ writer: user }, { receiver: user }] },
+    ],
+  })
+    .populate("writer")
+    .populate("receiver")
+    .sort("+date")
     .exec((err, chatRes) => {
       if (err) return res.status(400).send(err);
 

@@ -58,7 +58,8 @@ io.on("connection", (socket) => {
         .save()
         .then((res) => {
           Chat.findById(res._id)
-            .populate("writer", "receiver")
+            .populate("writer")
+            .populate("receiver")
             .populate("listing")
             .exec((chatErr, chatDoc) => {
               if (chatErr) return callback(chatErr);
@@ -91,7 +92,8 @@ io.on("connection", (socket) => {
         .save()
         .then((res) => {
           Chat.findById(res._id)
-            .populate("writer", "receiver")
+            .populate("writer")
+            .populate("receiver")
             .populate("listing")
             .exec((chatErr, chatDoc) => {
               if (chatErr) return callback(chatErr);
