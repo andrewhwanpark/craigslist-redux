@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Axios from "axios";
-import io from "socket.io-client";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
+import { socket } from "../../services/socket";
 import ListingImageCarousel from "./ListingImageCarousel";
 import ListingUserInfo from "./ListingUserInfo";
 import LoadingSpinner from "../shared/LoadingSpinner";
@@ -21,8 +21,6 @@ const ListingDetail = (props) => {
       params: { id },
     },
   } = props;
-
-  const { current: socket } = useRef(io("http://localhost:5000"));
 
   const { userData, setGlobalMsg } = useContext(UserContext);
 

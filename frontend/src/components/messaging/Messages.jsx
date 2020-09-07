@@ -1,11 +1,13 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable prefer-destructuring */
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Axios from "axios";
-import io from "socket.io-client";
 import { Container, Row, Tab, Nav, Col, Accordion } from "react-bootstrap";
+import { socket } from "../../services/socket";
 import UserContext from "../../context/UserContext";
 import ConversationBox from "./ConversationBox";
 import ProfileCard from "../users/ProfileCard";
+import LoadingSpinner from "../shared/LoadingSpinner";
 
 // Group an array of objects by property
 const groupBy = (arr, property) => {
@@ -19,13 +21,12 @@ const groupBy = (arr, property) => {
 };
 
 const Messages = () => {
-  // Socket doesn't need to be part of state, use reference
-  const { current: socket } = useRef(io("http://localhost:5000"));
-
   const { userData } = useContext(UserContext);
 
   const [buyMessages, setBuyMessages] = useState({});
+  const [buyLoading, setBuyLoading] = useState(true);
   const [sellMessages, setSellMessages] = useState({});
+  const [sellLoading, setSellLoading] = useState(true);
 
   const getBuyMessages = () => {
     Axios.get("http://localhost:5000/chats/buy_messages", {
@@ -38,6 +39,7 @@ const Messages = () => {
         // Sort by listings
         const sortedChats = groupBy(chats, "listing");
         setBuyMessages(sortedChats);
+        setBuyLoading(false);
       })
       .catch((err) => {
         console.error(err);
@@ -55,6 +57,7 @@ const Messages = () => {
         // Sort by listings
         const sortedChats = groupBy(chats, "listing");
         setSellMessages(sortedChats);
+        setSellLoading(false);
       })
       .catch((err) => {
         console.error(err);
@@ -111,7 +114,9 @@ const Messages = () => {
             <Tab.Content>
               <Tab.Pane eventKey="Buy Messages">
                 <Accordion className="mt-4">
-                  {Object.keys(buyMessages).length === 0 ? (
+                  {buyLoading ? (
+                    <LoadingSpinner className="centered-on-page-spinner" />
+                  ) : Object.keys(buyMessages).length === 0 ? (
                     <h3>No Messages</h3>
                   ) : (
                     Object.keys(buyMessages).map((key) => (
@@ -128,7 +133,9 @@ const Messages = () => {
               </Tab.Pane>
               <Tab.Pane eventKey="Sell Messages">
                 <Accordion className="mt-4">
-                  {Object.keys(sellMessages).length === 0 ? (
+                  {sellLoading ? (
+                    <LoadingSpinner className="centered-on-page-spinner" />
+                  ) : Object.keys(sellMessages).length === 0 ? (
                     <h3>No Messages</h3>
                   ) : (
                     Object.keys(sellMessages).map((key) => (
