@@ -38,6 +38,7 @@ const Messages = () => {
         const chats = res.data;
         // Sort by listings
         const sortedChats = groupBy(chats, "listing");
+
         setBuyMessages(sortedChats);
         setBuyLoading(false);
       })
@@ -56,6 +57,7 @@ const Messages = () => {
         const chats = res.data;
         // Sort by listings
         const sortedChats = groupBy(chats, "listing");
+
         setSellMessages(sortedChats);
         setSellLoading(false);
       })
@@ -144,7 +146,7 @@ const Messages = () => {
                         socket={socket}
                         listing={key}
                         user={userData.user}
-                        conversations={buyMessages[key]}
+                        conversations={sellMessages[key]}
                       />
                     ))
                   )}

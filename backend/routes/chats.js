@@ -15,23 +15,23 @@ router.get("/buy_messages", auth, (req, res) => {
       doc.forEach((listing) => {
         userListings.push(listing._id);
       });
+
+      Chat.find({
+        $and: [
+          { listing: { $nin: userListings } },
+          { $or: [{ writer: user }, { receiver: user }] },
+        ],
+      })
+        .populate("writer")
+        .populate("receiver")
+        .sort("+date")
+        .exec((err, chatRes) => {
+          if (err) return res.status(400).send(err);
+
+          return res.status(200).send(chatRes);
+        });
     })
     .catch((err) => console.error(err));
-
-  Chat.find({
-    $and: [
-      { listing: { $nin: userListings } },
-      { $or: [{ writer: user }, { receiver: user }] },
-    ],
-  })
-    .populate("writer")
-    .populate("receiver")
-    .sort("+date")
-    .exec((err, chatRes) => {
-      if (err) return res.status(400).send(err);
-
-      return res.status(200).send(chatRes);
-    });
 });
 
 // Get sell messages (receiver is user)
@@ -45,23 +45,23 @@ router.get("/sell_messages", auth, (req, res) => {
       doc.forEach((listing) => {
         userListings.push(listing._id);
       });
+
+      Chat.find({
+        $and: [
+          { listing: { $in: userListings } },
+          { $or: [{ writer: user }, { receiver: user }] },
+        ],
+      })
+        .populate("writer")
+        .populate("receiver")
+        .sort("+date")
+        .exec((err, chatRes) => {
+          if (err) return res.status(400).send(err);
+
+          return res.status(200).send(chatRes);
+        });
     })
     .catch((err) => console.error(err));
-
-  Chat.find({
-    $and: [
-      { listing: { $in: userListings } },
-      { $or: [{ writer: user }, { receiver: user }] },
-    ],
-  })
-    .populate("writer")
-    .populate("receiver")
-    .sort("+date")
-    .exec((err, chatRes) => {
-      if (err) return res.status(400).send(err);
-
-      return res.status(200).send(chatRes);
-    });
 });
 
 module.exports = router;
