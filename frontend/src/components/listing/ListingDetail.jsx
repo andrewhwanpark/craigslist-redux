@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import Axios from "axios";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
+import { socket } from "../../services/socket";
 import ListingImageCarousel from "./ListingImageCarousel";
 import ListingUserInfo from "./ListingUserInfo";
 import LoadingSpinner from "../shared/LoadingSpinner";
@@ -10,6 +11,9 @@ import ListingBreadcrumb from "./ListingBreadcrumb";
 import UserContext from "../../context/UserContext";
 import DeleteModal from "../shared/DeleteModal";
 import Default from "../Default";
+import OfferModal from "./OfferModal";
+import MessageModal from "./MessageModal";
+import { isDefined } from "../../utils/null-checks";
 
 const ListingDetail = (props) => {
   const {
@@ -18,7 +22,8 @@ const ListingDetail = (props) => {
     },
   } = props;
 
-  const { userData } = useContext(UserContext);
+  const { userData, setGlobalMsg } = useContext(UserContext);
+
   const history = useHistory();
 
   // 404
@@ -27,16 +32,25 @@ const ListingDetail = (props) => {
   const [userIsWriter, setUserIsWriter] = useState(false);
   const [listing, setListing] = useState();
   const [loading, setLoading] = useState(true);
+
   const [modalShow, setModalShow] = useState(false);
+  const [offerModalShow, setOfferModalShow] = useState(false);
+  const [messageModalShow, setMessageModalShow] = useState(false);
+
+  // Offer / Message states
+  const [offerPrice, setOfferPrice] = useState();
+  const [chatMessage, setChatMessage] = useState();
 
   useEffect(() => {
     Axios.get(
       `http://localhost:5000/listings/listings_by_id?id=${id}&type=single`
     )
       .then((res) => {
-        console.log(res.data);
         // Check if user is the writer of the listing
-        if (res.data[0].writer._id === userData.user.id) {
+        if (
+          isDefined(userData.user) &&
+          res.data[0].writer._id === userData.user.id
+        ) {
           setUserIsWriter(true);
         }
         setListing(res.data[0]);
@@ -57,6 +71,72 @@ const ListingDetail = (props) => {
       .catch((err) => {
         console.error(err);
       });
+  };
+
+  const onSendOffer = () => {
+    // Offer price can't be less than 50% of original price
+    if (offerPrice < 0 || offerPrice < listing.price / 2) {
+      setOfferModalShow(false);
+      setGlobalMsg({
+        message: "You must offer at least 50% of the original price",
+        variant: "danger",
+      });
+      return;
+    }
+
+    // Fetch ObjectId of sender & receiver
+    const receiverId = listing.writer._id;
+    const senderId = userData.user.id;
+    const listingId = listing._id;
+    const date = new Date();
+
+    socket.emit(
+      "Offer Sent",
+      {
+        chatMessage,
+        offerPrice,
+        senderId,
+        receiverId,
+        listingId,
+        date,
+      },
+      (err) => {
+        if (err) console.error(err);
+      }
+    );
+
+    setOfferModalShow(false);
+    setGlobalMsg({
+      message: "Offer sent!",
+      variant: "success",
+    });
+  };
+
+  const onSendMessage = () => {
+    const receiverId = listing.writer._id;
+    const senderId = userData.user.id;
+    const listingId = listing._id;
+    const date = new Date();
+
+    socket.emit(
+      "Chat Sent",
+      {
+        chatMessage,
+        senderId,
+        receiverId,
+        listingId,
+        date,
+      },
+      (err) => {
+        if (err) console.error(err);
+      }
+    );
+
+    setMessageModalShow(false);
+    setGlobalMsg({
+      message: "Message sent!",
+      variant: "success",
+    });
   };
 
   // Handle 404 error
@@ -110,12 +190,37 @@ const ListingDetail = (props) => {
             </>
           ) : (
             <>
-              <Button variant="purple" size="lg" block>
+              <Button
+                variant="purple"
+                size="lg"
+                block
+                onClick={() => setOfferModalShow(true)}
+              >
                 Offer
               </Button>
-              <Button variant="outline-purple" size="lg" block>
+              <Button
+                variant="outline-purple"
+                size="lg"
+                block
+                onClick={() => setMessageModalShow(true)}
+              >
                 Message
               </Button>
+
+              <OfferModal
+                show={offerModalShow}
+                onHide={() => setOfferModalShow(false)}
+                setOfferPrice={setOfferPrice}
+                setChatMessage={setChatMessage}
+                onSendOffer={onSendOffer}
+              />
+
+              <MessageModal
+                show={messageModalShow}
+                onHide={() => setMessageModalShow(false)}
+                setChatMessage={setChatMessage}
+                onSendMessage={onSendMessage}
+              />
             </>
           )}
 

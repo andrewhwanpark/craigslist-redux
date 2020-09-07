@@ -183,3 +183,28 @@ div.listing-cover-photo {
   right: 0;
   z-index: 5;
 }
+
+/* Messages Page Tab styles */
+.message-tabs .nav-item a {
+  color: #7952b3;
+}
+
+.message-tabs .nav-item .active {
+  background-color: #7952b3;
+}
+
+.conversation-title {
+  color: #212529;
+}
+
+.conversation-last-msg {
+  color: #212529;
+}
+
+.conversation-date {
+  color: #212529;
+}
+
+.conversation-partner {
+  color: #212529;
+}
