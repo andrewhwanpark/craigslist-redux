@@ -25,7 +25,7 @@ const Seller = (props) => {
   useEffect(() => {
     const getSellerListings = () => {
       Axios.get(
-        `http://localhost:5000/users/find_by_username?username=${username}`
+        `http://localhost:5000/users/find-by-username?username=${username}`
       )
         .then((res) => {
           // 404
@@ -36,7 +36,7 @@ const Seller = (props) => {
           setWriter(res.data[0]);
 
           return Axios.get(
-            `http://localhost:5000/listings/listings_by_user?id=${res.data[0]._id}`
+            `http://localhost:5000/listings/listings-by-user?id=${res.data[0]._id}`
           );
         })
         .then((res) => {

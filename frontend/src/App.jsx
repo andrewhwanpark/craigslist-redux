@@ -46,7 +46,7 @@ function App() {
         token = "";
       }
 
-      Axios.post("http://localhost:5000/users/tokenIsValid", null, {
+      Axios.post("http://localhost:5000/users/token-is-valid", null, {
         headers: { "x-auth-token": token },
       })
         .then((res) => {

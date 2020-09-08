@@ -21,7 +21,7 @@ const Favorites = () => {
   useEffect(() => {
     if (isDefined(favorites)) {
       Axios.get(
-        `http://localhost:5000/listings/listings_by_id?id=${favorites}&type=array`
+        `http://localhost:5000/listings/listings-by-id?id=${favorites}&type=array`
       )
         .then((res) => {
           setListings(res.data);

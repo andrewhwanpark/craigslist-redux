@@ -63,7 +63,7 @@ router.post("/", (req, res) => {
     .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
-router.get("/listings_by_user", (req, res) => {
+router.get("/listings-by-user", (req, res) => {
   const _id = req.query.id;
 
   Listing.find({ writer: { $in: _id } })
@@ -75,7 +75,7 @@ router.get("/listings_by_user", (req, res) => {
     });
 });
 
-router.get("/listings_by_id", (req, res) => {
+router.get("/listings-by-id", (req, res) => {
   const type = req.query.type;
   let id;
 
@@ -183,7 +183,7 @@ router.delete("/:id", (req, res) => {
     .catch((err) => res.status(500).json(`Error: ${err}`));
 });
 
-router.post("/updateImages", upload.array("images", 6), (req, res) => {
+router.post("/update-images", upload.array("images", 6), (req, res) => {
   if (req.files === null) {
     return res.status(400).json({ msg: "No file uploaded" });
   }

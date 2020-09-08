@@ -41,7 +41,7 @@ const UserSettings = () => {
       location: region,
     };
 
-    Axios.post("http://localhost:5000/users/changeInfo", newInfo, {
+    Axios.post("http://localhost:5000/users/change-info", newInfo, {
       headers: {
         "x-auth-token": localStorage.getItem("auth-token"),
       },
@@ -61,7 +61,7 @@ const UserSettings = () => {
     const formData = new FormData();
     formData.append("file", file);
 
-    Axios.post("http://localhost:5000/users/uploadImage", formData, {
+    Axios.post("http://localhost:5000/users/upload-image", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
         "x-auth-token": localStorage.getItem("auth-token"),

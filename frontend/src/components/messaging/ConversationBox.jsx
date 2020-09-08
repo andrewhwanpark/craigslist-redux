@@ -30,7 +30,7 @@ const ConversationBox = ({ listing, conversations, user, socket }) => {
 
   useEffect(() => {
     Axios.get(
-      `http://localhost:5000/listings/listings_by_id?id=${listing}&type=single`
+      `http://localhost:5000/listings/listings-by-id?id=${listing}&type=single`
     ).then((res) => {
       setListingTitle(res.data[0].title);
       setListingImagePath(res.data[0].image[0].filePath);
