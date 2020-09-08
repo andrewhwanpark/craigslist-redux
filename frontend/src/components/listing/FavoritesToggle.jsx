@@ -22,7 +22,7 @@ const FavoritesToggle = ({ id, size }) => {
   useEffect(() => {
     const addToFavorites = () => {
       Axios.post(
-        "http://localhost:5000/users/addToFavorites",
+        "http://localhost:5000/users/add-to-favorites",
         { id },
         {
           headers: {

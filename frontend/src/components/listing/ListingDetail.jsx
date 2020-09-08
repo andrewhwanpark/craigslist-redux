@@ -43,7 +43,7 @@ const ListingDetail = (props) => {
 
   useEffect(() => {
     Axios.get(
-      `http://localhost:5000/listings/listings_by_id?id=${id}&type=single`
+      `http://localhost:5000/listings/listings-by-id?id=${id}&type=single`
     )
       .then((res) => {
         // Check if user is the writer of the listing

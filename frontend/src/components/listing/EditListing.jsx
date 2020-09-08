@@ -50,7 +50,7 @@ const EditListing = (props) => {
   // Fetch listing and pre-fill all fields and images
   useEffect(() => {
     Axios.get(
-      `http://localhost:5000/listings/listings_by_id?id=${props.match.params.id}&type=single`
+      `http://localhost:5000/listings/listings-by-id?id=${props.match.params.id}&type=single`
     )
       .then((res) => {
         setTitle(res.data[0].title);
@@ -260,7 +260,7 @@ const EditListing = (props) => {
           });
 
           return Axios.post(
-            `http://localhost:5000/listings/updateImages/?id=${
+            `http://localhost:5000/listings/update-images/?id=${
               props.match.params.id
             }&order=${order.join(",")}&filenames=${filenames.join(",")}`,
             formData,

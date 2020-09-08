@@ -5,7 +5,7 @@ const Listing = require("../models/listing.model");
 
 // Get buy messages
 // Get all messages with sender & receiver as user, but the listing should not be owned by the user
-router.get("/buy_messages", auth, (req, res) => {
+router.get("/buy-messages", auth, (req, res) => {
   const user = req.user;
   // Store listings user owns
   const userListings = [];
@@ -35,7 +35,7 @@ router.get("/buy_messages", auth, (req, res) => {
 });
 
 // Get sell messages (receiver is user)
-router.get("/sell_messages", auth, (req, res) => {
+router.get("/sell-messages", auth, (req, res) => {
   const user = req.user;
   // Store listings user owns
   const userListings = [];

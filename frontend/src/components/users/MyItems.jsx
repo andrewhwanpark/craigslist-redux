@@ -17,7 +17,7 @@ const MyItems = () => {
   useEffect(() => {
     const getMyItems = () => {
       Axios.get(
-        `http://localhost:5000/listings/listings_by_user?id=${userData.user.id}`
+        `http://localhost:5000/listings/listings-by-user?id=${userData.user.id}`
       )
         .then((res) => {
           setListings(res.data);

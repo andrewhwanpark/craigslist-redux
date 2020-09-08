@@ -35,7 +35,7 @@ const upload = multer({
   },
 });
 
-router.post("/addToFavorites", auth, (req, res) => {
+router.post("/add-to-favorites", auth, (req, res) => {
   const id = req.body.id;
 
   User.findOne({ _id: req.user, favorites: id })
@@ -69,7 +69,7 @@ router.post("/addToFavorites", auth, (req, res) => {
     });
 });
 
-router.post("/uploadImage", auth, upload.single("file"), (req, res) => {
+router.post("/upload-image", auth, upload.single("file"), (req, res) => {
   // If no files uploaded
   if (req.file === null) {
     return res.status(400).json({ msg: "No file uploaded" });
@@ -92,7 +92,7 @@ router.post("/uploadImage", auth, upload.single("file"), (req, res) => {
   return undefined;
 });
 
-router.post("/changeInfo", auth, (req, res) => {
+router.post("/change-info", auth, (req, res) => {
   const { username, email, location } = req.body;
 
   User.findByIdAndUpdate(req.user, {
@@ -108,7 +108,7 @@ router.post("/changeInfo", auth, (req, res) => {
     });
 });
 
-router.get("/find_by_username", (req, res) => {
+router.get("/find-by-username", (req, res) => {
   const user = req.query.username;
 
   User.find({ username: user })
@@ -238,7 +238,7 @@ router.delete("/delete", auth, async (req, res) => {
   }
 });
 
-router.post("/tokenIsValid", (req, res) => {
+router.post("/token-is-valid", (req, res) => {
   const token = req.header("x-auth-token");
   if (!token) return res.json(false);
 
