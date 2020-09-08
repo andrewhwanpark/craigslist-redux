@@ -50,7 +50,7 @@ const Seller = (props) => {
     };
 
     getSellerListings();
-  }, []);
+  }, [username]);
 
   // Handle 404 error
   if (noRoute) return <Default />;

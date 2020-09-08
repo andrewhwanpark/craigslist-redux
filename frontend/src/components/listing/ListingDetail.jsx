@@ -42,26 +42,30 @@ const ListingDetail = (props) => {
   const [chatMessage, setChatMessage] = useState();
 
   useEffect(() => {
-    Axios.get(
-      `http://localhost:5000/listings/listings-by-id?id=${id}&type=single`
-    )
-      .then((res) => {
-        // Check if user is the writer of the listing
-        if (
-          isDefined(userData.user) &&
-          res.data[0].writer._id === userData.user.id
-        ) {
-          setUserIsWriter(true);
-        }
-        setListing(res.data[0]);
-        setLoading(false);
-      })
-      .catch((err) => {
-        // set 404 boolean to true
-        setNoRoute(true);
-        console.error(err);
-      });
-  }, []);
+    const getListingDetail = () => {
+      Axios.get(
+        `http://localhost:5000/listings/listings-by-id?id=${id}&type=single`
+      )
+        .then((res) => {
+          // Check if user is the writer of the listing
+          if (
+            isDefined(userData.user) &&
+            res.data[0].writer._id === userData.user.id
+          ) {
+            setUserIsWriter(true);
+          }
+          setListing(res.data[0]);
+          setLoading(false);
+        })
+        .catch((err) => {
+          // set 404 boolean to true
+          setNoRoute(true);
+          console.error(err);
+        });
+    };
+
+    getListingDetail();
+  }, [id, userData.user]);
 
   const deleteListing = () => {
     Axios.delete(`http://localhost:5000/listings/${id}`)

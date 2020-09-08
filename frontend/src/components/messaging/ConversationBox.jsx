@@ -29,15 +29,19 @@ const ConversationBox = ({ listing, conversations, user, socket }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Axios.get(
-      `http://localhost:5000/listings/listings-by-id?id=${listing}&type=single`
-    ).then((res) => {
-      setListingTitle(res.data[0].title);
-      setListingImagePath(res.data[0].image[0].filePath);
+    const getListing = () => {
+      Axios.get(
+        `http://localhost:5000/listings/listings-by-id?id=${listing}&type=single`
+      ).then((res) => {
+        setListingTitle(res.data[0].title);
+        setListingImagePath(res.data[0].image[0].filePath);
 
-      setLoading(false);
-    });
-  }, []);
+        setLoading(false);
+      });
+    };
+
+    getListing();
+  }, [listing]);
 
   const onChatSubmit = () => {
     const senderId = user.id;

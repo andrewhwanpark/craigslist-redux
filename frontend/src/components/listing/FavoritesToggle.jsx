@@ -38,6 +38,7 @@ const FavoritesToggle = ({ id, size }) => {
     if (!isMount) {
       addToFavorites();
     }
+    // eslint-disable-next-line
   }, [checked]);
 
   return (

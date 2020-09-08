@@ -19,21 +19,25 @@ const Favorites = () => {
       : userData.user.favorites.join(",");
 
   useEffect(() => {
-    if (isDefined(favorites)) {
-      Axios.get(
-        `http://localhost:5000/listings/listings-by-id?id=${favorites}&type=array`
-      )
-        .then((res) => {
-          setListings(res.data);
-          setLoading(false);
-        })
-        .catch(() => {
-          setMessage("Server error. Please try again");
-        });
-    } else {
-      setLoading(false);
-    }
-  }, []);
+    const getFavorites = () => {
+      if (isDefined(favorites)) {
+        Axios.get(
+          `http://localhost:5000/listings/listings-by-id?id=${favorites}&type=array`
+        )
+          .then((res) => {
+            setListings(res.data);
+            setLoading(false);
+          })
+          .catch(() => {
+            setMessage("Server error. Please try again");
+          });
+      } else {
+        setLoading(false);
+      }
+    };
+
+    getFavorites();
+  }, [favorites]);
 
   if (loading) {
     return <LoadingSpinner className="centered-on-page-spinner" />;

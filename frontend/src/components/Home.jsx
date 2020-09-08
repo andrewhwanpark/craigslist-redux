@@ -69,7 +69,8 @@ const Home = () => {
     };
 
     getListings(variables);
-  }, [location, categories]);
+    // eslint-disable-next-line
+  }, [location, categories, limit]);
 
   const fetchMore = () => {
     const newSkip = skip + limit;

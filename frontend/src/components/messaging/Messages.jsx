@@ -91,7 +91,7 @@ const Messages = () => {
     return () => {
       socket.off();
     };
-  }, []);
+  }, [userData.user.id]);
 
   return (
     <Container fluid>

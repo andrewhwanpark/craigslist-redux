@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, {
   useState,
   useCallback,
@@ -49,36 +50,40 @@ const EditListing = (props) => {
 
   // Fetch listing and pre-fill all fields and images
   useEffect(() => {
-    Axios.get(
-      `http://localhost:5000/listings/listings-by-id?id=${props.match.params.id}&type=single`
-    )
-      .then((res) => {
-        setTitle(res.data[0].title);
-        setPrice(res.data[0].price);
-        setLocation(res.data[0].location);
-        setCategory(res.data[0].category);
-        setDesc(res.data[0].desc);
-        setCondition(res.data[0].condition);
+    const getListing = () => {
+      Axios.get(
+        `http://localhost:5000/listings/listings-by-id?id=${props.match.params.id}&type=single`
+      )
+        .then((res) => {
+          setTitle(res.data[0].title);
+          setPrice(res.data[0].price);
+          setLocation(res.data[0].location);
+          setCategory(res.data[0].category);
+          setDesc(res.data[0].desc);
+          setCondition(res.data[0].condition);
 
-        // Prepare images for upload preview
-        const preparedImgs = res.data[0].image.map((img) => ({
-          ...img,
-          id: cuid(),
-          src: `http://localhost:5000/${img.filePath}`,
-        }));
+          // Prepare images for upload preview
+          const preparedImgs = res.data[0].image.map((img) => ({
+            ...img,
+            id: cuid(),
+            src: `http://localhost:5000/${img.filePath}`,
+          }));
 
-        setImages(preparedImgs);
-        setFiles(res.data[0].image);
+          setImages(preparedImgs);
+          setFiles(res.data[0].image);
 
-        // Set image counter tracking # of images to be sent
-        imageCount.current = res.data[0].image.length;
+          // Set image counter tracking # of images to be sent
+          imageCount.current = res.data[0].image.length;
 
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    };
+
+    getListing();
+  }, [props.match.params.id]);
 
   const resetForm = () => {
     setGlobalMsg({

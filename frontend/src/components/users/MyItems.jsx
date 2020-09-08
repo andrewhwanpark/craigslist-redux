@@ -30,7 +30,7 @@ const MyItems = () => {
     };
 
     getMyItems();
-  }, []);
+  }, [userData.user.id]);
 
   return loading ? (
     <LoadingSpinner className="centered-on-page-spinner" />
