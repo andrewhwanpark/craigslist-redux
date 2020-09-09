@@ -72,5 +72,6 @@
     "hooks": {
       "pre-commit": "yarn pre-commit"
     }
-  }
+  },
+  "proxy": "http://localhost:5000"
 }

@@ -7,7 +7,7 @@ const ConversationItem = ({ conversation }) => {
   return (
     <li className="media my-2">
       <Image
-        src={`http://localhost:5000/${conversation.writer.image.filePath}`}
+        src={`/${conversation.writer.image.filePath}`}
         className="align-self-start mr-3"
         alt="Writer Avatar"
         roundedCircle

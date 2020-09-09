@@ -29,7 +29,7 @@ const Messages = () => {
   const [sellLoading, setSellLoading] = useState(true);
 
   const getBuyMessages = () => {
-    Axios.get("http://localhost:5000/chats/buy-messages", {
+    Axios.get("/api/chats/buy-messages", {
       headers: {
         "x-auth-token": localStorage.getItem("auth-token"),
       },
@@ -48,7 +48,7 @@ const Messages = () => {
   };
 
   const getSellMessages = () => {
-    Axios.get("http://localhost:5000/chats/sell-messages", {
+    Axios.get("/api/chats/sell-messages", {
       headers: {
         "x-auth-token": localStorage.getItem("auth-token"),
       },

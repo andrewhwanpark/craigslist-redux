@@ -37,7 +37,7 @@ const Home = () => {
   const [message, setMessage] = useState("");
 
   const getListings = (variables) => {
-    Axios.post("http://localhost:5000/listings/", variables)
+    Axios.post("/api/listings/", variables)
       .then((res) => {
         if (variables.fetchMore === true) {
           setListingData({

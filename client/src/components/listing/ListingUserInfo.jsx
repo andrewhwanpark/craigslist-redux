@@ -9,7 +9,7 @@ const ListingUserInfo = ({ writer }) => {
       className="link-no-style text-decoration-none"
     >
       <Image
-        src={`http://localhost:5000/${writer.image.filePath}`}
+        src={`/${writer.image.filePath}`}
         roundedCircle
         width="50"
         height="50"

@@ -23,9 +23,9 @@ const Signup = () => {
 
     const newUser = { username, email, password, passwordCheck, location };
 
-    Axios.post("http://localhost:5000/users/register", newUser)
+    Axios.post("/api/users/register", newUser)
       .then(() => {
-        return Axios.post("http://localhost:5000/users/login", {
+        return Axios.post("/api/users/login", {
           email,
           password,
         });

@@ -43,9 +43,7 @@ const ListingDetail = (props) => {
 
   useEffect(() => {
     const getListingDetail = () => {
-      Axios.get(
-        `http://localhost:5000/listings/listings-by-id?id=${id}&type=single`
-      )
+      Axios.get(`/api/listings/listings-by-id?id=${id}&type=single`)
         .then((res) => {
           // Check if user is the writer of the listing
           if (
@@ -68,7 +66,7 @@ const ListingDetail = (props) => {
   }, [id, userData.user]);
 
   const deleteListing = () => {
-    Axios.delete(`http://localhost:5000/listings/${id}`)
+    Axios.delete(`/api/listings/${id}`)
       .then(() => {
         history.push("/");
       })

@@ -10,11 +10,7 @@ const Avatar = ({ logout }) => {
     <NavDropdown
       title={
         <Image
-          src={
-            userData.loading
-              ? null
-              : `http://localhost:5000/${userData.user.image.filePath}`
-          }
+          src={userData.loading ? null : `/${userData.user.image.filePath}`}
           width="40"
           height="40"
           roundedCircle

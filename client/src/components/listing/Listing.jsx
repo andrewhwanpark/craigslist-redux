@@ -9,7 +9,7 @@ const Listing = ({ title, date, price, image, id }) => {
   const src =
     image.length === 0
       ? "https://www.thedome.org/wp-content/uploads/2019/06/300x300-Placeholder-Image.jpg"
-      : `http://localhost:5000/${image[0].filePath}`;
+      : `/${image[0].filePath}`;
 
   return (
     <Col xl={2} lg={3} md={3} sm={4} xs={6} className="my-4 feed-item">

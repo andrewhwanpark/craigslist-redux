@@ -8,7 +8,7 @@ const ProfileCard = ({ writer, hideEditButton }) => {
     <Row className="mt-4">
       <Col lg={12} className="d-flex align-items-center">
         <Image
-          src={`http://localhost:5000/${writer.image.filePath}`}
+          src={`/${writer.image.filePath}`}
           roundedCircle
           width="70"
           height="70"

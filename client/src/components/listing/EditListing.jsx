@@ -52,7 +52,7 @@ const EditListing = (props) => {
   useEffect(() => {
     const getListing = () => {
       Axios.get(
-        `http://localhost:5000/listings/listings-by-id?id=${props.match.params.id}&type=single`
+        `/api/listings/listings-by-id?id=${props.match.params.id}&type=single`
       )
         .then((res) => {
           setTitle(res.data[0].title);
@@ -66,7 +66,7 @@ const EditListing = (props) => {
           const preparedImgs = res.data[0].image.map((img) => ({
             ...img,
             id: cuid(),
-            src: `http://localhost:5000/${img.filePath}`,
+            src: `/${img.filePath}`,
           }));
 
           setImages(preparedImgs);
@@ -204,7 +204,7 @@ const EditListing = (props) => {
       };
 
       Axios.post(
-        `http://localhost:5000/listings/update/${props.match.params.id}`,
+        `/api/listings/update/${props.match.params.id}`,
         updatedListing,
         {
           headers: {
@@ -231,7 +231,7 @@ const EditListing = (props) => {
       };
 
       Axios.post(
-        `http://localhost:5000/listings/update/${props.match.params.id}`,
+        `/api/listings/update/${props.match.params.id}`,
         updatedListing,
         {
           headers: {
@@ -265,7 +265,7 @@ const EditListing = (props) => {
           });
 
           return Axios.post(
-            `http://localhost:5000/listings/update-images/?id=${
+            `/api/listings/update-images/?id=${
               props.match.params.id
             }&order=${order.join(",")}&filenames=${filenames.join(",")}`,
             formData,

@@ -147,7 +147,7 @@ const Sell = () => {
       condition,
     };
 
-    Axios.post("http://localhost:5000/listings/add", newListing, {
+    Axios.post("/api/listings/add", newListing, {
       headers: {
         "x-auth-token": localStorage.getItem("auth-token"),
       },
@@ -166,16 +166,12 @@ const Sell = () => {
         }
 
         // Upload images
-        return Axios.post(
-          "http://localhost:5000/listings/add/images",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              "listing-id": res.data.id,
-            },
-          }
-        );
+        return Axios.post("/api/listings/add/images", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            "listing-id": res.data.id,
+          },
+        });
       })
       .then(() => {
         resetForm();
