@@ -8,8 +8,8 @@ require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-const http = require("http").createServer(app);
-const io = require("socket.io")(http);
+const server = require("http").createServer(app);
+const io = require("socket.io")(server);
 
 app.use(cors());
 app.use(express.json());
@@ -36,6 +36,8 @@ const chatsRouter = require("./routes/chats");
 app.use("/listings", listingsRouter);
 app.use("/users", usersRouter);
 app.use("/chats", chatsRouter);
+
+app.use(express.static(path.join(__dirname, "client", "build")));
 
 // Socket.io
 const Chat = require("./models/chat.model");
@@ -112,6 +114,10 @@ io.on("connection", (socket) => {
   });
 });
 
-http.listen(port, () => {
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
+
+server.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
