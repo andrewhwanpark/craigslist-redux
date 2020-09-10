@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import Axios from "axios";
+import moment from "moment";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { socket } from "../../services/socket";
@@ -161,6 +162,10 @@ const ListingDetail = (props) => {
             <FavoritesToggle id={listing._id} size="1.5em" />
           </div>
           <p>{`$${listing.price}`}</p>
+          <p>
+            <span className="font-weight-bold">Condition: </span>
+            {listing.condition}
+          </p>
 
           {userIsWriter ? (
             <>
@@ -228,8 +233,15 @@ const ListingDetail = (props) => {
 
           <p className="font-weight-bold my-4">Description</p>
           <p>{listing.desc}</p>
-
+          <hr />
           <ListingUserInfo writer={listing.writer} />
+          <hr />
+          <p className="text-muted">
+            posted{" "}
+            <span className="font-weight-bold">
+              {moment(listing.date).fromNow()}
+            </span>
+          </p>
         </Col>
       </Row>
     </Container>

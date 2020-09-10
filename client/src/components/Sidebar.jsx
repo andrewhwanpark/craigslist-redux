@@ -29,14 +29,14 @@ const Sidebar = ({ location, setLocation, setCategories, setSkip }) => {
 
   return (
     <Row className="mt-4">
-      <Col className="my-2" xl={12} lg={12} md={6} sm={6} xs={6}>
+      <Col className="my-2" xl={6} lg={6} md={6} sm={6} xs={12}>
         <LocationSelector
           isClearable
           onChange={onLocationChange}
           defaultValue={location}
         />
       </Col>
-      <Col className="my-2" xl={12} lg={12} md={6} sm={6} xs={6}>
+      <Col className="my-2" xl={6} lg={6} md={6} sm={6} xs={12}>
         <CategorySelector
           isClearable
           isMulti
