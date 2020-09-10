@@ -33,6 +33,7 @@ const Login = () => {
 
   return (
     <Form className="centered-form" onSubmit={submit}>
+      <h3 className="text-center mb-4">Login</h3>
       {error && (
         <ErrorMsg
           message={error}
@@ -61,9 +62,7 @@ const Login = () => {
           }}
         />
       </Form.Group>
-      <Form.Group controlId="formBasicCheckbox">
-        <Form.Check type="checkbox" label="Check me out" />
-      </Form.Group>
+
       <Button variant="purple" type="submit" onClick={submit} block>
         Log In
       </Button>
