@@ -1,8 +1,16 @@
 # Craigslist Redux
 
-Full stack recreation of Craigslist with modern features that we wish to add to Craigslist: in-app messaging, minimal social features, and many more.
+Full stack recreation of Craigslist with modern features that we wish to add to Craigslist: in-app messaging, emphasis on product images, and many more.
 
 _The project is non-commercial, and built soley for personal and educational purposes._
+
+## Stack
+
+The site uses the MERN stack: MongoDB, Express, React, Node
+
+The site is hosted on Heroku.
+
+The code is linted by the airbnb ESlint config: [github.com/airbnb/javascript](https://github.com/airbnb/javascript)
 
 ## Philosophy
 
@@ -22,11 +30,3 @@ For those unaware of [Grailed](https://www.grailed.com/), here are some reasons 
 - **Seller branding:** sellers can add profile pictures and usernames. You can also add profile pictures in eBay, but when do you ever see them? I don't even know if I have a profile picture uploaded on eBay. But I don't know or care since I never come across it.
 - **Price drops and bump:** You can perform 2 actions to your listings. Drop the price by n%, or bump the listing to the top every week. Try this very simple action on eBay. Price dropping takes around 10 clicks, and bumping is non-existant.
 - **Comments on listings:** Comments allow sellers to broadcast information or answer specific FAQs. Comments also allow buyers to publically broadcast information about the listing. I've had times where I found out the product is fake thanks to comments left by users.
-
-## Stack
-
-We are using the MERN stack: MongoDB, Express, React, Node
-
-The code is linted by the airbnb ESlint config: [github.com/airbnb/javascript](https://github.com/airbnb/javascript)
-
-## TBD
