@@ -119,7 +119,7 @@ const Messages = () => {
                   {buyLoading ? (
                     <LoadingSpinner className="centered-on-page-spinner" />
                   ) : Object.keys(buyMessages).length === 0 ? (
-                    <h3>No Messages</h3>
+                    <h3 className="text-center">No Messages</h3>
                   ) : (
                     Object.keys(buyMessages).map((key) => (
                       <ConversationBox
@@ -138,7 +138,7 @@ const Messages = () => {
                   {sellLoading ? (
                     <LoadingSpinner className="centered-on-page-spinner" />
                   ) : Object.keys(sellMessages).length === 0 ? (
-                    <h3>No Messages</h3>
+                    <h3 className="text-center">No Messages</h3>
                   ) : (
                     Object.keys(sellMessages).map((key) => (
                       <ConversationBox
