@@ -296,7 +296,7 @@ const Sell = () => {
                 />
               </DndProvider>
             </Form.Group>
-            <Button variant="purple" type="submit" onSubmit={onSubmit}>
+            <Button variant="purple" type="submit">
               Submit
             </Button>
           </Form>

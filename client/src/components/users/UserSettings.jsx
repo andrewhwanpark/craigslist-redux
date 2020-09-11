@@ -5,11 +5,11 @@ import { useHistory } from "react-router-dom";
 import bsCustomFileInput from "bs-custom-file-input";
 import UserContext from "../../context/UserContext";
 import Progress from "./Progress";
-import { isNullable } from "../../utils/null-checks";
 import LocationSelector from "../shared/LocationSelector";
 import ProfileCard from "./ProfileCard";
 import DeleteModal from "../shared/DeleteModal";
 import AlertMsg from "../shared/AlertMsg";
+import { isDefined } from "../../utils/null-checks";
 
 const UserSettings = () => {
   bsCustomFileInput.init();
@@ -19,26 +19,35 @@ const UserSettings = () => {
   const [file, setFile] = useState();
   const [message, setMessage] = useState("");
   const [uploadPercentage, setUploadPercentage] = useState(0);
-  const [username, setUsername] = useState();
-  const [email, setEmail] = useState();
-  const [region, setRegion] = useState();
+  const [username, setUsername] = useState(userData.user.username);
+  const [email, setEmail] = useState(userData.user.email);
+  const [location, setLocation] = useState(userData.user.location);
 
   const [modalShow, setModalShow] = useState(false);
 
-  // Handler for information change
-  // TODO: Need to write location into register data in order to update
-  // TODO: email validation
   const onChangeInfoSubmit = (e) => {
     e.preventDefault();
 
-    if (isNullable(email)) {
-      setMessage();
+    // Check blank fields
+    if (username.length === 0 || email.length === 0) {
+      setMessage("Please enter all fields");
+      return;
+    }
+
+    // Check if nothing changed
+    if (
+      username === userData.user.username &&
+      email === userData.user.email &&
+      location === userData.user.location
+    ) {
+      setMessage("No change detected. Did you enter new information?");
+      return;
     }
 
     const newInfo = {
       username,
       email,
-      location: region,
+      location,
     };
 
     Axios.post("/api/users/change-info", newInfo, {
@@ -50,8 +59,11 @@ const UserSettings = () => {
         setMessage("Information updated!");
       })
       .catch((err) => {
-        setMessage("Server Error: Failed to send");
-        console.error(err);
+        if (isDefined(err.response.data.msg)) {
+          setMessage(err.response.data.msg);
+        } else {
+          setMessage("Server Error: please try again");
+        }
       });
   };
 
@@ -128,7 +140,7 @@ const UserSettings = () => {
                 <Form.Label>Username</Form.Label>
                 <Form.Control
                   type="text"
-                  defaultValue={userData.user.username}
+                  value={username}
                   onChange={(e) => {
                     setUsername(e.target.value);
                   }}
@@ -139,6 +151,7 @@ const UserSettings = () => {
                 <Form.Label>Email</Form.Label>
                 <Form.Control
                   type="text"
+                  value={email}
                   placeholder="example@example.com"
                   onChange={(e) => {
                     setEmail(e.target.value);
@@ -152,9 +165,9 @@ const UserSettings = () => {
                 <LocationSelector
                   isClearable={false}
                   onChange={(e) => {
-                    setRegion(e.value);
+                    setLocation(e.value);
                   }}
-                  defaultValue={userData.user.location}
+                  defaultValue={location}
                   className="z-index-fix"
                 />
               </Form.Group>
@@ -178,7 +191,7 @@ const UserSettings = () => {
             </Form.Group>
             <Progress percentage={uploadPercentage} />
             <br />
-            <Button variant="purple" type="submit" onClick={onSubmit}>
+            <Button variant="purple" type="submit">
               Submit
             </Button>
           </Form>

@@ -95,16 +95,33 @@ router.post("/upload-image", auth, upload.single("file"), (req, res) => {
 router.post("/change-info", auth, (req, res) => {
   const { username, email, location } = req.body;
 
-  User.findByIdAndUpdate(req.user, {
-    username,
-    email,
-    location,
+  User.findOne({
+    $and: [{ _id: { $ne: req.user } }, { $or: [{ username }, { email }] }],
   })
-    .then(() => {
-      res.json("Information updated");
+    .then((userRes) => {
+      if (isNullable(userRes)) {
+        // No conflicts, update info
+        User.findByIdAndUpdate(req.user, {
+          username,
+          email,
+          location,
+        })
+          .then(() => {
+            return res.json("Information updated");
+          })
+          .catch((err) => {
+            return res.status(500).json({ error: err.message });
+          });
+      } else {
+        // username or email already in use, return error
+        return res
+          .status(400)
+          .json({ msg: "Username or email is already in use" });
+      }
     })
     .catch((err) => {
-      res.status(500).json({ error: err.message });
+      console.error(err);
+      return res.status(400).send(err);
     });
 });
 
@@ -125,6 +142,7 @@ router.get("/", auth, async (req, res) => {
 
   res.json({
     username: user.username,
+    email: user.email,
     id: user._id,
     image: user.image,
     sold: user.sold,

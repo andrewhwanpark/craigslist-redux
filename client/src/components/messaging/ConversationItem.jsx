@@ -14,7 +14,7 @@ const ConversationItem = ({ conversation }) => {
         width="32"
         height="32"
       />
-      <div className="mr-4" style={{ width: "150px" }}>
+      <div className="mr-4 conversation-user" style={{ width: "150px" }}>
         <span className="font-weight-bold">{conversation.writer.username}</span>
         <br />
         <span className="text-muted">
