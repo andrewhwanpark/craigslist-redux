@@ -87,6 +87,16 @@ const ListingDetail = (props) => {
       return;
     }
 
+    // Handle no price
+    if (isNullable(offerPrice)) {
+      setOfferModalShow(false);
+      setGlobalMsg({
+        message: "Please enter a valid price",
+        variant: "danger",
+      });
+      return;
+    }
+
     // Offer price can't be less than 50% of original price
     if (offerPrice < 0 || offerPrice < listing.price / 2) {
       setOfferModalShow(false);
@@ -128,6 +138,16 @@ const ListingDetail = (props) => {
   const onSendMessage = () => {
     // Handle users not logged in
     if (isNullable(userData.user)) {
+      setMessageModalShow(false);
+      setGlobalMsg({
+        message: "You must be logged in to send messages",
+        variant: "danger",
+      });
+      return;
+    }
+
+    // Handle no message
+    if (isNullable(chatMessage)) {
       setMessageModalShow(false);
       setGlobalMsg({
         message: "You must be logged in to send messages",
