@@ -9,7 +9,7 @@ import LocationSelector from "../shared/LocationSelector";
 import ProfileCard from "./ProfileCard";
 import DeleteModal from "../shared/DeleteModal";
 import AlertMsg from "../shared/AlertMsg";
-import { isDefined } from "../../utils/null-checks";
+import { isDefined, isNullable } from "../../utils/null-checks";
 
 const UserSettings = () => {
   bsCustomFileInput.init();
@@ -17,7 +17,10 @@ const UserSettings = () => {
   const history = useHistory();
 
   const [file, setFile] = useState();
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState({
+    message: undefined,
+    variant: undefined,
+  });
   const [uploadPercentage, setUploadPercentage] = useState(0);
   const [username, setUsername] = useState(userData.user.username);
   const [email, setEmail] = useState(userData.user.email);
@@ -29,8 +32,13 @@ const UserSettings = () => {
     e.preventDefault();
 
     // Check blank fields
-    if (username.length === 0 || email.length === 0) {
-      setMessage("Please enter all fields");
+    if (
+      isNullable(username) ||
+      isNullable(email) ||
+      username.length === 0 ||
+      email.length === 0
+    ) {
+      setMessage({ message: "Please enter all fields", variant: "danger" });
       return;
     }
 
@@ -40,7 +48,10 @@ const UserSettings = () => {
       email === userData.user.email &&
       location === userData.user.location
     ) {
-      setMessage("No change detected. Did you enter new information?");
+      setMessage({
+        message: "No change detected. Did you enter new information?",
+        variant: "danger",
+      });
       return;
     }
 
@@ -56,13 +67,16 @@ const UserSettings = () => {
       },
     })
       .then(() => {
-        setMessage("Information updated!");
+        setMessage({ message: "Information updated!", variant: "success" });
       })
       .catch((err) => {
         if (isDefined(err.response.data.msg)) {
-          setMessage(err.response.data.msg);
+          setMessage({ message: err.response.data.msg, variant: "danger" });
         } else {
-          setMessage("Server Error: please try again");
+          setMessage({
+            message: "Server Error: please try again",
+            variant: "danger",
+          });
         }
       });
   };
@@ -70,6 +84,13 @@ const UserSettings = () => {
   // Handler for profile picture
   const onSubmit = (e) => {
     e.preventDefault();
+
+    // Handle no file
+    if (isNullable(file)) {
+      setMessage({ message: "No file was uploaded.", variant: "danger" });
+      return;
+    }
+
     const formData = new FormData();
     formData.append("file", file);
 
@@ -91,10 +112,16 @@ const UserSettings = () => {
       },
     })
       .then(() => {
-        setMessage("Image successfully uploaded! Refresh to see changes.");
+        setMessage({
+          message: "Image successfully uploaded! Refresh to see changes.",
+          variant: "success",
+        });
       })
       .catch((err) => {
-        setMessage("Server Error: Failed to upload");
+        setMessage({
+          message: "Server Error: Failed to upload",
+          variant: "success",
+        });
         console.error(err);
       });
   };
@@ -125,12 +152,12 @@ const UserSettings = () => {
       <Row className="my-4">
         <Col lg={12}>
           <h2>Edit Your Info</h2>
-          {message ? (
+          {message.message ? (
             <AlertMsg
-              msg={message}
-              variant="danger"
+              msg={message.message}
+              variant={message.variant}
               clearError={() => {
-                setMessage(undefined);
+                setMessage({ message: undefined, variant: undefined });
               }}
             />
           ) : null}
