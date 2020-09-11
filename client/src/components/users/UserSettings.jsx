@@ -136,7 +136,15 @@ const UserSettings = () => {
           ) : null}
           <Form onSubmit={onChangeInfoSubmit}>
             <Form.Row>
-              <Form.Group as={Col} controlId="changeUsername">
+              <Form.Group
+                as={Col}
+                xs="12"
+                sm="6"
+                md="6"
+                lg="6"
+                xl="6"
+                controlId="changeUsername"
+              >
                 <Form.Label>Username</Form.Label>
                 <Form.Control
                   type="text"
@@ -147,7 +155,15 @@ const UserSettings = () => {
                 />
               </Form.Group>
 
-              <Form.Group as={Col} controlId="changeEmail">
+              <Form.Group
+                as={Col}
+                xs="12"
+                sm="6"
+                md="6"
+                lg="6"
+                xl="6"
+                controlId="changeEmail"
+              >
                 <Form.Label>Email</Form.Label>
                 <Form.Control
                   type="text"
