@@ -14,7 +14,7 @@ import DeleteModal from "../shared/DeleteModal";
 import Default from "../Default";
 import OfferModal from "./OfferModal";
 import MessageModal from "./MessageModal";
-import { isDefined } from "../../utils/null-checks";
+import { isDefined, isNullable } from "../../utils/null-checks";
 
 const ListingDetail = (props) => {
   const {
@@ -77,6 +77,16 @@ const ListingDetail = (props) => {
   };
 
   const onSendOffer = () => {
+    // Handle users not logged in
+    if (isNullable(userData.user)) {
+      setOfferModalShow(false);
+      setGlobalMsg({
+        message: "You must be logged in to make offers",
+        variant: "danger",
+      });
+      return;
+    }
+
     // Offer price can't be less than 50% of original price
     if (offerPrice < 0 || offerPrice < listing.price / 2) {
       setOfferModalShow(false);
@@ -116,6 +126,16 @@ const ListingDetail = (props) => {
   };
 
   const onSendMessage = () => {
+    // Handle users not logged in
+    if (isNullable(userData.user)) {
+      setMessageModalShow(false);
+      setGlobalMsg({
+        message: "You must be logged in to send messages",
+        variant: "danger",
+      });
+      return;
+    }
+
     const receiverId = listing.writer._id;
     const senderId = userData.user.id;
     const listingId = listing._id;
