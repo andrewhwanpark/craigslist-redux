@@ -5,11 +5,11 @@ import { useHistory } from "react-router-dom";
 import bsCustomFileInput from "bs-custom-file-input";
 import UserContext from "../../context/UserContext";
 import Progress from "./Progress";
-import { isNullable } from "../../utils/null-checks";
 import LocationSelector from "../shared/LocationSelector";
 import ProfileCard from "./ProfileCard";
 import DeleteModal from "../shared/DeleteModal";
 import AlertMsg from "../shared/AlertMsg";
+import { isDefined, isNullable } from "../../utils/null-checks";
 
 const UserSettings = () => {
   bsCustomFileInput.init();
@@ -17,28 +17,48 @@ const UserSettings = () => {
   const history = useHistory();
 
   const [file, setFile] = useState();
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState({
+    message: undefined,
+    variant: undefined,
+  });
   const [uploadPercentage, setUploadPercentage] = useState(0);
-  const [username, setUsername] = useState();
-  const [email, setEmail] = useState();
-  const [region, setRegion] = useState();
+  const [username, setUsername] = useState(userData.user.username);
+  const [email, setEmail] = useState(userData.user.email);
+  const [location, setLocation] = useState(userData.user.location);
 
   const [modalShow, setModalShow] = useState(false);
 
-  // Handler for information change
-  // TODO: Need to write location into register data in order to update
-  // TODO: email validation
   const onChangeInfoSubmit = (e) => {
     e.preventDefault();
 
-    if (isNullable(email)) {
-      setMessage();
+    // Check blank fields
+    if (
+      isNullable(username) ||
+      isNullable(email) ||
+      username.length === 0 ||
+      email.length === 0
+    ) {
+      setMessage({ message: "Please enter all fields", variant: "danger" });
+      return;
+    }
+
+    // Check if nothing changed
+    if (
+      username === userData.user.username &&
+      email === userData.user.email &&
+      location === userData.user.location
+    ) {
+      setMessage({
+        message: "No change detected. Did you enter new information?",
+        variant: "danger",
+      });
+      return;
     }
 
     const newInfo = {
       username,
       email,
-      location: region,
+      location,
     };
 
     Axios.post("/api/users/change-info", newInfo, {
@@ -47,17 +67,30 @@ const UserSettings = () => {
       },
     })
       .then(() => {
-        setMessage("Information updated!");
+        setMessage({ message: "Information updated!", variant: "success" });
       })
       .catch((err) => {
-        setMessage("Server Error: Failed to send");
-        console.error(err);
+        if (isDefined(err.response.data.msg)) {
+          setMessage({ message: err.response.data.msg, variant: "danger" });
+        } else {
+          setMessage({
+            message: "Server Error: please try again",
+            variant: "danger",
+          });
+        }
       });
   };
 
   // Handler for profile picture
   const onSubmit = (e) => {
     e.preventDefault();
+
+    // Handle no file
+    if (isNullable(file)) {
+      setMessage({ message: "No file was uploaded.", variant: "danger" });
+      return;
+    }
+
     const formData = new FormData();
     formData.append("file", file);
 
@@ -79,10 +112,16 @@ const UserSettings = () => {
       },
     })
       .then(() => {
-        setMessage("Image successfully uploaded! Refresh to see changes.");
+        setMessage({
+          message: "Image successfully uploaded! Refresh to see changes.",
+          variant: "success",
+        });
       })
       .catch((err) => {
-        setMessage("Server Error: Failed to upload");
+        setMessage({
+          message: "Server Error: Failed to upload",
+          variant: "success",
+        });
         console.error(err);
       });
   };
@@ -113,32 +152,49 @@ const UserSettings = () => {
       <Row className="my-4">
         <Col lg={12}>
           <h2>Edit Your Info</h2>
-          {message ? (
+          {message.message ? (
             <AlertMsg
-              msg={message}
-              variant="danger"
+              msg={message.message}
+              variant={message.variant}
               clearError={() => {
-                setMessage(undefined);
+                setMessage({ message: undefined, variant: undefined });
               }}
             />
           ) : null}
           <Form onSubmit={onChangeInfoSubmit}>
             <Form.Row>
-              <Form.Group as={Col} controlId="changeUsername">
+              <Form.Group
+                as={Col}
+                xs="12"
+                sm="6"
+                md="6"
+                lg="6"
+                xl="6"
+                controlId="changeUsername"
+              >
                 <Form.Label>Username</Form.Label>
                 <Form.Control
                   type="text"
-                  defaultValue={userData.user.username}
+                  value={username}
                   onChange={(e) => {
                     setUsername(e.target.value);
                   }}
                 />
               </Form.Group>
 
-              <Form.Group as={Col} controlId="changeEmail">
+              <Form.Group
+                as={Col}
+                xs="12"
+                sm="6"
+                md="6"
+                lg="6"
+                xl="6"
+                controlId="changeEmail"
+              >
                 <Form.Label>Email</Form.Label>
                 <Form.Control
                   type="text"
+                  value={email}
                   placeholder="example@example.com"
                   onChange={(e) => {
                     setEmail(e.target.value);
@@ -152,9 +208,9 @@ const UserSettings = () => {
                 <LocationSelector
                   isClearable={false}
                   onChange={(e) => {
-                    setRegion(e.value);
+                    setLocation(e.value);
                   }}
-                  defaultValue={userData.user.location}
+                  defaultValue={location}
                   className="z-index-fix"
                 />
               </Form.Group>
@@ -178,7 +234,7 @@ const UserSettings = () => {
             </Form.Group>
             <Progress percentage={uploadPercentage} />
             <br />
-            <Button variant="purple" type="submit" onClick={onSubmit}>
+            <Button variant="purple" type="submit">
               Submit
             </Button>
           </Form>

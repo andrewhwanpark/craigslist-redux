@@ -43,6 +43,7 @@ const Signup = () => {
 
   return (
     <Form className="centered-form" onSubmit={submit}>
+      <h3 className="text-center mb-4">Sign Up</h3>
       {error && (
         <ErrorMsg
           message={error}

@@ -101,7 +101,7 @@ const Home = () => {
             }}
           />
         ) : null}
-        <Col xl={2} lg={2} md={12} sm={12} xs={12}>
+        <Col xl={12} lg={12} md={12} sm={12} xs={12}>
           <Sidebar
             location={location}
             setLocation={setLocation}
@@ -111,7 +111,7 @@ const Home = () => {
           />
         </Col>
 
-        <Col xl={10} lg={10} md={12} sm={12} xs={12}>
+        <Col xl={12} lg={12} md={12} sm={12} xs={12}>
           <InfiniteScroll
             dataLength={listingData.listings.length}
             next={fetchMore}

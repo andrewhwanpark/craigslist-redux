@@ -216,7 +216,7 @@ const Sell = () => {
                 <Form.Label>Title</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="the more detail the better!"
+                  placeholder="Item name"
                   onChange={(e) => {
                     setTitle(e.target.value);
                   }}
@@ -227,7 +227,7 @@ const Sell = () => {
                 <Form.Label>Price</Form.Label>
                 <Form.Control
                   type="number"
-                  placeholder="250"
+                  placeholder="Price (USD)"
                   onChange={(e) => {
                     setPrice(e.target.value);
                   }}
@@ -236,7 +236,15 @@ const Sell = () => {
             </Form.Row>
 
             <Form.Row>
-              <Form.Group as={Col} controlId="formZipcode">
+              <Form.Group
+                as={Col}
+                xs="12"
+                sm="12"
+                md="12"
+                lg="6"
+                xl="6"
+                controlId="formZipcode"
+              >
                 <Form.Label>Location</Form.Label>
                 <LocationSelector
                   onChange={(e) => {
@@ -245,7 +253,15 @@ const Sell = () => {
                 />
               </Form.Group>
 
-              <Form.Group as={Col} controlId="formCategory">
+              <Form.Group
+                as={Col}
+                xs="12"
+                sm="12"
+                md="12"
+                lg="6"
+                xl="6"
+                controlId="formCategory"
+              >
                 <Form.Label>Category</Form.Label>
                 <CategorySelector
                   isMulti={false}
@@ -296,7 +312,7 @@ const Sell = () => {
                 />
               </DndProvider>
             </Form.Group>
-            <Button variant="purple" type="submit" onSubmit={onSubmit}>
+            <Button variant="purple" type="submit">
               Submit
             </Button>
           </Form>

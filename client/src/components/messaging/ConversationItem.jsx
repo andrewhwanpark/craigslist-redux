@@ -14,7 +14,7 @@ const ConversationItem = ({ conversation }) => {
         width="32"
         height="32"
       />
-      <div className="mr-4" style={{ width: "150px" }}>
+      <div className="mr-4 conversation-user" style={{ width: "150px" }}>
         <span className="font-weight-bold">{conversation.writer.username}</span>
         <br />
         <span className="text-muted">
@@ -28,13 +28,16 @@ const ConversationItem = ({ conversation }) => {
               width="1.25em"
               height="1.25em"
               viewBox="0 0 16 16"
-              className="bi bi-wallet-fill mr-2"
+              className="bi bi-cash-stack mr-2 mb-1"
               fill="currentColor"
               xmlns="http://www.w3.org/2000/svg"
-              style={{ marginBottom: ".25em" }}
             >
-              <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v2h6a.5.5 0 0 1 .5.5c0 .253.08.644.306.958.207.288.557.542 1.194.542.637 0 .987-.254 1.194-.542.226-.314.306-.705.306-.958a.5.5 0 0 1 .5-.5h6v-2A1.5 1.5 0 0 0 14.5 2h-13z" />
-              <path d="M16 6.5h-5.551a2.678 2.678 0 0 1-.443 1.042C9.613 8.088 8.963 8.5 8 8.5c-.963 0-1.613-.412-2.006-.958A2.679 2.679 0 0 1 5.551 6.5H0v6A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-6z" />
+              <path d="M14 3H1a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1h-1z" />
+              <path
+                fillRule="evenodd"
+                d="M15 5H1v8h14V5zM1 4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H1z"
+              />
+              <path d="M13 5a2 2 0 0 0 2 2V5h-2zM3 5a2 2 0 0 1-2 2V5h2zm10 8a2 2 0 0 1 2-2v2h-2zM3 13a2 2 0 0 0-2-2v2h2zm7-4a2 2 0 1 1-4 0 2 2 0 0 1 4 0z" />
             </svg>
             <span className="lead">{`New Offer: $${conversation.offerPrice}`}</span>
             <br />

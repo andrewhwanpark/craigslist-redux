@@ -67,7 +67,7 @@ const ConversationBox = ({ listing, conversations, user, socket }) => {
 
   return loading ? null : (
     <Card>
-      <Card.Header>
+      <Card.Header className="message-box">
         <Accordion.Toggle
           as={Button}
           variant="link"
@@ -96,7 +96,7 @@ const ConversationBox = ({ listing, conversations, user, socket }) => {
             </span>
           </div>
 
-          <div className="float-right">
+          <div className="float-right message-user">
             <span className="conversation-date text-muted">
               {moment(conversations[0].date).fromNow()}
             </span>

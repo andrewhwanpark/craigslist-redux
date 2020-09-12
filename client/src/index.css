@@ -208,3 +208,21 @@ div.listing-cover-photo {
 .conversation-partner {
   color: #212529;
 }
+
+@media only screen and (max-width: 576px) {
+  .message-box {
+    padding: 0;
+  }
+
+  .message-user {
+    margin-top: 0.5em;
+  }
+
+  .conversation-last-msg {
+    display: none;
+  }
+
+  .conversation-user {
+    display: none;
+  }
+}

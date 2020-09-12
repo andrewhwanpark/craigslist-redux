@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import Axios from "axios";
+import moment from "moment";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { socket } from "../../services/socket";
@@ -13,7 +14,7 @@ import DeleteModal from "../shared/DeleteModal";
 import Default from "../Default";
 import OfferModal from "./OfferModal";
 import MessageModal from "./MessageModal";
-import { isDefined } from "../../utils/null-checks";
+import { isDefined, isNullable } from "../../utils/null-checks";
 
 const ListingDetail = (props) => {
   const {
@@ -76,6 +77,26 @@ const ListingDetail = (props) => {
   };
 
   const onSendOffer = () => {
+    // Handle users not logged in
+    if (isNullable(userData.user)) {
+      setOfferModalShow(false);
+      setGlobalMsg({
+        message: "You must be logged in to make offers",
+        variant: "danger",
+      });
+      return;
+    }
+
+    // Handle no price
+    if (isNullable(offerPrice)) {
+      setOfferModalShow(false);
+      setGlobalMsg({
+        message: "Please enter a valid price",
+        variant: "danger",
+      });
+      return;
+    }
+
     // Offer price can't be less than 50% of original price
     if (offerPrice < 0 || offerPrice < listing.price / 2) {
       setOfferModalShow(false);
@@ -115,6 +136,26 @@ const ListingDetail = (props) => {
   };
 
   const onSendMessage = () => {
+    // Handle users not logged in
+    if (isNullable(userData.user)) {
+      setMessageModalShow(false);
+      setGlobalMsg({
+        message: "You must be logged in to send messages",
+        variant: "danger",
+      });
+      return;
+    }
+
+    // Handle no message
+    if (isNullable(chatMessage)) {
+      setMessageModalShow(false);
+      setGlobalMsg({
+        message: "You must be logged in to send messages",
+        variant: "danger",
+      });
+      return;
+    }
+
     const receiverId = listing.writer._id;
     const senderId = userData.user.id;
     const listingId = listing._id;
@@ -161,6 +202,10 @@ const ListingDetail = (props) => {
             <FavoritesToggle id={listing._id} size="1.5em" />
           </div>
           <p>{`$${listing.price}`}</p>
+          <p>
+            <span className="font-weight-bold">Condition: </span>
+            {listing.condition}
+          </p>
 
           {userIsWriter ? (
             <>
@@ -228,8 +273,15 @@ const ListingDetail = (props) => {
 
           <p className="font-weight-bold my-4">Description</p>
           <p>{listing.desc}</p>
-
+          <hr />
           <ListingUserInfo writer={listing.writer} />
+          <hr />
+          <p className="text-muted">
+            posted{" "}
+            <span className="font-weight-bold">
+              {moment(listing.date).fromNow()}
+            </span>
+          </p>
         </Col>
       </Row>
     </Container>
