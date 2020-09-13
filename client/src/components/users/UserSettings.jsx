@@ -13,7 +13,7 @@ import { isDefined, isNullable } from "../../utils/null-checks";
 
 const UserSettings = () => {
   bsCustomFileInput.init();
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData, setUserData, setGlobalMsg } = useContext(UserContext);
   const history = useHistory();
 
   const [file, setFile] = useState();
@@ -139,6 +139,7 @@ const UserSettings = () => {
         localStorage.setItem("auth-token", "");
         // Back to home page
         history.push("/");
+        setGlobalMsg({ message: "Account deleted!", variant: "success" });
       })
       .catch((err) => {
         console.error(err);

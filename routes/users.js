@@ -3,6 +3,7 @@ const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
+const fs = require("fs");
 const auth = require("../middleware/auth");
 const User = require("../models/user.model");
 const { isNullable, isDefined } = require("../utils/null-check");
@@ -247,13 +248,16 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.delete("/delete", auth, async (req, res) => {
-  try {
-    const deletedUser = await User.findByIdAndDelete(req.user);
-    res.json(deletedUser);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+router.delete("/delete", auth, (req, res) => {
+  User.findByIdAndDelete(req.user)
+    .then((deletedUser) => {
+      // Delete avatar image if not default
+      if (deletedUser.image.fileName !== "avatar_placeholder.png") {
+        fs.unlinkSync(`${__dirname}/../${deletedUser.image.filePath}`);
+        return res.json(deletedUser);
+      }
+    })
+    .catch((err) => res.status(500).json({ error: err.message }));
 });
 
 router.post("/token-is-valid", (req, res) => {
