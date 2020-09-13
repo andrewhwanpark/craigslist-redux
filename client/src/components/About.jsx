@@ -6,11 +6,14 @@ const About = () => {
     <Container fluid>
       <Row className="my-4">
         <Col lg={12}>
-          <h1>Craigslist Redux</h1>
+          <h1 id="craigslist-redux">
+            Craigslist <small className="text-muted">Redux</small>
+          </h1>
           <p>
-            Full stack recreation of Craigslist with modern features that we
-            wish to add to Craigslist: in-app messaging, minimal social
-            features, and many more.
+            Full stack, &quot;modern&quot; recreation of Craigslist with
+            features that I wish to add to Craigslist: in-app messaging,
+            emphasis on product images, simplified UI/UX, light social features,
+            and many more.
           </p>
           <p>
             <em>
@@ -18,22 +21,31 @@ const About = () => {
               educational purposes.
             </em>
           </p>
-          <h2>Philosophy</h2>
-          <blockquote>
+          <h2 id="stack">Stack</h2>
+          <p>The site uses the MERN stack: MongoDB, Express, React, Node</p>
+          <p>The site is hosted on Heroku.</p>
+          <p>
+            The code is linted by the airbnb ESlint config:{" "}
+            <a href="https://github.com/airbnb/javascript">
+              github.com/airbnb/javascript
+            </a>
+          </p>
+          <h2 id="philosophy">Philosophy</h2>
+          <blockquote className="blockquote">
             <p>If it ain&#39;t broke, it lacks features.</p>
           </blockquote>
           <p>
             Why recreate Craigslist? Some may argue that the site is perfect for
             its functions, as demonstrated by the longevity and relevance of the
-            site. We wholeheartedly agree. We admire the engineers and designers
+            site. I wholeheartedly agree. I admire the engineers and designers
             at Craigslist: the site is incredibly complex, yet has great
-            performance and clarity in UI/UX. We rarely hear criticisms of
+            performance and clarity in UI/UX. I rarely hear criticisms of
             Craigslist for good reasons. The site is truly what the Web should
             strive for. No frills, all gas.
           </p>
           <p>
             However, with the emergence of new used goods sites like{" "}
-            <a href="https://www.grailed.com/">Grailed</a>, we wished to combine
+            <a href="https://www.grailed.com/">Grailed</a>, I wished to combine
             some modern elements of used goods sites like Grailed with
             craigslist.
           </p>
@@ -50,7 +62,7 @@ const About = () => {
               listing feels like reading technical documentation.
             </li>
             <li>
-              <strong>Infinite scrolling:</strong> rather controversial, we do
+              <strong>Infinite scrolling:</strong> rather controversial, I do
               concede some sites work better without infinite scrolling.
             </li>
             <li>
@@ -86,9 +98,34 @@ const About = () => {
               comments left by users.
             </li>
           </ul>
-          <h2>Stack</h2>
-          <p>We are using the MERN stack: MongoDB, Express, React, Node</p>
-          <h2>TBD</h2>
+          <h2 id="so-it-s-just-a-mishmash-between-craigslist-and-grailed-">
+            So it&#39;s just a mishmash between Craigslist and Grailed?
+          </h2>
+          <p>
+            Yes! I truly love the UI/UX of Grailed, I believe the site really
+            set a standard for how product-centric ecommerce sites should look
+            and perform. When I talked to the CEO of Grailed in my freshmen year
+            of NYU by pretending I was part of a big student club, I never
+            forgot what he told me:
+          </p>
+          <blockquote className="blockquote">
+            <p>
+              I didn’t know how to build Grailed when I built Grailed. I just
+              Googled it. Literally. “How do I build a website where I can do
+              this.” There’s so much knowledge on the internet, that you can
+              figure anything out if you read about it. Some combination of
+              believing yourself and making it happen.
+            </p>
+          </blockquote>
+          <p>
+            I internalized the same philosophy building this site. I didn&#39;t
+            know the first thing about web development best practices. I simply
+            confronted problems as they emerged, solved them by any means
+            necessary, and slowly developed the vision for what the site should
+            look like, feel like, and perform like. Nothing motivated me to
+            build this site than the sake of building a beautiful product I can
+            be proud of.
+          </p>
         </Col>
       </Row>
     </Container>
