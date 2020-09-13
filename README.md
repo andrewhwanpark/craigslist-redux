@@ -1,5 +1,7 @@
 # Craigslist Redux
 
+![craigslist-redux](https://user-images.githubusercontent.com/13270895/93011213-3ef40100-f562-11ea-952f-43fbee6a816f.png)
+
 Full stack, "modern" recreation of Craigslist with features that I wish to add to Craigslist: in-app messaging, emphasis on product images, simplified UI/UX, light social features, and many more.
 
 _The project is non-commercial, and built soley for personal and educational purposes._
