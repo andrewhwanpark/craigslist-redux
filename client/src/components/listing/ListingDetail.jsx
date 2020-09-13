@@ -70,6 +70,10 @@ const ListingDetail = (props) => {
     Axios.delete(`/api/listings/${id}`)
       .then(() => {
         history.push("/");
+        setGlobalMsg({
+          message: "Listing deleted!",
+          variant: "success",
+        });
       })
       .catch((err) => {
         console.error(err);

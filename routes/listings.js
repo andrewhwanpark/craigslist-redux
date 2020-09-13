@@ -171,7 +171,7 @@ router.delete("/:id", (req, res) => {
         .then(() => {
           images.forEach(async (img) => {
             try {
-              await fs.unlink(`${__dirname}/../${img.filePath}`);
+              fs.unlinkSync(`${__dirname}/../${img.filePath}`);
             } catch (err) {
               console.error(err);
             }
@@ -215,7 +215,7 @@ router.post("/update-images", upload.array("images", 6), (req, res) => {
 
       shouldDel.forEach(async (file) => {
         try {
-          await fs.unlink(`${__dirname}/../${file.filePath}`);
+          fs.unlinkSync(`${__dirname}/../${file.filePath}`);
         } catch (err) {
           console.error(err);
         }
@@ -278,7 +278,7 @@ router.post("/update/:id", auth, (req, res) => {
         // Delete files in shouldDel
         shouldDel.forEach(async (file) => {
           try {
-            await fs.unlink(`${__dirname}/../${file.filePath}`);
+            fs.unlinkSync(`${__dirname}/../${file.filePath}`);
           } catch (err) {
             console.error(err);
           }
