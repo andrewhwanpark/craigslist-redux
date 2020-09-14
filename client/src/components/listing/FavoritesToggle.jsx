@@ -3,10 +3,10 @@ import { ButtonGroup, ToggleButton } from "react-bootstrap";
 import Axios from "axios";
 import UserContext from "../../context/UserContext";
 import useIsMount from "../../hooks/useIsMount";
-import { isDefined } from "../../utils/null-checks";
+import { isDefined, isNullable } from "../../utils/null-checks";
 
 const FavoritesToggle = ({ id, size }) => {
-  const { userData } = useContext(UserContext);
+  const { userData, setGlobalMsg } = useContext(UserContext);
 
   const decideChecked = () => {
     if (isDefined(userData.user) && userData.user.favorites.includes(id)) {
@@ -21,6 +21,15 @@ const FavoritesToggle = ({ id, size }) => {
 
   useEffect(() => {
     const addToFavorites = () => {
+      // Check user auth
+      if (isNullable(userData.user)) {
+        setGlobalMsg({
+          message: "You must be logged in to favorite listings",
+          variant: "danger",
+        });
+        return;
+      }
+
       Axios.post(
         "/api/users/add-to-favorites",
         { id },
