@@ -44,18 +44,18 @@ main > .container {
   overflow-y: auto;
 }
 
-/* Bootstrap login styling */
-.centered-form {
-  width: 100%;
-  max-width: 330px;
+/* Login and Signup Styles */
+.form-wrapper {
+  display: table;
   padding: 15px;
-  margin: 0 auto;
-  /* Center on page */
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  max-width: 330px;
+  width: 100%;
+  margin: auto;
+}
+
+.centered-form {
+  display: table-cell;
+  vertical-align: middle; /*Vertically centered*/
 }
 
 /* Images */
