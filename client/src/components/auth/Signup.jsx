@@ -81,7 +81,7 @@ const Signup = () => {
           <Form.Label>Email address</Form.Label>
           <Form.Control
             type="email"
-            placeholder="Enter email"
+            placeholder="You can use a fake email"
             onChange={(e) => {
               setEmail(e.target.value);
             }}
@@ -91,7 +91,7 @@ const Signup = () => {
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Enter Password"
+            placeholder="Do not use sensitive password"
             onChange={(e) => {
               setPassword(e.target.value);
             }}
