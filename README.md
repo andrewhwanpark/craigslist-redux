@@ -4,6 +4,8 @@
 
 Full stack, "modern" recreation of Craigslist with features that I wish to add to Craigslist: in-app messaging, emphasis on product images, simplified UI/UX, light social features, and many more.
 
+Check out the live deployment: [craigslist-redux.herokuapp.com](https://craigslist-redux.herokuapp.com/)
+
 _The project is non-commercial, and built soley for personal and educational purposes._
 
 ## Stack
@@ -42,3 +44,17 @@ Yes! I truly love the UI/UX of Grailed, I believe the site really set a standard
 > I didn’t know how to build Grailed when I built Grailed. I just Googled it. Literally. “How do I build a website where I can do this.” There’s so much knowledge on the internet, that you can figure anything out if you read about it. Some combination of believing yourself and making it happen.
 
 I internalized the same philosophy building this site. I didn't know the first thing about web development best practices. I simply confronted problems as they emerged, solved them by any means necessary, and slowly developed the vision for what the site should look like, feel like, and perform like. Nothing motivated me to build this site than the sake of building a beautiful product I can be proud of.
+
+## Screenshots of core features
+
+### Product Detail Page
+
+![Product detail page](https://user-images.githubusercontent.com/13270895/93509354-99d48200-f8ed-11ea-87e6-cd99cb02aeb4.png)
+
+### In-app Messaging Page
+
+![In-app Messaging Page](https://user-images.githubusercontent.com/13270895/93509456-bec8f500-f8ed-11ea-8731-ae821cdf501a.png)
+
+### Favorites Page
+
+![Favorites Page](https://user-images.githubusercontent.com/13270895/93509677-136c7000-f8ee-11ea-97eb-eb726f37aa48.png)
